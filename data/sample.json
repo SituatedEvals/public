@@ -1,0 +1,67 @@
+{
+  "dataset": {
+    "n_rows": 400,
+    "version": "1.0",
+    "description": "A toy instrument, not a real survey. Seven items and four hundred invented respondents, small enough to print a sandbox and read it. It has one of everything the real schemas have: a frame block that is always visible, items that are scored, a gate chain two deep, and an EXCLUDE column the grader never shows anybody. Use it to see the shape of the task; use the three real schemas to see whether a method works."
+  },
+  "items": {
+    "region": {
+      "question": "Which region do you live in?",
+      "class": "GIVEN",
+      "values": ["North", "Central", "South"],
+      "gate": null
+    },
+    "age_band": {
+      "question": "How old are you?",
+      "class": "GIVEN",
+      "values": ["18-29", "30-44", "45-59", "60+"],
+      "gate": null
+    },
+    "household_has_children": {
+      "question": "Are there children under 18 in your household?",
+      "class": "GIVEN",
+      "values": ["Yes", "No"],
+      "gate": null
+    },
+    "interviewer_notes": {
+      "question": "Interviewer's free-text notes.",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "visited_clinic": {
+      "question": "Have you visited a health clinic in the past 12 months?",
+      "class": "PREDICT",
+      "values": ["Yes", "No", "Prefer not to answer"],
+      "gate": null
+    },
+    "clinic_wait": {
+      "question": "How long did you wait to be seen?",
+      "class": "PREDICT",
+      "values": ["Under 30 minutes", "30 minutes to 2 hours", "Over 2 hours"],
+      "gate": {
+        "parent": "visited_clinic",
+        "observed_if": ["Yes"]
+      }
+    },
+    "would_return": {
+      "question": "Would you go back to that clinic?",
+      "class": "PREDICT",
+      "values": ["Yes", "No", "Not sure"],
+      "gate": {
+        "parent": "clinic_wait",
+        "observed_if": ["Under 30 minutes", "30 minutes to 2 hours", "Over 2 hours"]
+      }
+    },
+    "trusts_health_advice": {
+      "question": "How much do you trust health advice from your local clinic?",
+      "class": "PREDICT",
+      "values": ["Not at all", "A little", "Somewhat", "A lot"],
+      "gate": null
+    }
+  },
+  "split": {
+    "train_fraction": 0.75,
+    "test_fraction": 0.25
+  }
+}

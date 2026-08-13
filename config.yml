@@ -1,0 +1,58 @@
+leaderboard:
+  # Mean log probability the submission gave the answer that was actually
+  # there, divided by the schema's uniform reference and shifted so that a
+  # uniform guess scores 0 and a perfect one scores 1. Higher is better.
+  metric: skill
+  direction: maximize
+  # Across instruments: the plain mean of their skills. The normalisation is
+  # the weighting -- see README, "Weighting across instruments".
+  combine: mean
+
+# The answer meaning "this person was never asked". One string for all three
+# instruments, so it lives here rather than three times over in data/.
+# load_spec puts it into the spec, which is what predict() receives, so a
+# submission reads it as spec["gated_value"].
+gated_value: NA_GATED
+
+privacy:
+  mechanism: laplace
+  epsilon: 10.0
+  max_submissions_per_participant: 20
+
+phases:
+  1:
+    name: Development
+    data_fraction: 0.30
+    timeout_seconds: 900
+    noised: true
+    round_to: 0.01
+    logging: verbose
+  2:
+    name: Final
+    data_fraction: 1.0
+    timeout_seconds: 3600
+    noised: false
+    round_to: null
+    logging: verbose
+
+
+sandbox:
+  # How skewed the invented per-item marginals are. Below 1 the Dirichlet
+  # concentrates on a few options, which is what real survey items look like and
+  # what makes the crowd-marginal baseline meaningfully better than uniform.
+  dirichlet_alpha: 0.9
+  # Spread of the per-item loadings on the one hidden trait each invented
+  # respondent carries.
+  trait_scale: 0.6
+
+scoring:
+  floor: 1.0e-3
+  bootstrap_draws: 2000
+  docker_image: python:3.12-slim
+
+
+runner:
+  gpu: H100
+  gpu_count: 1
+  memory_gb: 16
+  network: none

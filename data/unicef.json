@@ -1,0 +1,266 @@
+{
+  "dataset": {
+    "n_rows": 19847,
+    "version": "1.0",
+    "description": "Cross-sectional survey of adults on the influence of religious leaders and religious belief on COVID-19 vaccine uptake and on routine childhood immunisation. One row per individual respondent, fielded in ten countries: Brazil, Egypt, Guatemala, Iraq, Kenya, Mali, Nepal, Nigeria, Pakistan and Zambia. Two gated branches: a non-uptake-reasons branch for the unvaccinated, and a child-vaccination battery for parents of under-fives."
+  },
+  "items": {
+    "Country": {
+      "question": "In which country was the survey conducted?",
+      "class": "GIVEN",
+      "values": [
+        "Brazil",
+        "Egypt",
+        "Guatemala",
+        "Iraq",
+        "Kenya",
+        "Mali",
+        "Nepal",
+        "Nigeria",
+        "Pakistan",
+        "Zambia"
+      ],
+      "gate": null
+    },
+    "Q01": {
+      "question": "What is your age?",
+      "class": "GIVEN",
+      "values": [
+        "18 to 24 years old",
+        "25 - 34 years old",
+        "35 - 44 years old",
+        "45 and above"
+      ],
+      "gate": null
+    },
+    "Q02": {
+      "question": "What is your gender?",
+      "class": "GIVEN",
+      "values": [
+        "Female",
+        "Male",
+        "Prefer not to answer"
+      ],
+      "gate": null
+    },
+    "Q03": {
+      "question": "What is your geographic location?",
+      "class": "GIVEN",
+      "values": [
+        "Rural",
+        "Urban"
+      ],
+      "gate": null
+    },
+    "Q04": {
+      "question": "What role do you have in your religious community?",
+      "class": "GIVEN",
+      "values": [
+        "Religious leader",
+        "Member of religious community",
+        "Not part of any religious community"
+      ],
+      "gate": null
+    },
+    "Q05": {
+      "question": "What is your religious affiliation?",
+      "class": "GIVEN",
+      "values": [
+        "Buddhist",
+        "Christian",
+        "Hindu",
+        "Jewish",
+        "Muslim",
+        "Traditional religions",
+        "Not religious",
+        "Other"
+      ],
+      "gate": null
+    },
+    "Q06": {
+      "question": "Does your religious leader's opinion of the COVID-19 vaccine affect whether or not you will receive the vaccine?",
+      "class": "PREDICT",
+      "values": [
+        "Yes, it matters what my religious leaders believe about the COVID-19 vaccine and if they support it",
+        "No, it does not matter to me what my religious leaders believe about the COVID-19 vaccine",
+        "Not sure",
+        "Prefer not to answer"
+      ],
+      "gate": null
+    },
+    "Q07": {
+      "question": "Do you think most religious leaders in your community agree with COVID-19 vaccination for adults?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "gate": null
+    },
+    "Q08": {
+      "question": "Have you received COVID-19 vaccination?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No"
+      ],
+      "gate": null
+    },
+    "Q09": {
+      "question": "Would you get the COVID-19 vaccine if it was available?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "gate": {
+        "parent": "Q08",
+        "observed_if": [
+          "No"
+        ]
+      }
+    },
+    "Q10": {
+      "question": "What is the top reason that you have not received the vaccine or are not sure about the COVID-19 vaccine?",
+      "class": "PREDICT",
+      "values": [
+        "I am afraid of the potential side effects of the COVID-19 Vaccine",
+        "I am not confident that the vaccine will protect me",
+        "I do not feel at risk of catching COVID-19",
+        "It's not that serious. If I catch COVID-19 I can recover without vaccine",
+        "I believe God/Allah/Adonai/gods and goddesses/higher power will protect me from COVID-19",
+        "Goes against my religious belief",
+        "Other"
+      ],
+      "gate": {
+        "parent": "Q09",
+        "observed_if": [
+          "No",
+          "Not sure"
+        ]
+      }
+    },
+    "Q11": {
+      "question": "Which of the following people will influence you or has influenced you the most to take the COVID-19 vaccine?",
+      "class": "PREDICT",
+      "values": [
+        "Health worker",
+        "Religious leader",
+        "Family member",
+        "Peer/friend",
+        "Other"
+      ],
+      "gate": null
+    },
+    "Q12": {
+      "question": "Which of the following factors would influence or did influence you the most to take COVID-19 vaccine?",
+      "class": "PREDICT",
+      "values": [
+        "Clear information on vaccine safety and side effects",
+        "Strong recommendation from the persons I trust most",
+        "Seeing religious leaders lead by example through taking the vaccine publicly",
+        "Public statements by influential persons",
+        "Government guidance",
+        "Social media or traditional media",
+        "Doing my part to protect my community",
+        "Other"
+      ],
+      "gate": null
+    },
+    "Q13": {
+      "question": "Do you have a child who is under 5 years old?",
+      "class": "GIVEN",
+      "values": [
+        "Yes",
+        "No"
+      ],
+      "gate": null
+    },
+    "Q14": {
+      "question": "How important do you think it is for your child to get regular vaccination, for example against measles, polio, etc.?",
+      "class": "PREDICT",
+      "values": [
+        "Very Important",
+        "Somehow Important",
+        "Not at all important",
+        "Not sure"
+      ],
+      "gate": {
+        "parent": "Q13",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "Q15": {
+      "question": "Who is the most influential in your decision related to regular vaccination for your child?",
+      "class": "PREDICT",
+      "values": [
+        "Health worker",
+        "Religious leader",
+        "Family member",
+        "Peer/Friend",
+        "Other"
+      ],
+      "gate": {
+        "parent": "Q13",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "Q16": {
+      "question": "Did you continue taking your child for regular vaccination during the COVID-19 pandemic?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "gate": {
+        "parent": "Q13",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "Q17": {
+      "question": "Do you think that most religious leaders in your community support regular vaccination for children?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "Only some religious leaders support vaccination for children",
+        "Not sure"
+      ],
+      "gate": {
+        "parent": "Q13",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "Q18": {
+      "question": "How does your religious belief influence your decision about getting your child vaccinated?",
+      "class": "PREDICT",
+      "values": [
+        "Encourages child vaccination",
+        "Discourages child vaccination",
+        "Does not affect decision for child vaccination",
+        "Not sure"
+      ],
+      "gate": {
+        "parent": "Q13",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    }
+  },
+  "split": {
+    "train_fraction": 0.75,
+    "test_fraction": 0.25
+  }
+}

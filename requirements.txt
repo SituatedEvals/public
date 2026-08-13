@@ -1,0 +1,5 @@
+# What the organizer side needs: make_sandbox.py and score.py
+numpy>=1.26
+pandas>=2.2
+pyarrow>=15.0
+PyYAML>=6.0

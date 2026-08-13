@@ -1,0 +1,6 @@
+# Everything your submission imports must be named here. This file is
+# installed while the network is still up; after that there is no way to get a
+# package, so anything you forgot is an ImportError at scoring time
+# Pin your own dependencies exactly (package==1.2.3)
+numpy>=1.26
+pandas>=2.2

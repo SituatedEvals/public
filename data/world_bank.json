@@ -1,0 +1,1394 @@
+{
+  "dataset": {
+    "n_rows": 6927,
+    "version": "1.0",
+    "description": "Single-session online skills assessment -- self-report scales plus timed cognitive and behavioural tasks -- bracketed by a pre-assessment and a post-assessment survey, with a feedback-arm randomisation in a 1229-person subsample and a 6-month tracer follow-up in 471 of those. One row per individual job seeker in southern Africa; among the 38.8% with a country recorded, 80.4% are in South Africa, 9.7% in Lesotho and 5.4% in Nigeria. Monetary amounts are monthly ZAR (South African rand) unless stated."
+  },
+  "items": {
+    "participant_id": {
+      "question": "Anonymised participant identifier (sequential; all personal identifiers removed).",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "group": {
+      "question": "Randomised feedback arm: yes1 = Full Feedback, yes2 = Skills Feedback, yes3 = Job Feedback, yes4 = No Feedback (control).",
+      "class": "GIVEN",
+      "values": [
+        "yes1",
+        "yes2",
+        "yes3",
+        "yes4"
+      ],
+      "gate": null
+    },
+    "sc_nstd_extra": {
+      "question": "Big Five: Extraversion — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_agree": {
+      "question": "Big Five: Agreeableness — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_consc": {
+      "question": "Big Five: Conscientiousness — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_stability": {
+      "question": "Big Five: Emotional Stability — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_open": {
+      "question": "Big Five: Openness — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_gm": {
+      "question": "Growth Mindset — overall score (mean of all scale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_pp": {
+      "question": "Proactive Personality — overall score (mean of all scale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_s_aware": {
+      "question": "Emotional Intelligence: Self-Awareness — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_s_manage": {
+      "question": "Emotional Intelligence: Self-Management — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_soc_aware": {
+      "question": "Emotional Intelligence: Social Awareness — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_realistic": {
+      "question": "RIASEC: Realistic — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_invest": {
+      "question": "RIASEC: Investigative — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_artistic": {
+      "question": "RIASEC: Artistic — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_social": {
+      "question": "RIASEC: Social — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_enterp": {
+      "question": "RIASEC: Enterprising — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_convent": {
+      "question": "RIASEC: Conventional — subscale score (mean of subscale items, 1-5).",
+      "class": "PREDICT",
+      "values": [
+        "<2.5",
+        "2.5-3.0",
+        "3.0-3.5",
+        "3.5-4.0",
+        "4.0-4.5",
+        "4.5-5.0"
+      ],
+      "gate": null
+    },
+    "sc_nstd_corsi_1": {
+      "question": "Corsi Block-Tapping (visuospatial memory) — highest span achieved on test trials (number of blocks).",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_corsi_2": {
+      "question": "Corsi Block-Tapping (visuospatial memory) — total items recalled correctly across test trials.",
+      "class": "PREDICT",
+      "values": [
+        "0-9",
+        "10-14",
+        "15-19",
+        "20-24",
+        "25+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_ds_f_ms": {
+      "question": "Digit Span forward (working memory) — mean span MS (Woods 2011).",
+      "class": "PREDICT",
+      "values": [
+        "<3",
+        "3-4",
+        "4-5",
+        "5-6",
+        "6+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_ds_f_2": {
+      "question": "Digit Span forward (working memory) — maximal length ML: longest sequence recalled correctly (digits).",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_ds_b_ms": {
+      "question": "Digit Span backward (working memory) — mean span MS (Woods 2011).",
+      "class": "PREDICT",
+      "values": [
+        "<3",
+        "3-4",
+        "4-5",
+        "5-6",
+        "6+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_ds_b_2": {
+      "question": "Digit Span backward (working memory) — maximal length ML: longest sequence recalled correctly (digits).",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_hmt_1": {
+      "question": "Matrices / HMT (fluid reasoning) — proportion correct across 10 test items.",
+      "class": "PREDICT",
+      "values": [
+        "<=0.2",
+        "0.3",
+        "0.4",
+        "0.5",
+        "0.6",
+        "0.7",
+        "0.8+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_cpt_corrected": {
+      "question": "Continuous Performance Test (attention) — commission-corrected percent correct.",
+      "class": "PREDICT",
+      "values": [
+        "<=25",
+        "26-50",
+        "51-75",
+        "76-90",
+        ">90"
+      ],
+      "gate": null
+    },
+    "sc_nstd_cpt_percent_correct": {
+      "question": "Continuous Performance Test (attention) — percent correct across 98 test trials.",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_cpt_commissions": {
+      "question": "Continuous Performance Test (response inhibition) — total commission errors / wrong hits.",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_tmt_time_1": {
+      "question": "Trail Making A (processing speed) — completion time in seconds.",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_tmt_log_a": {
+      "question": "Trail Making A (processing speed) — natural log of completion time in seconds.",
+      "class": "PREDICT",
+      "values": [
+        "<3.9",
+        "3.9-4.3",
+        "4.3-4.6",
+        "4.6+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_tmt_err_a": {
+      "question": "Trail Making A — number of errors.",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_tmt_time_2": {
+      "question": "Trail Making B (processing speed / switching) — completion time in seconds.",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_tmt_log_b": {
+      "question": "Trail Making B (processing speed / switching) — natural log of completion time in seconds.",
+      "class": "PREDICT",
+      "values": [
+        "<4.0",
+        "4.0-4.4",
+        "4.4-4.8",
+        "4.8+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_tmt_err_b": {
+      "question": "Trail Making B — number of errors.",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_mtpt_total_time_1": {
+      "question": "Mirror Tracing (perseverance) — persistence time on scored round 3 in milliseconds; completers set to the 300000 ms cap.",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_mtpt_quit_1": {
+      "question": "Mirror Tracing (perseverance / distress tolerance) — quit-early flag (1 = quit before the cap and did not complete; 0 = persisted or completed).",
+      "class": "PREDICT",
+      "values": [
+        0,
+        1
+      ],
+      "gate": null
+    },
+    "sc_nstd_mtpt_err_per_s": {
+      "question": "Mirror Tracing (motor control) — errors per second on the scored round.",
+      "class": "PREDICT",
+      "values": [
+        "<0.10",
+        "0.10-0.20",
+        "0.20-0.30",
+        "0.30+"
+      ],
+      "gate": null
+    },
+    "sc_nstd_bret_mean_collected": {
+      "question": "BRET (risk-taking) — mean boxes collected across scored rounds (0-25).",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "sc_nstd_bret_prop": {
+      "question": "BRET (risk-taking) — mean boxes collected as a proportion of 25 (0.5 = risk-neutral).",
+      "class": "PREDICT",
+      "values": [
+        "<0.25",
+        "0.25-0.40",
+        "0.40-0.50",
+        "0.50-0.65",
+        "0.65+"
+      ],
+      "gate": null
+    },
+    "user.age": {
+      "question": "What is your age?",
+      "class": "GIVEN",
+      "values": [
+        "15-19",
+        "20-24",
+        "25-29",
+        "30-34",
+        "35-44",
+        "45+"
+      ],
+      "gate": null
+    },
+    "user.gender": {
+      "question": "What is your gender?",
+      "class": "GIVEN",
+      "values": [
+        "Female",
+        "Male",
+        "Other",
+        "Prefer not to say"
+      ],
+      "gate": null
+    },
+    "user.country": {
+      "question": "Which country do you live in?",
+      "class": "GIVEN",
+      "values": [
+        "South Africa",
+        "Lesotho",
+        "Nigeria",
+        "Other"
+      ],
+      "gate": null
+    },
+    "user.educationLevel": {
+      "question": "What is the highest level of school or degree you have completed?",
+      "class": "GIVEN",
+      "values": [
+        "No schooling completed",
+        "Primary school",
+        "Some high school, no matric certificate",
+        "Secondary school",
+        "Matric",
+        "Trade / technical / vocational training (at a TVET, FET or private college)",
+        "University bachelor’s degree",
+        "University honours degree",
+        "Master’s degree",
+        "Professional degree (Law, Medicine, PhD)"
+      ],
+      "gate": null
+    },
+    "user.hadJob": {
+      "question": "Have you ever had a job?",
+      "class": "GIVEN",
+      "values": [
+        "no",
+        "yes"
+      ],
+      "gate": null
+    },
+    "user.employmentStatus": {
+      "question": "What is your current employment status?",
+      "class": "GIVEN",
+      "values": [
+        "Searching for a job",
+        "Not actively searching for a job",
+        "Full-time employed",
+        "Part-time employed",
+        "Freelancing / Gig Work",
+        "Running own business / Self-employed",
+        "Internship / Apprenticeship",
+        "Skills training/ Certification course",
+        "Studying"
+      ],
+      "gate": null
+    },
+    "user.howLongSearchingForJob": {
+      "question": "How long have you been searching for a job?",
+      "class": "PREDICT",
+      "values": [
+        "Less than one month",
+        "About one month",
+        "2-3 months",
+        "4-6 months",
+        "6 months – 1 year",
+        "More than 1 year",
+        "More than 2 years",
+        "More than 5 years"
+      ],
+      "gate": {
+        "parent": "user.employmentStatus",
+        "observed_if": [
+          "Searching for a job"
+        ]
+      }
+    },
+    "user.howManyHoursSearchedPerWeek": {
+      "question": "For how many hours do you search for a job each week?",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": {
+        "parent": "user.employmentStatus",
+        "observed_if": [
+          "Searching for a job"
+        ]
+      }
+    },
+    "user.howManyApplicationsLastMonth": {
+      "question": "How many jobs have you applied for in the last 4 weeks?",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": {
+        "parent": "user.employmentStatus",
+        "observed_if": [
+          "Searching for a job"
+        ]
+      }
+    },
+    "user.expectedToFindJobInSixMonths": {
+      "question": "Do you expect to find a job in the next 6 months?",
+      "class": "PREDICT",
+      "values": [
+        "no",
+        "yes"
+      ],
+      "gate": {
+        "parent": "user.employmentStatus",
+        "observed_if": [
+          "Searching for a job"
+        ]
+      }
+    },
+    "user.expectedToFindJobInSixMonthsWhyNot": {
+      "question": "Why do you not expect to find a job in the next 6 months? (open response)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "user.expectedToFindJobInSixMonths",
+        "observed_if": [
+          "no"
+        ]
+      }
+    },
+    "user.howLongUnemployed": {
+      "question": "For how long have you been unemployed?",
+      "class": "PREDICT",
+      "values": [
+        "Less than one month",
+        "About one month",
+        "2-3 months",
+        "4-6 months",
+        "6 months – 1 year",
+        "More than 1 year",
+        "More than 2 years",
+        "More than 5 years"
+      ],
+      "gate": {
+        "parent": "user.employmentStatus",
+        "observed_if": [
+          "Searching for a job",
+          "Not actively searching for a job"
+        ]
+      }
+    },
+    "user.howLongInCurrentPosition": {
+      "question": "How long have you been employed in your current position or in training?",
+      "class": "PREDICT",
+      "values": [
+        "Less than one month",
+        "About one month",
+        "2-3 months",
+        "4-6 months",
+        "6 months – 1 year",
+        "More than 1 year",
+        "More than 2 years",
+        "More than 5 years"
+      ],
+      "gate": {
+        "parent": "user.employmentStatus",
+        "observed_if": [
+          "Full-time employed",
+          "Part-time employed",
+          "Freelancing / Gig Work",
+          "Running own business / Self-employed",
+          "Internship / Apprenticeship",
+          "Skills training/ Certification course",
+          "Studying"
+        ]
+      }
+    },
+    "user.appliedInThePastSector": {
+      "question": "In which sector have you applied for jobs in the past?",
+      "class": "PREDICT",
+      "values": [
+        "Architecture and Engineering",
+        "Arts, Design, Entertainment, Sports",
+        "Building and Grounds Cleaning and Maintenance",
+        "Community and Social Service",
+        "Computer and Mathematical",
+        "Construction and Extraction",
+        "Educational Instruction and Library",
+        "Entrepreneurship/ Self-employment",
+        "Farming, Fishing, and Forestry",
+        "Financial Operations",
+        "Food Preparation and Serving Related",
+        "Healthcare Practitioners and Technical",
+        "Healthcare Support",
+        "Installation, Maintenance, and Repair",
+        "Legal",
+        "Life, Physical, and Social Science",
+        "Management",
+        "Office and Administrative Support",
+        "Personal Care and Service",
+        "Production",
+        "Protective Service",
+        "Sales and Related",
+        "Transportation and Material Moving",
+        "Other"
+      ],
+      "gate": null
+    },
+    "user.otherAppliedInThePastSector": {
+      "question": "In which sector have you applied for jobs in the past? — Other (specify)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "user.appliedInThePastSector",
+        "observed_if": [
+          "Other"
+        ]
+      }
+    },
+    "user.preferredSector": {
+      "question": "In which sector would you like to work?",
+      "class": "PREDICT",
+      "values": [
+        "Architecture and Engineering",
+        "Arts, Design, Entertainment, Sports",
+        "Building and Grounds Cleaning and Maintenance",
+        "Community and Social Service",
+        "Computer and Mathematical",
+        "Construction and Extraction",
+        "Educational Instruction and Library",
+        "Entrepreneurship/ Self-employment",
+        "Farming, Fishing, and Forestry",
+        "Financial Operations",
+        "Food Preparation and Serving Related",
+        "Healthcare Practitioners and Technical",
+        "Healthcare Support",
+        "Installation, Maintenance, and Repair",
+        "Legal",
+        "Life, Physical, and Social Science",
+        "Management",
+        "Office and Administrative Support",
+        "Personal Care and Service",
+        "Production",
+        "Protective Service",
+        "Sales and Related",
+        "Transportation and Material Moving",
+        "Other"
+      ],
+      "gate": null
+    },
+    "user.otherPreferredSector": {
+      "question": "In which sector would you like to work? — Other (specify)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "user.preferredSector",
+        "observed_if": [
+          "Other"
+        ]
+      }
+    },
+    "user.wageOfSimilarEmployees": {
+      "question": "What is the typical take-home monthly wage for other people like you (same age, education, skills) with full-time jobs?",
+      "class": "GIVEN",
+      "values": [
+        "0",
+        "1-1999",
+        "2000-2999",
+        "3000-3999",
+        "4000-4999",
+        "5000-6999",
+        "7000-9999",
+        "10000-14999",
+        "15000-24999",
+        "25000+"
+      ],
+      "gate": null
+    },
+    "user.lowestAcceptablePay": {
+      "question": "What is the lowest monthly pay you would accept for a full-time job?",
+      "class": "GIVEN",
+      "values": [
+        "0",
+        "1-1999",
+        "2000-2999",
+        "3000-3999",
+        "4000-4999",
+        "5000-6999",
+        "7000-9999",
+        "10000-14999",
+        "15000-24999",
+        "25000+"
+      ],
+      "gate": null
+    },
+    "user.jobStrengthsAndWeaknesses": {
+      "question": "Do you feel like you understand your job-related strengths and weaknesses better? (1 = Strongly disagree ... 5 = Strongly agree)",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "user.helpJobSearch": {
+      "question": "How much do you think this information will help you in your job search? (1 = not at all ... 5 = a lot)",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "user.helpGettingJob": {
+      "question": "How much do you think this information will help you in getting a job? (1 = not at all ... 5 = a lot)",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "user.planToIncreaseJobSearch": {
+      "question": "Based on the feedback report, do you plan to increase your job search?",
+      "class": "PREDICT",
+      "values": [
+        "yes",
+        "same as before",
+        "no",
+        "not applicable"
+      ],
+      "gate": null
+    },
+    "user.targetSector": {
+      "question": "Which sector will you search for a job in?",
+      "class": "PREDICT",
+      "values": [
+        "Architecture and Engineering",
+        "Arts, Design, Entertainment, Sports",
+        "Building and Grounds Cleaning and Maintenance",
+        "Community and Social Service",
+        "Computer and Mathematical",
+        "Construction and Extraction",
+        "Educational Instruction and Library",
+        "Entrepreneurship/ Self-employment",
+        "Farming, Fishing, and Forestry",
+        "Financial Operations",
+        "Food Preparation and Serving Related",
+        "Healthcare Practitioners and Technical",
+        "Healthcare Support",
+        "Installation, Maintenance, and Repair",
+        "Legal",
+        "Life, Physical, and Social Science",
+        "Management",
+        "Office and Administrative Support",
+        "Personal Care and Service",
+        "Production",
+        "Protective Service",
+        "Sales and Related",
+        "Transportation and Material Moving",
+        "Other"
+      ],
+      "gate": null
+    },
+    "user.howManyHoursWillSearchPerWeek": {
+      "question": "For how many hours do you plan to job search each week?",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": null
+    },
+    "user.howManyApplicationsNextMonth": {
+      "question": "How many jobs do you plan to apply to over the next four weeks?",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": null
+    },
+    "user.plansToAttachSkillsReport": {
+      "question": "Do you plan to attach the Skills Report to your CV when you apply to jobs?",
+      "class": "PREDICT",
+      "values": [
+        "no",
+        "yes"
+      ],
+      "gate": null
+    },
+    "user.willSkillsAttachHelpGetInterview": {
+      "question": "How much do you think attaching the report to your CV will help you get an interview? (1 = not at all ... 5 = a lot)",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "user.expectsToFindJobInSixMonths": {
+      "question": "Do you expect to find a job in the next 6 months? (asked again after feedback)",
+      "class": "PREDICT",
+      "values": [
+        "no",
+        "yes"
+      ],
+      "gate": null
+    },
+    "user.wageOfSimilarEmployeesAfter": {
+      "question": "What is the typical take-home monthly wage for other people like you (same age, education, skills) with full-time jobs? (asked again after feedback)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1-1999",
+        "2000-2999",
+        "3000-3999",
+        "4000-4999",
+        "5000-6999",
+        "7000-9999",
+        "10000-14999",
+        "15000-24999",
+        "25000+"
+      ],
+      "gate": null
+    },
+    "user.lowestAcceptablePayAfter": {
+      "question": "What is the lowest monthly pay you would accept for a full-time job? (asked again after feedback)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1-1999",
+        "2000-2999",
+        "3000-3999",
+        "4000-4999",
+        "5000-6999",
+        "7000-9999",
+        "10000-14999",
+        "15000-24999",
+        "25000+"
+      ],
+      "gate": null
+    },
+    "user.accessedLearningLinks": {
+      "question": "Have you accessed the learning links to upskill yourself?",
+      "class": "PREDICT",
+      "values": [
+        "no",
+        "plan to",
+        "yes"
+      ],
+      "gate": null
+    },
+    "user.howManyHoursToUpskillPerWeek": {
+      "question": "Approximately how many hours per week do you plan to spend upskilling yourself?",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": {
+        "parent": "user.accessedLearningLinks",
+        "observed_if": [
+          "yes",
+          "plan to"
+        ]
+      }
+    },
+    "user.accessedLearningLinksWhyNot": {
+      "question": "Why have you not accessed the learning links? (open response)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "user.accessedLearningLinks",
+        "observed_if": [
+          "no"
+        ]
+      }
+    },
+    "user.plannedCourses": {
+      "question": "Which courses do you plan to take?",
+      "class": "PREDICT",
+      "values": [
+        "Adaptability",
+        "Career Interests",
+        "Data Analysis in Excel",
+        "Emotional Intelligence",
+        "Financial",
+        "Growth Mindset",
+        "Mentoring Platform for Entrepreneurs",
+        "Personality",
+        "Persistence",
+        "Problem Solving",
+        "Programming",
+        "Risk Propensity",
+        "Running your own business",
+        "Small Business Marketing",
+        "Social Media Marketing",
+        "Speed",
+        "Visual-spatial Working memory"
+      ],
+      "gate": null
+    },
+    "user.helpGetInterview": {
+      "question": "How helpful do you think these courses will be for getting an interview?",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "user.helpGetJobInDesiredSector": {
+      "question": "How helpful do you think these courses will be for getting a job in your desired sector?",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "user.reportUsefullness": {
+      "question": "Do you believe that this is a useful exercise to learn more about your skills? (1 = Strongly disagree ... 5 = Strongly agree)",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "user.likelyToRecommend": {
+      "question": "How likely are you to recommend the Job-related Skills Assessment to other youth searching for a job? (1 = Strongly disagree ... 5 = Strongly agree)",
+      "class": "PREDICT",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gate": null
+    },
+    "tr_employment_status": {
+      "question": "What is your current employment status? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "Searching for a job",
+        "Not actively searching for a job",
+        "Full-time employed",
+        "Part-time employed",
+        "Freelancing / Gig Work",
+        "Running own business / Self-employed",
+        "Internship / Apprenticeship",
+        "Skills training/ Certification course",
+        "Studying"
+      ],
+      "gate": null
+    },
+    "tr_job_full": {
+      "question": "Do you currently have a job? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "No",
+        "Yes"
+      ],
+      "gate": null
+    },
+    "tr_job_number": {
+      "question": "How many jobs do you currently hold? (count)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_period_pay": {
+      "question": "Over what period is the pay you reported? (6-month follow-up)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_pay": {
+      "question": "What is your take-home pay for that period? (amount)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_job_days": {
+      "question": "How many days have you worked? (count, as reported)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_sector_past": {
+      "question": "In which sector is (or was) your job? (6-month follow-up)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_employed_time": {
+      "question": "How long have you been employed in your current position? (6-month follow-up)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_did_full": {
+      "question": "Do you remember completing the Job-related Skills Assessment?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "I don’t remember"
+      ],
+      "gate": null
+    },
+    "tr_increase_job_search_full": {
+      "question": "Since registering, has your job-search effort changed?",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "tr_feedback_full": {
+      "question": "Did you receive or view the Job-related Skills Assessment feedback report?",
+      "class": "PREDICT",
+      "values": [
+        "No",
+        "Yes"
+      ],
+      "gate": null
+    },
+    "tr_feedback_increase_job": {
+      "question": "After the feedback, did your job-search effort change?",
+      "class": "PREDICT",
+      "values": [
+        "Yes, I now spend more time job searching since I registered for the YES program",
+        "No change. The time I spend job searching hasn’t changed since I registered",
+        "I spend less time job searching since I registered for the YES program.",
+        "I job searched for a little while and now have a job",
+        "I was already employed when I registered for the YES program"
+      ],
+      "gate": null
+    },
+    "tr_target_sector": {
+      "question": "In which sector do you want to work? (6-month follow-up)",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": null
+    },
+    "tr_help_job_search_full": {
+      "question": "Did the Job-related Skills Assessment help your job search?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "gate": null
+    },
+    "tr_help_get_job_full": {
+      "question": "Did the Job-related Skills Assessment help you get a job?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "gate": null
+    },
+    "tr_recommend_full": {
+      "question": "How likely are you to recommend the Job-related Skills Assessment? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "Not likely",
+        "Not sure",
+        "Likely"
+      ],
+      "gate": null
+    },
+    "tr_attach_skills_report_full": {
+      "question": "Did you attach the Skills Report to your job applications?",
+      "class": "PREDICT",
+      "values": [
+        "No",
+        "Yes"
+      ],
+      "gate": null
+    },
+    "tr_report_help_interview_full": {
+      "question": "Did attaching the report help you get an interview?",
+      "class": "PREDICT",
+      "values": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "gate": null
+    },
+    "tr_similar_wage_after": {
+      "question": "What is the typical take-home monthly wage for other people like you with full-time jobs? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1-1999",
+        "2000-2999",
+        "3000-3999",
+        "4000-4999",
+        "5000-6999",
+        "7000-9999",
+        "10000-14999",
+        "15000-24999",
+        "25000+"
+      ],
+      "gate": null
+    },
+    "tr_low_pay_after": {
+      "question": "What is the lowest monthly pay you would accept for a full-time job? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1-1999",
+        "2000-2999",
+        "3000-3999",
+        "4000-4999",
+        "5000-6999",
+        "7000-9999",
+        "10000-14999",
+        "15000-24999",
+        "25000+"
+      ],
+      "gate": null
+    },
+    "tr_search_hours_after": {
+      "question": "For how many hours do you search for a job each week? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": null
+    },
+    "tr_applications_next_1m": {
+      "question": "How many jobs do you plan to apply to in the next month? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": null
+    },
+    "tr_job_offers": {
+      "question": "How many job offers have you received? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3+"
+      ],
+      "gate": null
+    },
+    "tr_upskill_hours_week": {
+      "question": "For how many hours per week do you plan to upskill yourself? (6-month follow-up)",
+      "class": "PREDICT",
+      "values": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21-30",
+        "31-40",
+        "more than 40"
+      ],
+      "gate": null
+    },
+    "tr_riasec_sector_past": {
+      "question": "RIASEC code of the respondent's past or current sector (1 = Realistic ... 6 = Conventional).",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_riasec_target_sector": {
+      "question": "RIASEC code of the respondent's target sector (1 = Realistic ... 6 = Conventional).",
+      "class": "PREDICT",
+      "values": [
+        "Realistic",
+        "Investigative",
+        "Artistic",
+        "Social",
+        "Enterprising",
+        "Conventional"
+      ],
+      "gate": null
+    },
+    "tr_feel_work": {
+      "question": "Feelings about work — mean of the eight feel_work items (1-4 scale).",
+      "class": "EXCLUDE",
+      "values": null,
+      "gate": {
+        "parent": "tr_job_full",
+        "observed_if": [
+          "Yes"
+        ]
+      }
+    },
+    "tr_self_efficacy": {
+      "question": "Self-efficacy — mean of the five self_efficacy items (1-4 scale).",
+      "class": "PREDICT",
+      "values": [
+        "<3.4",
+        "3.4-3.7",
+        "3.8-3.9",
+        "4.0"
+      ],
+      "gate": null
+    }
+  },
+  "split": {
+    "train_fraction": 0.75,
+    "test_fraction": 0.25
+  }
+}
