@@ -1,0 +1,1393 @@
+# Text for the tutorial notebooks, one block per official UN language.
+#
+# Every language carries the same keys; tutorials/build.py refuses to build one
+# that does not. Values the harness reads -- role names, item names, option
+# strings -- are not here, because they are data rather than language and must
+# stay as the schema spells them.
+#
+# The English block is the source. The other five are translations of it. To
+# change the tutorial, change the text here and run:
+#
+#     python tutorials/build.py
+#
+# Anything holding a %% conversion (lbl_narrower, lbl_equivalent) must keep the
+# same conversions in the same order as English: the arguments are positional.
+
+# ----------------------------------------------------------------------
+en:
+  both_cover: |2
+
+    Both intervals contain the truth about 95% of the time — that is what makes
+    them intervals. The prediction-powered one is simply **narrower**, from exactly
+    the same fieldwork. Read the last line as the point of the whole exercise: a
+    better model does not remove interviews from the budget, it makes each one
+    count for more.
+
+    ### What happens when the model is bad
+
+    The obvious objection is that this only works while the model is right, and
+    that trusting it is the risk. Here is the same procedure with a
+    model fitted on a **different population**.
+  c_elsewhere: a different population
+  c_estimand: 'The estimand: the share who trust health advice at least somewhat.'
+  c_frame_rows: 'The frame we want a number for: the households not used to fit the model.'
+  c_model_fit: |-
+    The model is fitted on respondents from earlier rounds -- the
+    # TRAIN role, which is exactly the visible block a submission learns from. It
+    # never sees the households we are about to interview.
+  c_modules: |-
+    The same modules score.py uses. Nothing here reimplements the
+    # grader: when you score something in this notebook, you are calling the code
+    # that scores you.
+  c_predicted: f(cheap block), for every household
+  c_repeat_return: point, se, point, se
+  c_root: |-
+    This notebook lives in tutorials/, but the harness lives at the
+    # repository root and every path below -- config.yml, data/sample.json,
+    # _sandbox/ -- is written relative to that root. Find it and work from there,
+    # so the notebook runs the same whether Jupyter was started in this directory
+    # or above it.
+  c_root_error: run this notebook from inside a clone of the repository
+  c_truth: knowable only because the data is invented
+  canonical: |2
+
+    The top rows are visible respondents: complete, and yours to learn from. The
+    bottom rows are held out — you see their `GIVEN` block and nothing else.
+
+    Your return value is one probability vector per blank, in **canonical order**:
+    rows top to bottom, and within a row, items in `schema["items"]` key order —
+    not `frame.columns` order, which may differ. Each vector follows that item's
+    `values` in order, plus the sentinel slot when the item is gated. Read the
+    order from the schema, never from the data: an option nobody chose still has a
+    slot.
+  col_asked_if: asked if
+  col_class: class
+  col_covers: covers the truth
+  col_gate: gate
+  col_item: item
+  col_meaning: meaning
+  col_method: method
+  col_options: options
+  col_respondents: respondents
+  col_row: row
+  col_width: average width
+  doc_estimates: Interview-only and prediction-powered estimates, each with a standard error.
+  doc_hidden_cells: Every blank cell, in the order predict() must return them.
+  handed: |2
+
+    Read that table as the skip logic itself: wherever `visited_clinic` is anything
+    but `Yes`, both children are `NA_GATED`, with no exceptions. **A gated item's
+    answer is determined whenever its parent is visible** — which is free score,
+    and the first thing to exploit.
+
+    ### What `predict()` is handed
+
+    `score.py` takes this phase's visible and hidden roles, stacks the visible
+    respondents on top of the hidden ones, and blanks every `PREDICT` cell of the
+    latter. Those blanks are what you return probabilities for.
+
+    `NaN` means exactly one thing: *this cell is held out, predict it*. It never
+    means "they did not answer" — genuine non-response is an ordinary option like
+    `Prefer not to answer`, sitting in the option list like any other.
+  k_and_gates: |2
+
+    `K` is the item's option count **with the gate sentinel included** — a gated
+    item has one more slot than it has answers, because "never asked" is a real
+    answer for it. That extra slot is the last entry of your probability vector,
+    and `K` is what the uniform reference `U` is computed from.
+
+    `would_return` gates on `clinic_wait`, which gates on `visited_clinic`: a chain
+    two deep. A respondent who never visited a clinic was never asked how long they
+    waited, and so was never asked whether they would go back. Their true answer to
+    both is `NA_GATED`.
+  lbl_bad_model: a model that does not transfer
+  lbl_cells: 'cells to predict:'
+  lbl_corr: 'correlation between prediction and answer:'
+  lbl_equivalent: to buy that precision with interviews alone you would need about %d of them.
+  lbl_fitted_on: 'model fitted on, earlier respondents:'
+  lbl_frame: 'frame:'
+  lbl_frame_size: 'frame to estimate, households:'
+  lbl_good_model: a model that predicts well
+  lbl_interview_only: interview only
+  lbl_logscore: log score
+  lbl_model_only: model only (no interviews)
+  lbl_narrower: the band is %.0f%% narrower, from the same %d interviews.
+  lbl_no_interval: '[no interval at all]'
+  lbl_off_by: off by
+  lbl_powered: prediction-powered
+  lbl_skill: skill
+  lbl_skill_note: skill is 0 for a uniform guess and 1 for perfection.
+  lbl_true_share: 'true share (which a real survey never gets to see):'
+  lbl_truth: truth
+  lbl_uniform: uniform reference (nats)
+  lbl_vs_truth: vs truth
+  lbl_width: width
+  now_draw: |2
+
+    Now draw the 300 interviews and compute all three numbers.
+
+    The interview-only interval is the textbook one. The prediction-powered
+    interval is the model's average over the households you did **not** interview,
+    corrected by the model's average error on the households you did:
+
+    ```
+    estimate = mean(prediction | not interviewed) - [ mean(prediction | interviewed) - mean(answer | interviewed) ]
+                        ↑ the model, used everywhere      ↑ how wrong the model was, measured
+    ```
+
+    That bracket is the whole safety mechanism. It is computed from real answers,
+    so it costs real interviews, and it removes the model's bias whatever that bias
+    happens to be.
+  one_draw: |2
+
+    One draw proves nothing — the interval could be lucky. What matters is the
+    behaviour over many surveys: does the interval contain the truth about 95% of
+    the time, and how wide is it? Repeat the whole exercise a thousand times, each
+    with a fresh 300 households.
+  part1: |2
+
+    ---
+
+    ## 1. The shape of the task
+
+    `make_sandbox.py` turns a schema into a dataset of exactly the shape the real
+    one has: same columns, same options, same skip logic. The marginals and the
+    dependencies are invented, so a pipeline debugged here will transfer and a
+    model tuned here will not.
+
+    It writes `respondents.parquet` — every respondent, plus the `role` that says
+    what they are for — and `schema.json`, which is what your `predict()` receives.
+    Roles are decided once, here, and written to disk. `score.py` looks them up; it
+    never splits anything itself.
+  part2: |2
+
+    That is the entire contract. A submission is a `main.py` with a `predict()`
+    that returns those vectors; `score.py` runs it the way the grader will, and
+    `tools/check_submission_zip.py` checks that the archive you upload is
+    well-formed.
+
+    ---
+
+    ## 2. What a good model buys you
+
+    A benchmark that rewards predicting people's answers invites an obvious
+    worry: is the point to stop asking them? Here we see a version to combine algorithmic predictions and human samples.
+
+    We want one number about a population: the share of households that trust health advice from their local clinic. The cheap block —
+    region, urban or rural, household size, whether anyone has a phone — is already
+    known for every household on the frame, from administrative records or an
+    earlier survey. The expensive block needs an enumerator at the door, and the
+    budget pays for a few hundred interviews.
+
+    You have three options.
+
+    1. **Interview only.** Ask 300 households, take the share, report a confidence
+       interval. Valid, and as precise as 300 interviews allow.
+    2. **Model only.** Run a model over the cheap block for every household and
+       report its average. Free, and *wrong by whatever the model is wrong by* —
+       with no interval, and no way to find out.
+    3. **Both.** Use the model everywhere, then use the 300 interviews to measure
+       and subtract the model's error. This is **prediction-powered inference**,
+       and it is what the rest of this section builds.
+
+    The third is the one worth having, because it is valid whether the model is
+    good or bad, and *more precise than the first when the model is good*.
+  read_together: |2
+
+    Observe: The model-only estimate is off by more than a tenth,
+    and nothing in the output would have told you — no interval, no warning, just a
+    number that looks exactly as authoritative as the right one. Replacing the
+    fieldwork with the model introduces bias.
+
+    The prediction-powered interval still contains the truth
+    about 95% of the time. It is no narrower than interviewing alone — a useless
+    model buys no precision. The
+    correction term measured the model's error on the 300 real interviews and
+    subtracted it, which is exactly what it is there for.
+
+    ### Why this needs a benchmark
+
+    The width of that band is a direct function of how good the model is. Which is the case for measuring prediction quality carefully, on
+    real instruments, with a proper scoring rule — a better `skill` on the
+    leaderboard is a narrower confidence interval in the field, or the same
+    interval from fewer interviews.
+  role_dev: scored in phase 1, visible in phase 2
+  role_final: scored in phase 2
+  role_train: visible in both phases
+  schema_declares: |2
+
+    ### What the schema declares
+
+    Every item carries four keys: the `question` as asked, a `class`, the `values`
+    it allows, and a `gate` if it is only asked of some people.
+
+    The three classes are the whole of the task. **`GIVEN`** is visible for
+    everybody and never scored. **`PREDICT`** is held out for the held-out
+    respondents, and every blank is scored. **`EXCLUDE`** — identifiers, record
+    keys, free text — is never shipped in the frame at all, so filter on `class`
+    rather than assuming the schema and the frame carry the same columns.
+
+    In this instrument the split is deliberately the cheap half of a questionnaire
+    against the expensive half. The `GIVEN` block is the kind of thing that already
+    sits on a sampling frame, a census roster or another survey of the same
+    households — where someone lives, how big the household is, whether anyone has
+    a phone. The `PREDICT` block is what needs an enumerator and an interview.
+    Part 2 turns on that distinction.
+  score_intro: |2
+
+    ### Scoring
+
+    The crowd baseline: every held-out respondent gets each item's smoothed shares,
+    ignoring everything about the individual. `skill` is 0 for a uniform guess and
+    1 for perfection, and it is what the leaderboard ranks.
+  title: |2
+
+    # SimulacraBench tutorial
+
+    We will use the sample schema
+    `data/sample.json` to understand the shape of the task, and the more technical reason for the competition. See `README.md` for the submission contract, the scoring rule and the rules.
+
+# ----------------------------------------------------------------------
+fr:
+  both_cover: |2
+
+    Les deux intervalles contiennent la vérité environ 95 % du temps — c'est ce qui
+    en fait des intervalles. Celui assisté par la prédiction est simplement **plus
+    étroit**, à partir exactement du même travail de terrain. Lisez la dernière
+    ligne comme la morale de l'exercice : un meilleur modèle ne retire pas des
+    entretiens du budget, il fait compter davantage chacun d'eux.
+
+    ### Ce qui se passe quand le modèle est mauvais
+
+    L'objection évidente est que cela ne marche que tant que le modèle a raison, et
+    que lui faire confiance est le risque. Voici la même procédure avec un modèle
+    ajusté sur une **population différente**.
+  c_elsewhere: une population différente
+  c_estimand: 'L''estimande : la part de ceux qui font au moins un peu confiance aux conseils de santé.'
+  c_frame_rows: 'La base dont nous voulons un chiffre : les ménages non utilisés pour ajuster le modèle.'
+  c_model_fit: |-
+    Le modèle est ajusté sur des répondants de vagues antérieures --
+    # le rôle TRAIN, c'est-à-dire exactement le bloc visible dont apprend une
+    # soumission. Il ne voit jamais les ménages que nous allons interroger.
+  c_modules: |-
+    Les mêmes modules que ceux qu'utilise score.py. Rien ici ne
+    # réimplémente l'évaluateur : quand vous notez quelque chose dans ce carnet,
+    # vous appelez le code qui vous note.
+  c_predicted: f(bloc bon marché), pour chaque ménage
+  c_repeat_return: estimation, erreur type, estimation, erreur type
+  c_root: |-
+    Ce carnet se trouve dans tutorials/, mais le harnais se trouve à la
+    # racine du dépôt, et tous les chemins ci-dessous -- config.yml,
+    # data/sample.json, _sandbox/ -- sont écrits relativement à cette racine. On la
+    # localise et on travaille depuis là, pour que le carnet fonctionne de la même
+    # façon que Jupyter ait été lancé dans ce dossier ou au-dessus.
+  c_root_error: exécutez ce carnet depuis un clone du dépôt
+  c_truth: connu seulement parce que les données sont inventées
+  canonical: |2
+
+    Les premières lignes sont les répondants visibles : complets, et à vous d'en
+    apprendre. Les dernières lignes sont masquées — vous voyez leur bloc `GIVEN` et
+    rien d'autre.
+
+    Votre valeur de retour est un vecteur de probabilités par case vide, dans
+    l'**ordre canonique** : les lignes de haut en bas et, au sein d'une ligne, les
+    items dans l'ordre des clés de `schema["items"]` — et non l'ordre de
+    `frame.columns`, qui peut différer. Chaque vecteur suit les `values` de l'item
+    dans l'ordre, plus la case sentinelle lorsque l'item est filtré. Lisez l'ordre
+    dans le schéma, jamais dans les données : une modalité que personne n'a choisie
+    occupe quand même une case.
+  col_asked_if: posé si
+  col_class: classe
+  col_covers: contient la vérité
+  col_gate: filtre
+  col_item: item
+  col_meaning: signification
+  col_method: méthode
+  col_options: modalités
+  col_respondents: répondants
+  col_row: ligne
+  col_width: largeur moyenne
+  doc_estimates: Estimations par entretiens seuls et assistée par la prédiction, chacune avec son erreur type.
+  doc_hidden_cells: Chaque case vide, dans l'ordre où predict() doit les renvoyer.
+  handed: |2
+
+    Lisez ce tableau comme la logique de filtre elle-même : partout où
+    `visited_clinic` vaut autre chose que `Yes`, les deux items enfants valent
+    `NA_GATED`, sans exception. **La réponse d'un item filtré est déterminée dès
+    que son parent est visible** — c'est du score gratuit, et la première chose à
+    exploiter.
+
+    ### Ce que reçoit `predict()`
+
+    `score.py` prend les rôles visibles et masqués de la phase, empile les
+    répondants visibles au-dessus des répondants masqués, et vide chaque case
+    `PREDICT` de ces derniers. Ce sont ces cases vides pour lesquelles vous
+    renvoyez des probabilités.
+
+    `NaN` ne veut dire qu'une seule chose : *cette case est masquée, prédisez-la*.
+    Cela ne veut jamais dire « la personne n'a pas répondu » — une véritable
+    non-réponse est une modalité ordinaire comme `Prefer not to answer`, qui figure
+    dans la liste des modalités comme n'importe quelle autre.
+  k_and_gates: |2
+
+    `K` est le nombre de modalités de l'item, **sentinelle de filtre comprise** : un
+    item filtré a une case de plus qu'il n'a de réponses, parce que « jamais posé »
+    est pour lui une réponse à part entière. Cette case supplémentaire est la
+    dernière de votre vecteur de probabilités, et c'est de `K` qu'est calculée la
+    référence uniforme `U`.
+
+    `would_return` est filtré par `clinic_wait`, lui-même filtré par
+    `visited_clinic` : une chaîne de profondeur deux. Un répondant qui n'a jamais
+    consulté n'a jamais eu à dire combien de temps il avait attendu, ni s'il y
+    retournerait. Sa vraie réponse aux deux est `NA_GATED`.
+  lbl_bad_model: un modèle qui ne se transfère pas
+  lbl_cells: 'cases à prédire :'
+  lbl_corr: 'corrélation entre prédiction et réponse :'
+  lbl_equivalent: pour acheter cette précision avec des entretiens seuls, il en faudrait environ %d.
+  lbl_fitted_on: 'modèle ajusté sur, répondants antérieurs :'
+  lbl_frame: 'table :'
+  lbl_frame_size: 'base à estimer, ménages :'
+  lbl_good_model: un modèle qui prédit bien
+  lbl_interview_only: entretiens seuls
+  lbl_logscore: log-score
+  lbl_model_only: modèle seul (sans entretiens)
+  lbl_narrower: la bande est %.0f %% plus étroite, à partir des mêmes %d entretiens.
+  lbl_no_interval: '[aucun intervalle]'
+  lbl_off_by: écart de
+  lbl_powered: assistée par la prédiction
+  lbl_skill: skill
+  lbl_skill_note: skill vaut 0 pour une réponse uniforme et 1 pour la perfection.
+  lbl_true_share: 'part réelle (qu''une vraie enquête ne voit jamais) :'
+  lbl_truth: vérité
+  lbl_uniform: référence uniforme (nats)
+  lbl_vs_truth: contre une vérité de
+  lbl_width: largeur
+  now_draw: |2
+
+    Tirons maintenant les 300 entretiens et calculons les trois chiffres.
+
+    L'intervalle « entretiens seuls » est celui des manuels. L'intervalle assisté
+    par la prédiction est la moyenne du modèle sur les ménages que vous n'avez
+    **pas** interrogés, corrigée par l'erreur moyenne du modèle sur ceux que vous
+    avez interrogés :
+
+    ```
+    estimation = moyenne(prédiction | non interrogés) - [ moyenne(prédiction | interrogés) - moyenne(réponse | interrogés) ]
+                        ↑ le modèle, utilisé partout          ↑ l'erreur du modèle, mesurée
+    ```
+
+    Ce crochet constitue tout le mécanisme de sécurité. Il se calcule à partir de
+    réponses réelles, il coûte donc de vrais entretiens, et il élimine le biais du
+    modèle quel que soit ce biais.
+  one_draw: |2
+
+    Un seul tirage ne prouve rien — l'intervalle a pu être chanceux. Ce qui compte,
+    c'est le comportement sur de nombreuses enquêtes : l'intervalle contient-il la
+    vérité environ 95 % du temps, et quelle est sa largeur ? Répétons l'exercice
+    mille fois, chaque fois avec 300 nouveaux ménages.
+  part1: |2
+
+    ---
+
+    ## 1. La forme de la tâche
+
+    `make_sandbox.py` transforme un schéma en un jeu de données ayant exactement la
+    forme du vrai : mêmes colonnes, mêmes modalités, même logique de filtre. Les
+    distributions marginales et les dépendances sont inventées : un pipeline mis au
+    point ici sera transposable, un modèle ajusté ici ne le sera pas.
+
+    Il écrit `respondents.parquet` — chaque répondant, plus le `role` qui indique à
+    quoi il sert — et `schema.json`, qui est ce que reçoit votre `predict()`. Les
+    rôles sont fixés une seule fois, ici, et écrits sur disque. `score.py` les
+    consulte ; il ne partitionne jamais rien lui-même.
+  part2: |2
+
+    Voilà tout le contrat. Une soumission est un `main.py` doté d'un `predict()`
+    qui renvoie ces vecteurs ; `score.py` l'exécute comme le fera l'évaluateur, et
+    `tools/check_submission_zip.py` vérifie que l'archive que vous téléversez est
+    bien formée.
+
+    ---
+
+    ## 2. Ce qu'apporte un bon modèle
+
+    Un benchmark qui récompense la prédiction des réponses des gens soulève une
+    inquiétude évidente : s'agit-il de cesser de les interroger ? Nous voyons ici une façon de combiner des prédictions algorithmiques et des échantillons humains.
+
+    Nous voulons un seul chiffre sur une population : la part des ménages qui font confiance aux conseils de santé de leur dispensaire. Le bloc bon marché — région, urbain ou rural, taille du ménage, présence d'un téléphone
+    — est déjà connu pour chaque ménage de la base de sondage, à partir de sources
+    administratives ou d'une enquête antérieure. Le bloc coûteux exige un enquêteur
+    à la porte, et le budget paie quelques centaines d'entretiens.
+
+    Vous avez trois options.
+
+    1. **Entretiens seuls.** Interroger 300 ménages, prendre la part, publier un
+       intervalle de confiance. Valide, et aussi précis que 300 entretiens le
+       permettent.
+    2. **Modèle seul.** Faire tourner un modèle sur le bloc bon marché pour chaque
+       ménage et publier la moyenne. Gratuit, et *faux de tout ce dont le modèle se
+       trompe* — sans intervalle, et sans aucun moyen de le savoir.
+    3. **Les deux.** Utiliser le modèle partout, puis se servir des 300 entretiens
+       pour mesurer et retrancher l'erreur du modèle. C'est l'**inférence assistée
+       par la prédiction**, et c'est ce que construit la suite de cette section.
+
+    La troisième est celle qui vaut la peine, parce qu'elle est valide que le
+    modèle soit bon ou mauvais, et *plus précise que la première quand le modèle
+    est bon*.
+  read_together: |2
+
+    Observez : l'estimation par modèle seul se trompe de plus d'un dixième, et rien
+    dans la sortie ne vous l'aurait dit — pas d'intervalle, pas d'avertissement,
+    juste un nombre qui a l'air exactement aussi autorisé que le bon. Remplacer le
+    terrain par le modèle introduit un biais.
+
+    L'intervalle assisté par la prédiction contient toujours la vérité environ 95 %
+    du temps. Il n'est pas plus étroit que les entretiens seuls — un modèle inutile
+    n'achète aucune précision. Le terme de correction a mesuré l'erreur du modèle
+    sur les 300 entretiens réels et l'a retranchée, ce pour quoi il est là.
+
+    ### Pourquoi cela demande un benchmark
+
+    La largeur de cette bande est une fonction directe de la qualité du modèle.
+    D'où l'intérêt de mesurer soigneusement la qualité de prédiction, sur de vrais
+    instruments, avec une règle de score propre : un meilleur `skill` au classement,
+    c'est un intervalle de confiance plus étroit sur le terrain, ou le même
+    intervalle avec moins d'entretiens.
+  role_dev: noté en phase 1, visible en phase 2
+  role_final: noté en phase 2
+  role_train: visible dans les deux phases
+  schema_declares: |2
+
+    ### Ce que déclare le schéma
+
+    Chaque item porte quatre clés : la `question` telle qu'elle est posée, une
+    `class`, les `values` qu'il autorise, et un `gate` s'il n'est posé qu'à
+    certaines personnes.
+
+    Les trois classes résument toute la tâche. **`GIVEN`** est visible pour tout le
+    monde et n'est jamais noté. **`PREDICT`** est masqué pour les répondants
+    masqués, et chaque case vide est notée. **`EXCLUDE`** — identifiants, clés
+    d'enregistrement, texte libre — n'est jamais livré dans la table, donc filtrez
+    sur `class` plutôt que de supposer que le schéma et la table portent les mêmes
+    colonnes.
+
+    Dans cet instrument, la séparation oppose délibérément la moitié bon marché
+    d'un questionnaire à sa moitié coûteuse. Le bloc `GIVEN` est le genre de
+    variable qui figure déjà dans une base de sondage, un recensement ou une autre
+    enquête auprès des mêmes ménages : lieu de résidence, taille du ménage,
+    possession d'un téléphone. Le bloc `PREDICT` est ce qui exige un enquêteur et
+    un entretien. La partie 2 repose sur cette distinction.
+  score_intro: |2
+
+    ### Notation
+
+    La référence de foule : chaque répondant masqué reçoit les parts lissées de
+    chaque item, sans rien tenir compte de l'individu. `skill` vaut 0 pour une
+    réponse uniforme et 1 pour la perfection, et c'est ce que classe le tableau des
+    scores.
+  title: |2
+
+    # Tutoriel SimulacraBench
+
+    Nous utiliserons le schéma d'exemple
+    `data/sample.json` pour comprendre la forme de la tâche, ainsi que la raison plus technique d'être de la compétition. Voir `README.md` pour le contrat de soumission, la règle de score et le règlement.
+
+# ----------------------------------------------------------------------
+es:
+  both_cover: |2
+
+    Ambos intervalos contienen la verdad alrededor del 95 % de las veces — eso es
+    lo que los hace intervalos. El asistido por predicción es simplemente **más
+    estrecho**, con exactamente el mismo trabajo de campo. Lea la última línea como
+    la moraleja del ejercicio: un modelo mejor no quita entrevistas del
+    presupuesto, hace que cada una valga más.
+
+    ### Qué ocurre cuando el modelo es malo
+
+    La objeción evidente es que esto solo funciona mientras el modelo acierte, y
+    que confiar en él es el riesgo. Aquí está el mismo procedimiento con un modelo
+    ajustado sobre una **población distinta**.
+  c_elsewhere: una población distinta
+  c_estimand: 'El estimando: la proporción que confía al menos algo en los consejos de salud.'
+  c_frame_rows: 'El marco del que queremos una cifra: los hogares no usados para ajustar el modelo.'
+  c_model_fit: |-
+    El modelo se ajusta sobre encuestados de rondas anteriores --
+    # el rol TRAIN, que es exactamente el bloque visible del que aprende un envío.
+    # Nunca ve los hogares que estamos a punto de entrevistar.
+  c_modules: |-
+    Los mismos módulos que usa score.py. Nada de esto reimplementa
+    # al evaluador: cuando puntúa algo en este cuaderno, está llamando al código
+    # que le puntúa a usted.
+  c_predicted: f(bloque barato), para cada hogar
+  c_repeat_return: estimación, error estándar, estimación, error estándar
+  c_root: |-
+    Este cuaderno vive en tutorials/, pero el arnés vive en la raíz del
+    # repositorio y todas las rutas de abajo -- config.yml, data/sample.json,
+    # _sandbox/ -- están escritas respecto a esa raíz. La localizamos y trabajamos
+    # desde allí, para que el cuaderno funcione igual tanto si Jupyter se inició en
+    # esta carpeta como en la superior.
+  c_root_error: ejecute este cuaderno desde un clon del repositorio
+  c_truth: conocido solo porque los datos son inventados
+  canonical: |2
+
+    Las filas de arriba son encuestados visibles: completos, y suyos para aprender
+    de ellos. Las de abajo están reservadas — usted ve su bloque `GIVEN` y nada
+    más.
+
+    Su valor de retorno es un vector de probabilidades por celda vacía, en **orden
+    canónico**: las filas de arriba abajo y, dentro de una fila, los ítems en el
+    orden de las claves de `schema["items"]` — no el orden de `frame.columns`, que
+    puede diferir. Cada vector sigue los `values` del ítem en orden, más la casilla
+    centinela cuando el ítem está filtrado. Lea el orden del esquema, nunca de los
+    datos: una opción que nadie eligió ocupa igualmente una casilla.
+  col_asked_if: se pregunta si
+  col_class: clase
+  col_covers: contiene la verdad
+  col_gate: filtro
+  col_item: ítem
+  col_meaning: significado
+  col_method: método
+  col_options: opciones
+  col_respondents: encuestados
+  col_row: fila
+  col_width: anchura media
+  doc_estimates: Estimaciones de solo entrevistas y asistida por predicción, cada una con su error estándar.
+  doc_hidden_cells: Cada celda vacía, en el orden en que predict() debe devolverlas.
+  handed: |2
+
+    Lea esa tabla como la propia lógica de salto: allí donde `visited_clinic` es
+    cualquier cosa distinta de `Yes`, ambos ítems hijos son `NA_GATED`, sin
+    excepción. **La respuesta de un ítem filtrado queda determinada en cuanto su
+    padre es visible** — eso es puntuación gratis, y lo primero que conviene
+    explotar.
+
+    ### Qué recibe `predict()`
+
+    `score.py` toma los roles visibles y reservados de la fase, apila a los
+    encuestados visibles encima de los reservados y vacía cada celda `PREDICT` de
+    estos últimos. Esas celdas vacías son aquellas para las que usted devuelve
+    probabilidades.
+
+    `NaN` significa exactamente una cosa: *esta celda está reservada, predígala*.
+    Nunca significa «no respondió» — una no respuesta genuina es una opción
+    corriente como `Prefer not to answer`, que figura en la lista de opciones como
+    cualquier otra.
+  k_and_gates: |2
+
+    `K` es el número de opciones del ítem **incluido el centinela de filtro**: un
+    ítem filtrado tiene una casilla más que respuestas, porque «nunca preguntado»
+    es para él una respuesta de pleno derecho. Esa casilla adicional es la última
+    de su vector de probabilidades, y de `K` se calcula la referencia uniforme `U`.
+
+    `would_return` depende de `clinic_wait`, que a su vez depende de
+    `visited_clinic`: una cadena de profundidad dos. A quien nunca acudió a un
+    centro de salud nunca se le preguntó cuánto esperó, ni si volvería. Su
+    respuesta verdadera a ambos es `NA_GATED`.
+  lbl_bad_model: un modelo que no se transfiere
+  lbl_cells: 'celdas a predecir:'
+  lbl_corr: 'correlación entre predicción y respuesta:'
+  lbl_equivalent: para comprar esa precisión solo con entrevistas harían falta unas %d.
+  lbl_fitted_on: 'modelo ajustado sobre, encuestados anteriores:'
+  lbl_frame: 'tabla:'
+  lbl_frame_size: 'marco a estimar, hogares:'
+  lbl_good_model: un modelo que predice bien
+  lbl_interview_only: solo entrevistas
+  lbl_logscore: log-score
+  lbl_model_only: solo modelo (sin entrevistas)
+  lbl_narrower: la banda es un %.0f %% más estrecha, con las mismas %d entrevistas.
+  lbl_no_interval: '[sin intervalo alguno]'
+  lbl_off_by: desvío de
+  lbl_powered: asistida por predicción
+  lbl_skill: skill
+  lbl_skill_note: skill vale 0 para una respuesta uniforme y 1 para la perfección.
+  lbl_true_share: 'proporción verdadera (que una encuesta real nunca llega a ver):'
+  lbl_truth: verdad
+  lbl_uniform: referencia uniforme (nats)
+  lbl_vs_truth: frente a una verdad de
+  lbl_width: anchura
+  now_draw: |2
+
+    Extraigamos ahora las 300 entrevistas y calculemos las tres cifras.
+
+    El intervalo de solo entrevistas es el de manual. El intervalo asistido por
+    predicción es la media del modelo sobre los hogares que **no** entrevistó,
+    corregida por el error medio del modelo sobre los que sí entrevistó:
+
+    ```
+    estimación = media(predicción | no entrevistados) - [ media(predicción | entrevistados) - media(respuesta | entrevistados) ]
+                        ↑ el modelo, usado en todas partes      ↑ el error del modelo, medido
+    ```
+
+    Ese corchete es todo el mecanismo de seguridad. Se calcula a partir de
+    respuestas reales, así que cuesta entrevistas reales, y elimina el sesgo del
+    modelo sea cual sea ese sesgo.
+  one_draw: |2
+
+    Una sola extracción no prueba nada — el intervalo pudo tener suerte. Lo que
+    importa es el comportamiento a lo largo de muchas encuestas: ¿contiene el
+    intervalo la verdad alrededor del 95 % de las veces, y qué anchura tiene?
+    Repitamos el ejercicio mil veces, cada una con 300 hogares nuevos.
+  part1: |2
+
+    ---
+
+    ## 1. La forma de la tarea
+
+    `make_sandbox.py` convierte un esquema en un conjunto de datos exactamente con
+    la forma que tiene el real: mismas columnas, mismas opciones, misma lógica de
+    salto. Las distribuciones marginales y las dependencias son inventadas, de modo
+    que una tubería depurada aquí será transferible y un modelo ajustado aquí no lo
+    será.
+
+    Escribe `respondents.parquet` — cada encuestado, más el `role` que dice para
+    qué sirve — y `schema.json`, que es lo que recibe su `predict()`. Los roles se
+    deciden una sola vez, aquí, y se escriben en disco. `score.py` los consulta;
+    nunca parte nada por su cuenta.
+  part2: |2
+
+    Ese es todo el contrato. Un envío es un `main.py` con un `predict()` que
+    devuelve esos vectores; `score.py` lo ejecuta como lo hará el evaluador, y
+    `tools/check_submission_zip.py` comprueba que el archivo que sube está bien
+    formado.
+
+    ---
+
+    ## 2. Qué aporta un buen modelo
+
+    Un benchmark que premia predecir las respuestas de la gente suscita una
+    inquietud evidente: ¿se trata de dejar de preguntarles? Aquí vemos una forma de combinar predicciones algorítmicas y muestras humanas.
+
+    Queremos una sola cifra sobre una población: la proporción de hogares que confían en los consejos de salud de su centro local.
+    El bloque barato — región, urbano o rural, tamaño del hogar, si hay teléfono —
+    ya se conoce para cada hogar del marco muestral, a partir de registros
+    administrativos o de una encuesta anterior. El bloque caro exige un encuestador
+    en la puerta, y el presupuesto paga unos cientos de entrevistas.
+
+    Tiene tres opciones.
+
+    1. **Solo entrevistas.** Preguntar a 300 hogares, tomar la proporción y
+       publicar un intervalo de confianza. Válido, y tan preciso como permitan 300
+       entrevistas.
+    2. **Solo modelo.** Pasar un modelo por el bloque barato de cada hogar y
+       publicar la media. Gratis, y *errado en todo aquello en que el modelo yerre*
+       — sin intervalo y sin forma de averiguarlo.
+    3. **Ambos.** Usar el modelo en todas partes y luego usar las 300 entrevistas
+       para medir y restar el error del modelo. Esto es la **inferencia asistida
+       por predicción**, y es lo que construye el resto de esta sección.
+
+    La tercera es la que merece la pena, porque es válida tanto si el modelo es
+    bueno como si es malo, y *más precisa que la primera cuando el modelo es
+    bueno*.
+  read_together: |2
+
+    Observe: la estimación de solo modelo se equivoca en más de una décima, y nada
+    en la salida se lo habría dicho — ni intervalo, ni aviso, solo un número que
+    parece exactamente tan autorizado como el correcto. Sustituir el trabajo de
+    campo por el modelo introduce sesgo.
+
+    El intervalo asistido por predicción sigue conteniendo la verdad alrededor del
+    95 % de las veces. No es más estrecho que entrevistar a secas — un modelo
+    inútil no compra precisión. El término de corrección midió el error del modelo
+    sobre las 300 entrevistas reales y lo restó, que es exactamente para lo que
+    está.
+
+    ### Por qué esto necesita un benchmark
+
+    La anchura de esa banda es función directa de lo bueno que sea el modelo. De
+    ahí el interés de medir con cuidado la calidad de predicción, sobre
+    instrumentos reales, con una regla de puntuación propia: un `skill` mejor en la
+    clasificación es un intervalo de confianza más estrecho sobre el terreno, o el
+    mismo intervalo con menos entrevistas.
+  role_dev: puntuado en la fase 1, visible en la fase 2
+  role_final: puntuado en la fase 2
+  role_train: visible en ambas fases
+  schema_declares: |2
+
+    ### Qué declara el esquema
+
+    Cada ítem lleva cuatro claves: la `question` tal como se formula, una `class`,
+    los `values` que admite y un `gate` si solo se pregunta a algunas personas.
+
+    Las tres clases resumen toda la tarea. **`GIVEN`** es visible para todo el
+    mundo y nunca se puntúa. **`PREDICT`** se reserva para los encuestados
+    reservados, y cada celda vacía se puntúa. **`EXCLUDE`** — identificadores,
+    claves de registro, texto libre — nunca se entrega en la tabla, así que filtre
+    por `class` en lugar de suponer que el esquema y la tabla llevan las mismas
+    columnas.
+
+    En este instrumento la separación enfrenta deliberadamente la mitad barata de
+    un cuestionario con la mitad cara. El bloque `GIVEN` es el tipo de variable que
+    ya figura en un marco muestral, un padrón censal u otra encuesta a los mismos
+    hogares: dónde vive alguien, cuántos son en el hogar, si hay teléfono. El
+    bloque `PREDICT` es lo que exige un encuestador y una entrevista. La parte 2 se
+    apoya en esa distinción.
+  score_intro: |2
+
+    ### Puntuación
+
+    La línea base de la multitud: cada encuestado reservado recibe las
+    proporciones suavizadas de cada ítem, ignorando todo lo relativo al individuo.
+    `skill` vale 0 para una respuesta uniforme y 1 para la perfección, y es lo que
+    ordena la tabla de clasificación.
+  title: |2
+
+    # Tutorial de SimulacraBench
+
+    Usaremos el esquema de ejemplo
+    `data/sample.json` para entender la forma de la tarea y la razón más técnica de la competición. Véase `README.md` para el contrato de envío, la regla de puntuación y el reglamento.
+
+# ----------------------------------------------------------------------
+ru:
+  both_cover: |2
+
+    Оба интервала содержат истину примерно в 95 % случаев — это и делает их
+    интервалами. Интервал с опорой на прогноз просто **уже**, при ровно той же
+    полевой работе. Последнюю строку читайте как смысл всего упражнения: лучшая
+    модель не убирает беседы из бюджета, она делает каждую весомее.
+
+    ### Что происходит, когда модель плоха
+
+    Очевидное возражение: это работает, лишь пока модель права, и довериться ей и
+    есть риск. Вот та же процедура с моделью, обученной на **другом населении**.
+  c_elsewhere: другое население
+  c_estimand: 'Оцениваемая величина: доля тех, кто хотя бы отчасти доверяет советам по здоровью.'
+  c_frame_rows: 'Совокупность, о которой нужно число: домохозяйства, не использованные для обучения.'
+  c_model_fit: |-
+    Модель обучена на респондентах прошлых волн -- роль TRAIN,
+    # то есть ровно тот видимый блок, на котором учится подача. Домохозяйства,
+    # которые мы собираемся опросить, она не видит никогда.
+  c_modules: |-
+    Те же модули, что использует score.py. Здесь ничто не
+    # переписывает проверяющую программу: оценивая что-либо в этом блокноте, вы
+    # вызываете тот же код, который оценивает вас.
+  c_predicted: f(дешёвый блок) для каждого домохозяйства
+  c_repeat_return: оценка, стандартная ошибка, оценка, стандартная ошибка
+  c_root: |-
+    Этот блокнот лежит в tutorials/, но код лежит в корне
+    # репозитория, и все пути ниже -- config.yml, data/sample.json, _sandbox/ --
+    # записаны относительно этого корня. Находим его и работаем оттуда, чтобы
+    # блокнот вёл себя одинаково независимо от того, запущен ли Jupyter в этой
+    # папке или уровнем выше.
+  c_root_error: запускайте этот блокнот внутри клона репозитория
+  c_truth: известно лишь потому, что данные вымышлены
+  canonical: |2
+
+    Верхние строки — видимые респонденты: заполненные, и на них можно учиться.
+    Нижние строки скрыты — вы видите их блок `GIVEN` и больше ничего.
+
+    Возвращаемое значение — по одному вектору вероятностей на пустую ячейку, в
+    **каноническом порядке**: строки сверху вниз, а внутри строки — пункты в
+    порядке ключей `schema["items"]`, а не в порядке `frame.columns`, который может
+    отличаться. Каждый вектор следует за `values` пункта по порядку, плюс служебная
+    ячейка, если у пункта есть переход. Читайте порядок из схемы, а не из данных:
+    вариант, который никто не выбрал, всё равно занимает ячейку.
+  col_asked_if: задан если
+  col_class: класс
+  col_covers: содержит истину
+  col_gate: переход
+  col_item: пункт
+  col_meaning: значение
+  col_method: метод
+  col_options: варианты
+  col_respondents: респондентов
+  col_row: строка
+  col_width: средняя ширина
+  doc_estimates: Оценки «только интервью» и с опорой на прогноз, каждая со стандартной ошибкой.
+  doc_hidden_cells: Каждая пустая ячейка в том порядке, в каком predict() должен их вернуть.
+  handed: |2
+
+    Читайте эту таблицу как саму логику переходов: везде, где `visited_clinic` не
+    равен `Yes`, оба дочерних пункта равны `NA_GATED`, без исключений. **Ответ
+    пункта с переходом определён, как только виден его родитель** — это бесплатные
+    очки и первое, чем стоит воспользоваться.
+
+    ### Что получает `predict()`
+
+    `score.py` берёт видимые и скрытые роли этой фазы, ставит видимых респондентов
+    над скрытыми и очищает каждую ячейку `PREDICT` у последних. Именно для этих
+    пустых ячеек вы возвращаете вероятности.
+
+    `NaN` означает ровно одно: *эта ячейка скрыта, предскажите её*. Он никогда не
+    означает «человек не ответил» — настоящий отказ от ответа является обычным
+    вариантом вроде `Prefer not to answer` и стоит в списке вариантов наравне с
+    остальными.
+  k_and_gates: |2
+
+    `K` — число вариантов пункта **вместе со служебным значением перехода**: у
+    пункта с переходом на одну ячейку больше, чем ответов, потому что «не
+    задавался» для него полноценный ответ. Эта дополнительная ячейка — последняя в
+    вашем векторе вероятностей, и именно из `K` вычисляется равномерный эталон `U`.
+
+    `would_return` зависит от `clinic_wait`, а тот — от `visited_clinic`: цепочка
+    глубиной два. Тому, кто не обращался в поликлинику, не задавали ни вопрос о
+    времени ожидания, ни вопрос о повторном визите. Истинный ответ на оба —
+    `NA_GATED`.
+  lbl_bad_model: модель, которая не переносится
+  lbl_cells: 'ячеек для прогноза:'
+  lbl_corr: 'корреляция между прогнозом и ответом:'
+  lbl_equivalent: чтобы купить такую точность одними беседами, их понадобилось бы около %d.
+  lbl_fitted_on: 'модель обучена на, респондентов прошлых волн:'
+  lbl_frame: 'таблица:'
+  lbl_frame_size: 'оцениваемая совокупность, домохозяйств:'
+  lbl_good_model: модель, которая хорошо предсказывает
+  lbl_interview_only: только интервью
+  lbl_logscore: лог-оценка
+  lbl_model_only: только модель (без интервью)
+  lbl_narrower: полоса на %.0f %% уже при тех же %d беседах.
+  lbl_no_interval: '[интервала нет вовсе]'
+  lbl_off_by: отклонение
+  lbl_powered: с опорой на прогноз
+  lbl_skill: skill
+  lbl_skill_note: skill равен 0 для равномерного ответа и 1 для совершенного.
+  lbl_true_share: 'истинная доля (которую настоящее обследование не видит):'
+  lbl_truth: истина
+  lbl_uniform: равномерный эталон (наты)
+  lbl_vs_truth: против истины
+  lbl_width: ширина
+  now_draw: |2
+
+    Теперь отберём 300 бесед и посчитаем все три числа.
+
+    Интервал «только интервью» — учебниковый. Интервал с опорой на прогноз — это
+    среднее модели по домохозяйствам, которые вы **не** опрашивали, поправленное
+    на среднюю ошибку модели по тем, кого опрашивали:
+
+    ```
+    оценка = среднее(прогноз | не опрошены) - [ среднее(прогноз | опрошены) - среднее(ответ | опрошены) ]
+                    ↑ модель, применённая везде        ↑ измеренная ошибка модели
+    ```
+
+    Эта скобка и есть весь предохранительный механизм. Она считается по реальным
+    ответам, то есть стоит реальных бесед, и устраняет смещение модели, каким бы
+    оно ни было.
+  one_draw: |2
+
+    Одна выборка ничего не доказывает — интервалу могло повезти. Важно поведение на
+    множестве обследований: содержит ли интервал истину примерно в 95 % случаев и
+    какова его ширина? Повторим весь опыт тысячу раз, каждый раз с новыми 300
+    домохозяйствами.
+  part1: |2
+
+    ---
+
+    ## 1. Форма задачи
+
+    `make_sandbox.py` превращает схему в набор данных ровно той же формы, что и
+    настоящий: те же столбцы, те же варианты ответа, та же логика переходов.
+    Маргинальные распределения и зависимости вымышлены, поэтому отлаженный здесь
+    конвейер перенесётся, а настроенная здесь модель — нет.
+
+    Он записывает `respondents.parquet` — каждого респондента и роль `role`,
+    указывающую, для чего он нужен, — и `schema.json`, то самое, что получает ваш
+    `predict()`. Роли назначаются один раз, здесь, и записываются на диск.
+    `score.py` их только читает; сам он ничего не делит.
+  part2: |2
+
+    Вот и весь контракт. Подача — это `main.py` с функцией `predict()`,
+    возвращающей такие векторы; `score.py` запускает её так же, как это сделает
+    проверяющая программа, а `tools/check_submission_zip.py` проверяет, что
+    загружаемый архив составлен правильно.
+
+    ---
+
+    ## 2. Что даёт хорошая модель
+
+    Бенчмарк, поощряющий предсказание ответов людей, вызывает очевидное
+    опасение: не в том ли смысл, чтобы перестать их спрашивать? Здесь мы увидим способ сочетать алгоритмические прогнозы с человеческими выборками.
+
+    Нам нужно одно число о населении: доля домохозяйств, доверяющих советам своей поликлиники по здоровью. Дешёвый блок — регион, город или село,
+    размер домохозяйства, наличие телефона — уже известен для каждого домохозяйства
+    в основе выборки из административных данных или прошлого обследования. Дорогой
+    блок требует интервьюера у двери, а бюджета хватает на несколько сотен бесед.
+
+    У вас три варианта.
+
+    1. **Только интервью.** Опросить 300 домохозяйств, взять долю, опубликовать
+       доверительный интервал. Корректно и настолько точно, насколько позволяют
+       300 бесед.
+    2. **Только модель.** Прогнать модель по дешёвому блоку каждого домохозяйства
+       и опубликовать среднее. Бесплатно и *ошибочно ровно настолько, насколько
+       ошибается модель* — без интервала и без способа это узнать.
+    3. **И то и другое.** Использовать модель везде, а затем по 300 беседам
+       измерить и вычесть ошибку модели. Это **вывод с опорой на прогноз**, и
+       именно его строит остаток раздела.
+
+    Третий вариант и есть искомый: он корректен независимо от того, хороша модель
+    или плоха, и *точнее первого, когда модель хороша*.
+  read_together: |2
+
+    Обратите внимание: оценка «только модель» ошибается больше чем на одну десятую,
+    и ничто в выводе вам об этом не сообщило бы — ни интервала, ни предупреждения,
+    просто число, выглядящее ровно так же авторитетно, как верное. Замена поля
+    моделью вносит смещение.
+
+    Интервал с опорой на прогноз по-прежнему содержит истину примерно в 95 %
+    случаев. Он не уже, чем при одних беседах — бесполезная модель не покупает
+    точности. Поправочный член измерил ошибку модели на 300 реальных беседах и
+    вычел её, ровно для этого он и нужен.
+
+    ### Зачем для этого бенчмарк
+
+    Ширина этой полосы — прямая функция качества модели. Отсюда и смысл тщательно
+    измерять качество прогноза на реальных инструментах строгим правилом подсчёта
+    очков: более высокий `skill` в таблице результатов — это более узкий
+    доверительный интервал в поле или тот же интервал при меньшем числе бесед.
+  role_dev: оценивается в фазе 1, видим в фазе 2
+  role_final: оценивается в фазе 2
+  role_train: видим в обеих фазах
+  schema_declares: |2
+
+    ### Что объявляет схема
+
+    У каждого пункта четыре ключа: `question` — формулировка вопроса, `class`,
+    `values` — допустимые ответы, и `gate`, если пункт задаётся не всем.
+
+    Три класса и составляют всю задачу. **`GIVEN`** виден всем и никогда не
+    оценивается. **`PREDICT`** скрыт у скрытых респондентов, и каждая пустая
+    ячейка оценивается. **`EXCLUDE`** — идентификаторы, ключи записей, свободный
+    текст — вообще не передаётся в таблице, поэтому фильтруйте по `class`, а не
+    предполагайте, что схема и таблица содержат одни и те же столбцы.
+
+    В этом инструменте разделение намеренно противопоставляет дешёвую половину
+    анкеты дорогой. Блок `GIVEN` — это то, что уже есть в основе выборки, в
+    переписи или в другом обследовании тех же домохозяйств: где человек живёт,
+    каков размер домохозяйства, есть ли телефон. Блок `PREDICT` — это то, что
+    требует интервьюера и беседы. На этом различии построена часть 2.
+  score_intro: |2
+
+    ### Подсчёт очков
+
+    Базовое решение «толпы»: каждый скрытый респондент получает сглаженные доли по
+    каждому пункту, без всякого учёта личности. `skill` равен 0 для равномерного
+    ответа и 1 для совершенного, и именно по нему строится таблица результатов.
+  title: |2
+
+    # Руководство по SimulacraBench
+
+    Мы воспользуемся учебной схемой
+    `data/sample.json`, чтобы понять форму задачи и более техническую причину проведения конкурса. Контракт подачи, правило подсчёта очков и регламент — в `README.md`.
+
+# ----------------------------------------------------------------------
+zh:
+  both_cover: |2
+
+    两个区间都约有 95% 的时候包含真值——这正是它们之所以是区间的原因。预测驱动的
+    那个只是**更窄**，而实地工作量完全相同。最后一行才是整个练习的要点：更好的
+    模型不会从预算里减掉访谈，而是让每一次访谈更值钱。
+
+    ### 模型很糟糕时会怎样
+
+    显而易见的反驳是：这只在模型正确时才成立，而信任模型正是风险所在。下面是同样的流程，但模型拟合在**另一个总体**上。
+  c_elsewhere: 另一个总体
+  c_estimand: 被估计量：至少在一定程度上信任健康建议的比例。
+  c_frame_rows: 我们要给出数字的那部分：未用于拟合模型的住户。
+  c_model_fit: |-
+    模型是在往期受访者上拟合的——即 TRAIN 角色，
+    # 也正是一份提交所能学习的可见部分。它从未见过我们即将访谈的那些住户。
+  c_modules: |-
+    与 score.py 使用的是同一批模块。这里没有任何东西重新实现
+    # 评分程序：当你在本笔记本中评分时，调用的正是给你评分的那段代码。
+  c_predicted: f(便宜变量)，对每一户
+  c_repeat_return: 估计值、标准误、估计值、标准误
+  c_root: |-
+    本笔记本位于 tutorials/ 目录，但工具代码位于代码库根目录，
+    # 下面所有路径（config.yml、data/sample.json、_sandbox/）都是相对该根目录写的。
+    # 先定位到根目录再工作，这样无论 Jupyter 是在本目录还是上一级目录启动，
+    # 笔记本的行为都一致。
+  c_root_error: 请在代码库的克隆目录中运行本笔记本
+  c_truth: 只因数据是虚构的才可知
+  canonical: |2
+
+    上面几行是可见受访者：内容完整，供你学习。下面几行被隐藏——你只能看到他们的
+    `GIVEN` 部分，别无其他。
+
+    你的返回值是每个空格一个概率向量，按**规范顺序**排列：行从上到下，行内则按
+    `schema["items"]` 的键顺序排列题目——而不是 `frame.columns` 的顺序，两者可能
+    不同。每个向量依次对应该题目的 `values`，若该题目有跳转，再加上哨兵那一格。
+    顺序要从模式中读取，绝不要从数据中推断：没有人选过的选项同样占一格。
+  col_asked_if: 何时提问
+  col_class: 类别
+  col_covers: 包含真值的比例
+  col_gate: 跳转依据
+  col_item: 题目
+  col_meaning: 含义
+  col_method: 方法
+  col_options: 选项
+  col_respondents: 受访者数
+  col_row: 行
+  col_width: 平均宽度
+  doc_estimates: 只做访谈与预测驱动两种估计，各自带标准误。
+  doc_hidden_cells: 所有空格，按 predict() 必须返回的顺序排列。
+  handed: |2
+
+    可以把这张表直接当作跳转逻辑本身来读：只要 `visited_clinic` 不是 `Yes`，
+    两个子题目就都是 `NA_GATED`，无一例外。**只要父题目可见，带跳转题目的答案就是
+    确定的**——这是白送的分数，也是首先应当利用的地方。
+
+    ### `predict()` 收到什么
+
+    `score.py` 取出本阶段的可见角色与隐藏角色，把可见受访者叠放在隐藏受访者之上，
+    并清空后者的每一个 `PREDICT` 单元格。你要为这些空格返回概率。
+
+    `NaN` 只有一个含义：*这个单元格被隐藏了，请预测它*。它绝不表示“此人没有回答”
+    ——真正的拒答是一个普通选项，例如 `Prefer not to answer`，和其他选项一样列在
+    选项表中。
+  k_and_gates: |2
+
+    `K` 是题目的选项个数，**并计入跳转哨兵值**：有跳转的题目比它的答案多出一格，
+    因为“从未被问到”对它而言是一个真正的答案。这一格是你概率向量的最后一项，
+    均匀参考值 `U` 也正是由 `K` 计算得出的。
+
+    `would_return` 依赖于 `clinic_wait`，后者又依赖于 `visited_clinic`：一条深度
+    为二的链。从未去过诊所的受访者，既没有被问过等了多久，也没有被问过是否会再去。
+    他们对这两题的真实答案都是 `NA_GATED`。
+  lbl_bad_model: 一个无法迁移的模型
+  lbl_cells: '待预测单元格:'
+  lbl_corr: '预测值与真实回答的相关系数:'
+  lbl_equivalent: 若只靠访谈买到这样的精度，大约需要 %d 次。
+  lbl_fitted_on: '模型拟合所用的往期受访者数:'
+  lbl_frame: '数据表:'
+  lbl_frame_size: '待估计的住户数:'
+  lbl_good_model: 一个预测得不错的模型
+  lbl_interview_only: 只做访谈
+  lbl_logscore: 对数得分
+  lbl_model_only: 只用模型（不做访谈）
+  lbl_narrower: 区间窄了 %.0f%%，而访谈次数仍是同样的 %d 次。
+  lbl_no_interval: '[根本没有区间]'
+  lbl_off_by: 偏差
+  lbl_powered: 预测驱动
+  lbl_skill: skill
+  lbl_skill_note: skill 在均匀猜测时为 0，完美时为 1。
+  lbl_true_share: '真实比例（真实调查永远看不到）:'
+  lbl_truth: 真值
+  lbl_uniform: 均匀参考值（奈特）
+  lbl_vs_truth: 对比真值
+  lbl_width: 宽度
+  now_draw: |2
+
+    现在抽取这 300 次访谈，把三个数字都算出来。
+
+    “只做访谈”的区间就是教科书上的那个。预测驱动区间则是模型在你**没有**访谈的
+    住户上的平均值，再用模型在你已访谈住户上的平均误差加以校正：
+
+    ```
+    估计 = 均值(预测 | 未访谈) - [ 均值(预测 | 已访谈) - 均值(回答 | 已访谈) ]
+                  ↑ 到处使用的模型            ↑ 实测出的模型误差
+    ```
+
+    方括号里的这一项就是全部的安全机制。它由真实回答算出，因此要花掉真实的访谈，
+    并且无论模型的偏误是什么，它都会把偏误消掉。
+  one_draw: |2
+
+    抽一次什么也证明不了——那个区间可能只是运气好。真正重要的是在许多次调查中的
+    表现：区间是否约有 95% 的时候包含真值，它有多宽？把整个过程重复一千次，每次
+    都换一批新的 300 户。
+  part1: |2
+
+    ---
+
+    ## 1. 任务的形态
+
+    `make_sandbox.py` 把一份模式变成与真实数据形态完全一致的数据集：相同的列、
+    相同的选项、相同的跳转逻辑。边际分布和变量间的依赖关系都是虚构的，因此在这里
+    调通的流程可以迁移，而在这里调参的模型不能。
+
+    它写出 `respondents.parquet`——每一位受访者，外加说明其用途的 `role` 列——
+    以及 `schema.json`，也就是你的 `predict()` 收到的东西。角色只在这里确定一次
+    并写入磁盘。`score.py` 只是读取它们，自己从不做任何划分。
+  part2: |2
+
+    这就是全部约定。一份提交就是一个含有 `predict()` 的 `main.py`，它返回上述
+    向量；`score.py` 会按评分程序的方式运行它，而 `tools/check_submission_zip.py`
+    则检查你上传的压缩包格式是否正确。
+
+    ---
+
+    ## 2. 好模型能带来什么
+
+    一个奖励“预测他人回答”的基准，自然会引出一个疑问：目的是不是不再去问人了？
+    这里我们会看到一种把算法预测与人工样本结合起来的做法。
+
+    我们想得到关于某个总体的一个数字：信任本地诊所健康建议的住户比例。
+    便宜的那部分变量——地区、城乡、家庭规模、有无手机——凭借行政记录或早先的调查，
+    对抽样框中的每一户都已知。昂贵的那部分需要调查员上门，而预算只够几百次访谈。
+
+    你有三个选择。
+
+    1. **只做访谈。** 访问 300 户，取比例，报告置信区间。结果有效，精度也就是
+       300 次访谈所能达到的水平。
+    2. **只用模型。** 用模型跑一遍每户的便宜变量，报告平均值。免费，而且*模型错
+       多少就错多少*——没有区间，也无从知晓。
+    3. **两者并用。** 到处使用模型，再用这 300 次访谈来测量并扣除模型的误差。
+       这就是**预测驱动推断**，也是本节余下部分要构建的东西。
+
+    值得采用的是第三种，因为无论模型好坏它都有效，而且*在模型好的时候比第一种更
+    精确*。
+  read_together: |2
+
+    请注意：只用模型的估计偏差超过十分之一，而输出中没有任何东西会提醒你——没有
+    区间，没有警告，只有一个看起来和正确答案同样权威的数字。用模型取代实地工作会
+    引入偏误。
+
+    预测驱动区间仍然约有 95% 的时候包含真值。它并不比单纯访谈更窄——无用的模型买
+    不到精度。校正项在 300 次真实访谈上测出了模型的误差并将其扣除，这正是它存在
+    的意义。
+
+    ### 为什么这需要一个基准
+
+    区间的宽度是模型好坏的直接函数。这正是要在真实问卷上、用严格的评分规则认真
+    衡量预测质量的理由：排行榜上更高的 `skill`，就是实地更窄的置信区间，或者用
+    更少的访谈得到同样的区间。
+  role_dev: 第 1 阶段评分，第 2 阶段可见
+  role_final: 第 2 阶段评分
+  role_train: 两个阶段都可见
+  schema_declares: |2
+
+    ### 模式声明了什么
+
+    每个题目有四个键：原样的 `question`、一个 `class`、允许的 `values`，以及仅在
+    部分人被问到时才有的 `gate`。
+
+    这三个类别就是任务的全部。**`GIVEN`** 对所有人可见，从不评分。**`PREDICT`**
+    对被隐藏的受访者隐藏，且每一个空格都要评分。**`EXCLUDE`**——标识符、记录键、
+    自由文本——根本不会出现在数据表中，所以请按 `class` 过滤，不要假定模式和数据表
+    带有相同的列。
+
+    在这份问卷里，划分刻意把问卷中便宜的一半与昂贵的一半对立起来。`GIVEN` 部分是
+    抽样框、人口普查名册或针对同一批住户的另一项调查中已有的那类变量：住在哪里、
+    家庭规模多大、有没有手机。`PREDICT` 部分则需要调查员上门访谈。第 2 部分正是
+    建立在这一区别之上。
+  score_intro: |2
+
+    ### 评分
+
+    群体基线：每位被隐藏的受访者都得到该题目经过平滑的整体比例，完全不考虑个体
+    差异。`skill` 在均匀猜测时为 0，完美时为 1，排行榜正是按它排序的。
+  title: |2
+
+    # SimulacraBench 教程
+
+    我们将使用示例模式
+    `data/sample.json` 来理解任务的形态，以及举办本竞赛更技术性的理由。提交约定、评分规则和竞赛规则见 `README.md`。
+
+# ----------------------------------------------------------------------
+ar:
+  both_cover: |2
+
+    كلتا الفترتين تحتوي على القيمة الحقيقية في نحو ٩٥٪ من المرات — وهذا ما يجعلهما
+    فترتَي ثقة. غير أن الفترة المدعومة بالتنبؤ **أضيق** فحسب، انطلاقًا من العمل
+    الميداني نفسه تمامًا. اقرأ السطر الأخير بوصفه خلاصة التمرين كله: النموذج الأفضل
+    لا يحذف مقابلات من الميزانية، بل يجعل كل مقابلة أثمن.
+
+    ### ماذا يحدث حين يكون النموذج رديئًا
+
+    الاعتراض البديهي أن هذا لا يصحّ إلا ما دام النموذج مصيبًا، وأن الوثوق به هو
+    مكمن الخطر. وهذا هو الإجراء نفسه بنموذج مدرَّب على **مجتمع سكاني مختلف**.
+  c_elsewhere: مجتمع سكاني مختلف
+  c_estimand: 'المقدار المقدَّر: نسبة من يثقون بالنصائح الصحية ولو إلى حد ما.'
+  c_frame_rows: 'الإطار الذي نريد عنه رقمًا: الأسر التي لم تُستعمل في تدريب النموذج.'
+  c_model_fit: |-
+    يُدرَّب النموذج على مستجيبين من جولات سابقة -- أي الدور
+    # TRAIN، وهو بالضبط الكتلة الظاهرة التي يتعلم منها أي تقديم. وهو لا يرى أبدًا
+    # الأسر التي نوشك على مقابلتها.
+  c_modules: |-
+    الوحدات نفسها التي يستخدمها score.py. لا شيء هنا يعيد بناء
+    # برنامج التقييم: حين تسجّل نتيجة في هذا الدفتر فأنت تستدعي الشيفرة نفسها
+    # التي تسجّل نتيجتك.
+  c_predicted: f(الكتلة الرخيصة)، لكل أسرة
+  c_repeat_return: التقدير، الخطأ المعياري، التقدير، الخطأ المعياري
+  c_root: |-
+    هذا الدفتر موجود في tutorials/ بينما الأدوات في جذر المستودع،
+    # وكل المسارات أدناه -- config.yml وdata/sample.json و_sandbox/ -- مكتوبة
+    # نسبةً إلى ذلك الجذر. نحدد موقعه ونعمل انطلاقًا منه، ليعمل الدفتر بالطريقة
+    # نفسها سواء شُغِّل Jupyter في هذا المجلد أو في المجلد الأعلى.
+  c_root_error: شغِّل هذا الدفتر من داخل نسخة من المستودع
+  c_truth: معلوم فقط لأن البيانات متخيَّلة
+  canonical: |2
+
+    الصفوف العليا مستجيبون ظاهرون: مكتملون، ولك أن تتعلم منهم. والصفوف السفلى
+    محجوبة — ترى منها كتلة `GIVEN` ولا شيء غيرها.
+
+    قيمتك المعادة هي متجه احتمالات واحد لكل خانة فارغة، وفق **الترتيب المعياري**:
+    الصفوف من الأعلى إلى الأسفل، وداخل الصف الواحد البنود بترتيب مفاتيح
+    `schema["items"]` — لا بترتيب `frame.columns` الذي قد يختلف. ويتبع كل متجه قيم
+    `values` الخاصة بالبند بالترتيب، مضافًا إليها خانة الحارس إن كان البند مبوَّبًا.
+    اقرأ الترتيب من المخطط لا من البيانات أبدًا: فالخيار الذي لم يختره أحد يشغل
+    خانة أيضًا.
+  col_asked_if: يُطرح إذا
+  col_class: الفئة
+  col_covers: احتواء الحقيقة
+  col_gate: البوابة
+  col_item: البند
+  col_meaning: المعنى
+  col_method: الطريقة
+  col_options: الخيارات
+  col_respondents: المستجيبون
+  col_row: الصف
+  col_width: متوسط العرض
+  doc_estimates: تقديرا المقابلات وحدها والمدعوم بالتنبؤ، ولكلٍّ خطؤه المعياري.
+  doc_hidden_cells: كل خانة فارغة، بالترتيب الذي يجب أن تعيدها به predict().
+  handed: |2
+
+    اقرأ ذلك الجدول بوصفه منطق التخطي نفسه: حيثما كانت قيمة `visited_clinic` شيئًا
+    غير `Yes` يكون البندان الفرعيان `NA_GATED`، دون استثناء. **إجابة البند المبوَّب
+    محدَّدة متى كان أصله ظاهرًا** — وهذه نقاط مجانية، وأول ما ينبغي استثماره.
+
+    ### ماذا تتلقى `predict()`
+
+    يأخذ `score.py` الأدوارَ الظاهرة والمحجوبة في هذه المرحلة، ويضع المستجيبين
+    الظاهرين فوق المحجوبين، ويفرّغ كل خانة `PREDICT` لدى هؤلاء الأخيرين. وهذه
+    الخانات الفارغة هي ما تعيد له احتمالات.
+
+    القيمة `NaN` تعني شيئًا واحدًا لا غير: *هذه الخانة محجوبة، فتنبأ بها*. وهي لا
+    تعني أبدًا «لم يجب» — فالامتناع الحقيقي عن الإجابة خيار عادي مثل
+    `Prefer not to answer`، يرد في قائمة الخيارات كأي خيار آخر.
+  k_and_gates: |2
+
+    القيمة `K` هي عدد خيارات البند **متضمنًا قيمة البوابة الحارسة**: فالبند
+    المبوَّب له خانة أكثر مما له من إجابات، لأن «لم يُسأل قط» إجابة حقيقية بالنسبة
+    إليه. وهذه الخانة الإضافية هي آخر مدخل في متجه الاحتمالات لديك، ومن `K` يُحسب
+    المرجع المنتظم `U`.
+
+    البند `would_return` مبوَّب على `clinic_wait`، وهذا الأخير مبوَّب على
+    `visited_clinic`: سلسلة بعمق اثنين. فمن لم يزر عيادة قط لم يُسأل كم انتظر، ولا
+    سُئل إن كان سيعود. وإجابته الحقيقية عن كليهما هي `NA_GATED`.
+  lbl_bad_model: نموذج لا ينتقل
+  lbl_cells: 'الخانات المطلوب التنبؤ بها:'
+  lbl_corr: 'الارتباط بين التنبؤ والإجابة:'
+  lbl_equivalent: ولشراء تلك الدقة بالمقابلات وحدها لَلزم نحو %d مقابلة.
+  lbl_fitted_on: 'النموذج مدرَّب على مستجيبين سابقين، عددهم:'
+  lbl_frame: 'الجدول:'
+  lbl_frame_size: 'الإطار المراد تقديره، عدد الأسر:'
+  lbl_good_model: نموذج يتنبأ تنبؤًا جيدًا
+  lbl_interview_only: المقابلات وحدها
+  lbl_logscore: النتيجة اللوغاريتمية
+  lbl_model_only: النموذج وحده (بلا مقابلات)
+  lbl_narrower: 'النطاق أضيق بنسبة %.0f٪، انطلاقًا من العدد نفسه من المقابلات: %d.'
+  lbl_no_interval: '[لا فترة ثقة البتة]'
+  lbl_off_by: بانحراف
+  lbl_powered: المدعوم بالتنبؤ
+  lbl_skill: skill
+  lbl_skill_note: المقياس skill يساوي صفرًا للتخمين المنتظم وواحدًا للكمال.
+  lbl_true_share: 'النسبة الحقيقية (التي لا يراها مسح حقيقي قط):'
+  lbl_truth: الحقيقة
+  lbl_uniform: المرجع المنتظم (نات)
+  lbl_vs_truth: مقابل حقيقة قدرها
+  lbl_width: العرض
+  now_draw: |2
+
+    لنسحب الآن المقابلات الثلاثمائة ونحسب الأرقام الثلاثة.
+
+    فترة «المقابلات وحدها» هي الفترة المدرسية المعتادة. أما الفترة المدعومة بالتنبؤ
+    فهي متوسط النموذج على الأسر التي **لم** تقابلها، مصححًا بمتوسط خطأ النموذج على
+    الأسر التي قابلتها:
+
+    ```
+    التقدير = متوسط(التنبؤ | غير مقابَلة) - [ متوسط(التنبؤ | مقابَلة) - متوسط(الإجابة | مقابَلة) ]
+                    ↑ النموذج مستعملًا في كل مكان        ↑ خطأ النموذج مقيسًا
+    ```
+
+    هذا المقدار بين القوسين هو آلية الأمان كلها. يُحسب من إجابات حقيقية، ومن ثم
+    يكلّف مقابلات حقيقية، ويزيل تحيّز النموذج مهما يكن ذلك التحيّز.
+  one_draw: |2
+
+    سحبة واحدة لا تثبت شيئًا — فقد تكون الفترة محظوظة. المهم هو السلوك عبر مسوح
+    كثيرة: هل تحتوي الفترة على القيمة الحقيقية في نحو ٩٥٪ من المرات، وكم عرضها؟
+    لنكرر التمرين كله ألف مرة، في كل مرة بثلاثمائة أسرة جديدة.
+  part1: |2
+
+    ---
+
+    ## ١. شكل المهمة
+
+    يحوّل `make_sandbox.py` المخطط إلى مجموعة بيانات لها الشكل نفسه تمامًا الذي
+    تملكه البيانات الحقيقية: الأعمدة نفسها، والخيارات نفسها، ومنطق التخطي نفسه.
+    أما التوزيعات الهامشية والاعتماديات فمتخيَّلة، ولذلك فإن مسارًا صُحِّح هنا
+    سينتقل، بينما نموذجًا ضُبِط هنا لن ينتقل.
+
+    يكتب البرنامج ملف `respondents.parquet` — كل مستجيب مع الدور `role` الذي يحدد
+    الغرض منه — وملف `schema.json`، وهو ما تتلقاه دالتك `predict()`. تُحدَّد
+    الأدوار مرة واحدة، هنا، وتُكتب على القرص. أما `score.py` فيقرأها فحسب؛ وهو لا
+    يقسّم شيئًا بنفسه أبدًا.
+  part2: |2
+
+    هذا هو العقد كله. التقديم ملف `main.py` فيه دالة `predict()` تعيد تلك
+    المتجهات؛ و`score.py` يشغّلها كما سيفعل برنامج التقييم، و
+    `tools/check_submission_zip.py` يتحقق من سلامة بنية الأرشيف الذي ترفعه.
+
+    ---
+
+    ## ٢. ما الذي يقدمه نموذج جيد
+
+    معيارٌ يكافئ التنبؤ بإجابات الناس يثير قلقًا بديهيًا: هل الغاية أن نكفّ عن
+    سؤالهم؟ نرى هنا صيغةً للجمع بين التنبؤات الخوارزمية والعينات البشرية.
+
+    نريد رقمًا واحدًا عن مجتمع سكاني: نسبة الأسر التي تثق بالنصائح الصحية الصادرة عن عيادتها المحلية. الكتلة الرخيصة — المنطقة، حضر أم ريف، حجم
+    الأسرة، وجود هاتف — معروفة سلفًا لكل أسرة في إطار المعاينة، من السجلات الإدارية
+    أو من مسح سابق. أما الكتلة المكلفة فتتطلب باحثًا ميدانيًا عند الباب، والميزانية
+    تكفي بضع مئات من المقابلات.
+
+    أمامك ثلاثة خيارات.
+
+    1. **المقابلات وحدها.** اسأل ٣٠٠ أسرة، وخذ النسبة، وانشر فترة ثقة. صحيح، وبدقة
+       بقدر ما تسمح به ٣٠٠ مقابلة.
+    2. **النموذج وحده.** شغِّل نموذجًا على الكتلة الرخيصة لكل أسرة وانشر المتوسط.
+       مجاني، و*خاطئ بقدر ما يخطئ النموذج* — بلا فترة ثقة وبلا سبيل إلى معرفة ذلك.
+    3. **كلاهما.** استعمل النموذج في كل مكان، ثم استعمل المقابلات الثلاثمائة لقياس
+       خطأ النموذج وطرحه. هذا هو **الاستدلال المدعوم بالتنبؤ**، وهو ما يبنيه بقية
+       هذا القسم.
+
+    الخيار الثالث هو الجدير بالاعتماد، لأنه صحيح سواء أكان النموذج جيدًا أم رديئًا،
+    و*أدقّ من الأول حين يكون النموذج جيدًا*.
+  read_together: |2
+
+    لاحظ: تقدير النموذج وحده يخطئ بأكثر من العُشر، ولم يكن شيء في المخرجات لِيُنبئك
+    بذلك — لا فترة ثقة ولا تحذير، بل مجرد رقم يبدو في السلطة نفسها تمامًا التي يبدو
+    عليها الرقم الصحيح. واستبدال النموذج بالعمل الميداني يُدخل تحيّزًا.
+
+    وما زالت الفترة المدعومة بالتنبؤ تحتوي على القيمة الحقيقية في نحو ٩٥٪ من
+    المرات. وهي ليست أضيق من المقابلات وحدها — فالنموذج عديم الجدوى لا يشتري دقة.
+    وقد قاس حدّ التصحيح خطأ النموذج على المقابلات الحقيقية الثلاثمائة وطرحه، وهو
+    بالضبط ما وُجد من أجله.
+
+    ### لماذا يحتاج هذا إلى معيار
+
+    عرض ذلك النطاق دالة مباشرة في جودة النموذج. ومن هنا تأتي الحجة لقياس جودة
+    التنبؤ قياسًا دقيقًا، على أدوات حقيقية، بقاعدة تسجيل سليمة: فارتفاع `skill` في
+    جدول النتائج يعني فترة ثقة أضيق في الميدان، أو الفترة نفسها بعدد أقل من
+    المقابلات.
+  role_dev: يُسجَّل في المرحلة ١، ظاهر في المرحلة ٢
+  role_final: يُسجَّل في المرحلة ٢
+  role_train: ظاهر في المرحلتين
+  schema_declares: |2
+
+    ### ماذا يعلن المخطط
+
+    يحمل كل بند أربعة مفاتيح: نص السؤال `question` كما يُطرح، والفئة `class`،
+    والقيم المسموح بها `values`، والبوابة `gate` إن كان البند لا يُطرح إلا على
+    بعض الأشخاص.
+
+    الفئات الثلاث هي المهمة كلها. الفئة **`GIVEN`** ظاهرة للجميع ولا تُسجَّل لها
+    نتيجة أبدًا. والفئة **`PREDICT`** محجوبة عن المستجيبين المحجوبين، وكل خانة
+    فارغة فيها تُسجَّل. أما **`EXCLUDE`** — المعرّفات ومفاتيح السجلات والنص الحر —
+    فلا تُسلَّم في الجدول أصلًا، لذا رشِّح حسب `class` بدل افتراض أن المخطط والجدول
+    يحملان الأعمدة نفسها.
+
+    في هذه الأداة يقابل التقسيمُ عمدًا النصفَ الرخيص من الاستبيان بالنصف المكلف.
+    فكتلة `GIVEN` هي من نوع المتغيرات الموجودة سلفًا في إطار المعاينة أو سجل
+    التعداد أو مسح آخر للأسر نفسها: أين يقيم الشخص، وكم حجم الأسرة، وهل لديها
+    هاتف. أما كتلة `PREDICT` فهي ما يتطلب باحثًا ميدانيًا ومقابلة. والجزء الثاني
+    قائم على هذا التمييز.
+  score_intro: |2
+
+    ### التسجيل
+
+    خط الأساس الجماعي: كل مستجيب محجوب يأخذ النسب الممهَّدة لكل بند، متجاهلًا كل ما
+    يخص الفرد. والمقياس `skill` يساوي صفرًا للتخمين المنتظم وواحدًا للكمال، وهو ما
+    يرتّب عليه جدول النتائج.
+  title: |2
+
+    # دليل SimulacraBench
+
+    سنستعمل المخطط النموذجي
+    `data/sample.json` لفهم شكل المهمة، وللسبب الأكثر تقنيةً وراء المسابقة. انظر `README.md` للاطلاع على عقد التقديم وقاعدة التسجيل واللوائح.
