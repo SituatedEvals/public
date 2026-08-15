@@ -1,8 +1,8 @@
 {
   "dataset": {
-    "n_rows": 400,
-    "version": "1.0",
-    "description": "A toy instrument, not a real survey. Seven items and four hundred invented respondents, small enough to print a sandbox and read it. It has one of everything the real schemas have: a frame block that is always visible, items that are scored, a gate chain two deep, and an EXCLUDE column the grader never shows anybody. Use it to see the shape of the task; use the three real schemas to see whether a method works."
+    "n_rows": 12000,
+    "version": "2.0",
+    "description": "A toy instrument, not a real survey. Ten items, few enough to print the whole schema and read it. It has one of everything the real schemas have: a frame block that is always visible, items that are scored, a gate chain two deep, and an EXCLUDE column the grader never shows anybody. The GIVEN block is deliberately the cheap half of a questionnaire -- the variables that already sit on a sampling frame, a census roster or another survey of the same households -- and the PREDICT block is the expensive half, the part that needs an enumerator and an interview. Use it to see the shape of the task; use the three real schemas to see whether a method works."
   },
   "items": {
     "region": {
@@ -11,14 +11,32 @@
       "values": ["North", "Central", "South"],
       "gate": null
     },
+    "urban_rural": {
+      "question": "Is the dwelling urban or rural?",
+      "class": "GIVEN",
+      "values": ["Urban", "Rural"],
+      "gate": null
+    },
     "age_band": {
       "question": "How old are you?",
       "class": "GIVEN",
       "values": ["18-29", "30-44", "45-59", "60+"],
       "gate": null
     },
+    "household_size": {
+      "question": "How many people live in this household?",
+      "class": "GIVEN",
+      "values": ["1", "2-3", "4-5", "6 or more"],
+      "gate": null
+    },
     "household_has_children": {
       "question": "Are there children under 18 in your household?",
+      "class": "GIVEN",
+      "values": ["Yes", "No"],
+      "gate": null
+    },
+    "has_mobile_phone": {
+      "question": "Does anyone in the household own a mobile phone?",
       "class": "GIVEN",
       "values": ["Yes", "No"],
       "gate": null
@@ -62,6 +80,7 @@
   },
   "split": {
     "train_fraction": 0.75,
-    "test_fraction": 0.25
+    "dev_fraction": 0.075,
+    "final_fraction": 0.175
   }
 }

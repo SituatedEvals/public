@@ -19,6 +19,12 @@ privacy:
   epsilon: 10.0
   max_submissions_per_participant: 20
 
+# Who is visible and who is scored is decided by the respondent roles in the
+# delivered dataset, not here: phase 1 scores DEV, phase 2 scores FINAL and
+# hands DEV over as visible rows. `data_fraction` thins the *visible* rows only,
+# to keep a development run inside its smaller budget. It must never touch the
+# hidden rows -- every submission in a phase is scored on the same cells, and
+# that is what makes two leaderboard entries comparable to each other.
 phases:
   1:
     name: Development
@@ -42,17 +48,29 @@ sandbox:
   # what makes the crowd-marginal baseline meaningfully better than uniform.
   dirichlet_alpha: 0.9
   # Spread of the per-item loadings on the one hidden trait each invented
-  # respondent carries.
-  trait_scale: 0.6
+  # respondent carries. It sets how much the items know about each other. Too
+  # low and the sandbox is hostile to every method that looks at a respondent
+  # rather than a column: at 0.6 a whole demographic block explained about 1%
+  # of the variance of an attitude item, which is far less than a real
+  # instrument, and left nothing for a conditional model to find.
+  trait_scale: 2.0
 
 scoring:
   floor: 1.0e-3
   bootstrap_draws: 2000
-  docker_image: python:3.12-slim
+  # Base image for `score.py --docker`. Tracks the Python of the hosted image,
+  # so a submission that imports cleanly here imports cleanly there. It is a
+  # bare slim image, not the hosted one: everything the hosted image
+  # pre-installs has to be in the submission's requirements.txt to appear
+  # locally.
+  docker_image: python:3.13-slim
 
 
+# The single machine every submission runs on. `score.py --docker` caps the
+# container at these limits, so a run that fits locally fits on the worker.
 runner:
   gpu: H100
   gpu_count: 1
+  cpus: 8
   memory_gb: 16
   network: none

@@ -232,56 +232,76 @@
     },
     "sc_nstd_corsi_1": {
       "question": "Corsi Block-Tapping (visuospatial memory) — highest span achieved on test trials (number of blocks).",
-      "class": "EXCLUDE",
-      "values": null,
+      "class": "PREDICT",
+      "values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
       "gate": null
     },
     "sc_nstd_corsi_2": {
       "question": "Corsi Block-Tapping (visuospatial memory) — total items recalled correctly across test trials.",
-      "class": "PREDICT",
-      "values": [
-        "0-9",
-        "10-14",
-        "15-19",
-        "20-24",
-        "25+"
-      ],
+      "class": "EXCLUDE",
+      "values": null,
       "gate": null
     },
     "sc_nstd_ds_f_ms": {
       "question": "Digit Span forward (working memory) — mean span MS (Woods 2011).",
-      "class": "PREDICT",
-      "values": [
-        "<3",
-        "3-4",
-        "4-5",
-        "5-6",
-        "6+"
-      ],
+      "class": "EXCLUDE",
+      "values": null,
       "gate": null
     },
     "sc_nstd_ds_f_2": {
       "question": "Digit Span forward (working memory) — maximal length ML: longest sequence recalled correctly (digits).",
-      "class": "EXCLUDE",
-      "values": null,
+      "class": "PREDICT",
+      "values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14"
+      ],
       "gate": null
     },
     "sc_nstd_ds_b_ms": {
       "question": "Digit Span backward (working memory) — mean span MS (Woods 2011).",
-      "class": "PREDICT",
-      "values": [
-        "<3",
-        "3-4",
-        "4-5",
-        "5-6",
-        "6+"
-      ],
+      "class": "EXCLUDE",
+      "values": null,
       "gate": null
     },
     "sc_nstd_ds_b_2": {
       "question": "Digit Span backward (working memory) — maximal length ML: longest sequence recalled correctly (digits).",
-      "class": "EXCLUDE",
-      "values": null,
+      "class": "PREDICT",
+      "values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14"
+      ],
       "gate": null
     },
     "sc_nstd_hmt_1": {
@@ -388,8 +408,8 @@
       "question": "Mirror Tracing (perseverance / distress tolerance) — quit-early flag (1 = quit before the cap and did not complete; 0 = persisted or completed).",
       "class": "PREDICT",
       "values": [
-        0,
-        1
+        "0",
+        "1"
       ],
       "gate": null
     },
@@ -644,7 +664,7 @@
       "class": "PREDICT",
       "values": [
         "Architecture and Engineering",
-        "Arts, Design, Entertainment, Sports",
+        "Arts, Design, Entertainment, Sport",
         "Building and Grounds Cleaning and Maintenance",
         "Community and Social Service",
         "Computer and Mathematical",
@@ -686,7 +706,7 @@
       "class": "PREDICT",
       "values": [
         "Architecture and Engineering",
-        "Arts, Design, Entertainment, Sports",
+        "Arts, Design, Entertainment, Sport",
         "Building and Grounds Cleaning and Maintenance",
         "Community and Social Service",
         "Computer and Mathematical",
@@ -761,11 +781,11 @@
       "question": "Do you feel like you understand your job-related strengths and weaknesses better? (1 = Strongly disagree ... 5 = Strongly agree)",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -773,11 +793,11 @@
       "question": "How much do you think this information will help you in your job search? (1 = not at all ... 5 = a lot)",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -785,11 +805,11 @@
       "question": "How much do you think this information will help you in getting a job? (1 = not at all ... 5 = a lot)",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -809,7 +829,7 @@
       "class": "PREDICT",
       "values": [
         "Architecture and Engineering",
-        "Arts, Design, Entertainment, Sports",
+        "Arts, Design, Entertainment, Sport",
         "Building and Grounds Cleaning and Maintenance",
         "Community and Social Service",
         "Computer and Mathematical",
@@ -886,11 +906,11 @@
       "question": "How much do you think attaching the report to your CV will help you get an interview? (1 = not at all ... 5 = a lot)",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -1011,11 +1031,11 @@
       "question": "How helpful do you think these courses will be for getting an interview?",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -1023,11 +1043,11 @@
       "question": "How helpful do you think these courses will be for getting a job in your desired sector?",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -1035,11 +1055,11 @@
       "question": "Do you believe that this is a useful exercise to learn more about your skills? (1 = Strongly disagree ... 5 = Strongly agree)",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -1047,11 +1067,11 @@
       "question": "How likely are you to recommend the Job-related Skills Assessment to other youth searching for a job? (1 = Strongly disagree ... 5 = Strongly agree)",
       "class": "PREDICT",
       "values": [
-        1,
-        2,
-        3,
-        4,
-        5
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
       "gate": null
     },
@@ -1063,7 +1083,7 @@
         "Not actively searching for a job",
         "Full-time employed",
         "Part-time employed",
-        "Freelancing / Gig Work",
+        "Freelancing / Gig Work ",
         "Running own business / Self-employed",
         "Internship / Apprenticeship",
         "Skills training/ Certification course",
@@ -1082,8 +1102,12 @@
     },
     "tr_job_number": {
       "question": "How many jobs do you currently hold? (count)",
-      "class": "EXCLUDE",
-      "values": null,
+      "class": "PREDICT",
+      "values": [
+        "1",
+        "2",
+        "4"
+      ],
       "gate": {
         "parent": "tr_job_full",
         "observed_if": [
@@ -1185,8 +1209,33 @@
     },
     "tr_target_sector": {
       "question": "In which sector do you want to work? (6-month follow-up)",
-      "class": "EXCLUDE",
-      "values": null,
+      "class": "PREDICT",
+      "values": [
+        "Architecture and Engineering",
+        "Arts, Design, Entertainment, Sports",
+        "Building and Grounds Cleaning and Maintenance",
+        "Community and Social Service",
+        "Computer and Mathematical",
+        "Construction and Extraction",
+        "Educational Instruction and Library",
+        "Entrepreneurship/ Self-employment",
+        "Farming, Fishing, and Forestry",
+        "Financial Operations",
+        "Food Preparation and Serving Related",
+        "Healthcare Practitioners and Technical",
+        "Healthcare Support",
+        "Installation, Maintenance, and Repair",
+        "Legal",
+        "Life, Physical, and Social Science",
+        "Management",
+        "Office and Administrative Support",
+        "Personal Care and Service",
+        "Production",
+        "Protective Service",
+        "Sales and Related",
+        "Transportation and Material Moving",
+        "Other"
+      ],
       "gate": null
     },
     "tr_help_job_search_full": {
@@ -1365,9 +1414,35 @@
       "gate": null
     },
     "tr_feel_work": {
-      "question": "Feelings about work — mean of the eight feel_work items (1-4 scale).",
-      "class": "EXCLUDE",
-      "values": null,
+      "question": "Feelings about work — mean of the eight feel_work items (1-4 scale), rounded to the nearest 0.125.",
+      "class": "PREDICT",
+      "values": [
+        "1.0",
+        "1.125",
+        "1.25",
+        "1.375",
+        "1.5",
+        "1.625",
+        "1.75",
+        "1.875",
+        "2.0",
+        "2.125",
+        "2.25",
+        "2.375",
+        "2.5",
+        "2.625",
+        "2.75",
+        "2.875",
+        "3.0",
+        "3.125",
+        "3.25",
+        "3.375",
+        "3.5",
+        "3.625",
+        "3.75",
+        "3.875",
+        "4.0"
+      ],
       "gate": {
         "parent": "tr_job_full",
         "observed_if": [
@@ -1389,6 +1464,7 @@
   },
   "split": {
     "train_fraction": 0.75,
-    "test_fraction": 0.25
+    "dev_fraction": 0.075,
+    "final_fraction": 0.175
   }
 }

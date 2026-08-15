@@ -261,6 +261,7 @@
   },
   "split": {
     "train_fraction": 0.75,
-    "test_fraction": 0.25
+    "dev_fraction": 0.075,
+    "final_fraction": 0.175
   }
 }

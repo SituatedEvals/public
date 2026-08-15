@@ -16,11 +16,20 @@ import numpy as np
 import pandas as pd
 import yaml
 
-# Generation and the train/test split draw from separate streams. They have to
+# Generation and the role assignment draw from separate streams. They have to
 # stay separate: both consume the same seed, so sharing a stream would tie who
 # is held out to the hidden trait that decides how they answer.
 STREAM_DATA = 11
 STREAM_SPLIT = 22
+
+# What a respondent is for, decided once when the dataset is built and never
+# recomputed. TRAIN is visible in both phases; DEV is scored in phase 1 and
+# becomes visible in phase 2; FINAL is scored in phase 2 and is not shipped at
+# all before then, so those answers never enter a submission's container while
+# they are still the thing being predicted.
+ROLES = ("TRAIN", "DEV", "FINAL")
+ROLE_FRACTIONS = ("train_fraction", "dev_fraction", "final_fraction")
+ROLE_COLUMN = "role"
 
 
 def load_config(path="config.yml"):
@@ -76,6 +85,13 @@ def load_schema(path, config):
                 "%s lists a null option. NaN means 'held out, predict this' "
                 "and cannot also mean an answer: give non-response its own "
                 "level instead." % name)
+        stray = [v for v in rec.get("values") or () if not isinstance(v, str)]
+        if stray:
+            raise ValueError(
+                "%s lists %r as a number. Options have to be strings: a gated "
+                "column carries the sentinel alongside them, which no numeric "
+                "column can hold, and a CSV round trip would bring them back "
+                "as text and stop matching. Quote them." % (name, stray[:3]))
         if schema["gated_value"] in (rec.get("values") or ()):
             raise ValueError(
                 "%s lists %r among its values. The sentinel is appended by "
@@ -93,15 +109,21 @@ def load_schema(path, config):
         raise ValueError("dataset.n_rows must be a positive integer, not %r"
                          % (dataset["n_rows"],))
 
-    # Both fractions are written out because both are worth reading, so the one
-    # thing that can go wrong is that they stop agreeing.
+    # All three fractions are written out because all three are worth reading,
+    # so the one thing that can go wrong is that they stop agreeing.
     split = schema["split"]
-    total = split["train_fraction"] + split["test_fraction"]
+    missing = [key for key in ROLE_FRACTIONS if key not in split]
+    if missing:
+        raise ValueError("split is missing %s" % ", ".join(missing))
+    total = sum(split[key] for key in ROLE_FRACTIONS)
     if abs(total - 1.0) > 1e-9:
-        raise ValueError("train_fraction and test_fraction sum to %g, not 1"
-                         % total)
-    if not 0.0 < split["test_fraction"] < 1.0:
-        raise ValueError("test_fraction must be strictly between 0 and 1")
+        raise ValueError("%s sum to %g, not 1"
+                         % (", ".join(ROLE_FRACTIONS), total))
+    for role, key in zip(ROLES[1:], ROLE_FRACTIONS[1:]):
+        if not 0.0 < split[key] < 1.0:
+            raise ValueError("%s must be strictly between 0 and 1: a phase "
+                             "with no %s respondents has nothing to score"
+                             % (key, role))
 
     return schema
 
@@ -221,43 +243,49 @@ def make_sandbox(schema, config, seed=0):
     return frame.astype(object)
 
 
-def split_frame(schema, frame, seed=0):
-    """Divide respondents into train and test at the schema's fractions.
+def assign_roles(schema, frame, seed=0):
+    """Give every respondent one role, at the schema's fractions.
 
-    The split is a property of the dataset, decided once and written to disk,
-    not something the grader recomputes on every run. Whole respondents go one
-    way or the other: a test respondent has every PREDICT answer withheld, and
-    splitting cells instead would leave a gated child visible while its parent
-    was hidden, which gives the parent away.
+    One draw, decided once and written to disk, not something the grader
+    recomputes on every run. Fixing it is what keeps the leaderboard paired:
+    every submission is scored on the same cells, so the sampling variability
+    they share cancels in the differences between them, which is all a
+    leaderboard reports. Redrawing per run would swamp those differences with
+    the luck of the draw.
+
+    Whole respondents go one way: a scored respondent has every PREDICT answer
+    withheld, and splitting cells instead would leave a gated child visible
+    while its parent was hidden, which gives the parent away.
     """
     rng = np.random.default_rng([seed, STREAM_SPLIT])
-    test = rng.random(len(frame)) < schema["split"]["test_fraction"]
-    return (frame[~test].reset_index(drop=True),
-            frame[test].reset_index(drop=True))
+    edges = np.cumsum([schema["split"][key] for key in ROLE_FRACTIONS])
+    draw = rng.random(len(frame))
+    roles = np.asarray(ROLES, dtype=object)[np.searchsorted(edges[:-1], draw,
+                                                            side="right")]
+    out = frame.copy()
+    out[ROLE_COLUMN] = roles
+    return out
 
 
 def write_sandbox(schema, config, out, seed=0):
-    """Write train.parquet, test.parquet and schema.json into `out`.
+    """Write respondents.parquet and schema.json into `out`.
 
-    Two files rather than one, because that is the shape of a delivered
-    dataset: the answers of the training respondents are known to everybody,
-    and the answers of the test respondents are the thing being predicted.
-    score.py samples its rows from these; it never splits anything itself.
+    One file with a role column rather than one file per role, because the
+    thing worth checking is a property of the whole set -- every respondent has
+    exactly one role -- and that is checkable in a single file and merely
+    conventional across several.
     """
     os.makedirs(out, exist_ok=True)
-    train, test = split_frame(schema, make_sandbox(schema, config, seed=seed),
-                              seed=seed)
+    frame = assign_roles(schema, make_sandbox(schema, config, seed=seed),
+                         seed=seed)
 
-    written = {}
-    for name, part in (("train", train), ("test", test)):
-        path = os.path.join(out, name + ".parquet")
-        try:
-            part.to_parquet(path, index=False)
-        except (ImportError, ValueError) as exc:
-            path = os.path.join(out, name + ".csv")
-            part.to_csv(path, index=False)
-            print("parquet unavailable (%s); wrote CSV instead" % exc)
-        written[name] = path
+    path = os.path.join(out, "respondents.parquet")
+    try:
+        frame.to_parquet(path, index=False)
+    except (ImportError, ValueError) as exc:
+        path = os.path.join(out, "respondents.csv")
+        frame.to_csv(path, index=False)
+        print("parquet unavailable (%s); wrote CSV instead" % exc)
 
     # The schema is what predict() receives, verbatim. There is no thinned-down
     # view of it: every key in the file is already public, and a second copy of
@@ -266,7 +294,7 @@ def write_sandbox(schema, config, out, seed=0):
     with open(schema_path, "w", encoding="utf-8") as fh:
         json.dump(schema, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
-    return written["train"], written["test"], schema_path
+    return path, schema_path
 
 
 def main():
@@ -281,17 +309,25 @@ def main():
 
     config = load_config(args.config)
     schema = load_schema(args.schema, config)
-    train_path, test_path, schema_path = write_sandbox(schema, config, args.out,
-                                                       seed=args.seed)
+    path, _ = write_sandbox(schema, config, args.out, seed=args.seed)
     items = generated_items(schema)
-    train, test = pd.read_parquet(train_path), pd.read_parquet(test_path)
+    frame = _read_any(path)
+    counts = frame[ROLE_COLUMN].value_counts()
     print("%s -> %s" % (args.schema, args.out))
     print("  %d respondents, %d items (%d scored), %d gated"
           % (schema["dataset"]["n_rows"], len(items), len(scored_items(schema)),
              sum(1 for name in items if schema["items"][name].get("gate"))))
-    print("  train.parquet  %6d rows   answers visible" % len(train))
-    print("  test.parquet   %6d rows   answers to predict" % len(test))
+    print("  respondents.parquet")
+    for role, held in (("TRAIN", "visible in both phases"),
+                       ("DEV", "scored in phase 1, visible in phase 2"),
+                       ("FINAL", "scored in phase 2, not shipped before then")):
+        print("    %-6s %6d rows   %s" % (role, counts.get(role, 0), held))
     print("  schema.json    what predict() receives")
+
+
+def _read_any(path):
+    return (pd.read_csv(path, dtype=object) if path.endswith(".csv")
+            else pd.read_parquet(path))
 
 
 if __name__ == "__main__":

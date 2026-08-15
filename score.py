@@ -3,8 +3,8 @@
     python score.py --submission baseline/marginal_counts \
                     --data _sandbox --schema data/unicef.json --phase 1
 
-Reads a delivered dataset -- train.parquet and test.parquet, already split --
-samples this phase's rows, blanks what has to be predicted, installs the
+Reads a delivered dataset -- respondents.parquet, roles already assigned --
+takes this phase's rows, blanks what has to be predicted, installs the
 submission's requirements with the network up, cuts the network, calls
 predict(), and returns one noised number. See README.md.
 """
@@ -21,8 +21,8 @@ import time
 import numpy as np
 import pandas as pd
 
-from make_sandbox import (STREAM_SPLIT, generated_items, load_config,
-                          load_schema, options_for, scored_items)
+from make_sandbox import (ROLE_COLUMN, ROLES, STREAM_SPLIT, generated_items,
+                          load_config, load_schema, options_for, scored_items)
 
 # Runs inside the prepared environment. Reads what score.py staged, calls
 # predict once, writes the vectors back out. Nothing else.
@@ -90,6 +90,12 @@ with open(work + "/predictions.json", "w", encoding="utf-8") as fh:
 '''
 
 
+# What the driver above needs to read the staged frame, and nothing else. It is
+# the floor of the container built by --docker, standing in for the much larger
+# set the hosted image pre-installs.
+DRIVER_PACKAGES = ("numpy", "pandas")
+
+
 class SubmissionError(Exception):
     """The submission broke a rule. Reported as FAIL, never scored."""
 
@@ -103,87 +109,101 @@ def _read(path):
 
 
 def load_frames(path, schema):
-    """Read train.parquet and test.parquet and check both against the schema.
+    """Read respondents.parquet and check it against the schema.
 
-    A delivered dataset is two files: the respondents whose answers everybody
-    can see, and the respondents whose answers are the thing being predicted.
-    The split is decided when the dataset is built, not here.
+    A delivered dataset is one file carrying every respondent and the role that
+    says what they are for. The roles are decided when the dataset is built,
+    not here.
 
     The checks are the point. A column that has drifted from the schema, or a
     value nobody declared, would otherwise surface much later as an unscoreable
     cell, and by then the run has cost an hour of H100 time.
     """
-    parts = {}
-    for name in ("train", "test"):
-        candidates = [os.path.join(path, name + ext)
-                      for ext in (".parquet", ".csv")]
-        for candidate in candidates:
-            if os.path.exists(candidate):
-                parts[name] = _read(candidate)
-                break
-        else:
-            raise ValueError("%s holds no %s.parquet or %s.csv"
-                             % (path, name, name))
+    for extension in (".parquet", ".csv"):
+        candidate = os.path.join(path, "respondents" + extension)
+        if os.path.exists(candidate):
+            frame = _read(candidate)
+            break
+    else:
+        raise ValueError("%s holds no respondents.parquet or respondents.csv"
+                         % path)
 
     items = generated_items(schema)
-    for name, frame in parts.items():
-        if "respondent_id" not in frame.columns:
-            raise ValueError("%s/%s has no respondent_id column" % (path, name))
-        missing = [item for item in items if item not in frame.columns]
-        if missing:
-            raise ValueError(
-                "%s/%s is missing %d column(s) the schema declares: %s"
-                % (path, name, len(missing), ", ".join(missing[:5])))
-        for item in items:
-            allowed = set(options_for(schema, item))
-            column = frame[item]
-            stray = set(column[column.notna()].unique()) - allowed
-            if stray:
-                raise ValueError(
-                    "%s/%s: %s holds %d value(s) the schema does not list, "
-                    "e.g. %r" % (path, name, item, len(stray),
-                                 sorted(stray, key=str)[:3]))
-        # Schema order, not file order: everything downstream goes by position.
-        parts[name] = frame[["respondent_id"] + items].reset_index(drop=True)
+    if "respondent_id" not in frame.columns:
+        raise ValueError("%s has no respondent_id column" % path)
+    if ROLE_COLUMN not in frame.columns:
+        raise ValueError("%s has no %s column. A delivered dataset says what "
+                         "each respondent is for." % (path, ROLE_COLUMN))
+    missing = [item for item in items if item not in frame.columns]
+    if missing:
+        raise ValueError("%s is missing %d column(s) the schema declares: %s"
+                         % (path, len(missing), ", ".join(missing[:5])))
 
-    ids = pd.concat([parts["train"]["respondent_id"],
-                     parts["test"]["respondent_id"]])
-    if ids.duplicated().any():
-        raise ValueError("%s repeats a respondent_id across train and test"
-                         % path)
-    return parts["train"], parts["test"]
+    stray_roles = set(frame[ROLE_COLUMN].unique()) - set(ROLES)
+    if stray_roles:
+        raise ValueError("%s holds role(s) outside %s: %s"
+                         % (path, ", ".join(ROLES),
+                            ", ".join(sorted(map(str, stray_roles)))))
+    for role in ROLES:
+        if not (frame[ROLE_COLUMN] == role).any():
+            raise ValueError("%s holds no %s respondents" % (path, role))
+
+    for item in items:
+        allowed = set(options_for(schema, item))
+        column = frame[item]
+        stray = set(column[column.notna()].unique()) - allowed
+        if stray:
+            raise ValueError(
+                "%s: %s holds %d value(s) the schema does not list, e.g. %r"
+                % (path, item, len(stray), sorted(stray, key=str)[:3]))
+
+    if frame["respondent_id"].duplicated().any():
+        raise ValueError("%s repeats a respondent_id" % path)
+
+    # Schema order, not file order: everything downstream goes by position.
+    return frame[["respondent_id", ROLE_COLUMN] + items].reset_index(drop=True)
 
 
 # ------------------------------------------------------------------ sample --
 
-def sample_rows(schema, train, test, config, phase, seed=0):
+PHASE_ROLES = {1: {"visible": ("TRAIN",), "hidden": "DEV"},
+               2: {"visible": ("TRAIN", "DEV"), "hidden": "FINAL"}}
+
+
+def sample_rows(schema, respondents, config, phase, seed=0):
     """Take this phase's rows and blank what the submission has to predict.
 
-    Phase 1 samples a fraction of both files. Phase 2 takes everything, except
-    that its test rows are the ones phase 1 did not score -- the respondents
-    phase 1 did score come back as training rows, answers visible, which is
-    where they are worth most. So a phase-1 leaderboard probed all through
-    development is not an answer key for phase 2.
+    Roles decide it, and they were decided when the dataset was built. Phase 1
+    scores DEV; phase 2 scores FINAL and hands DEV over as visible rows,
+    answers included, which is where they are worth most. So a phase-1
+    leaderboard probed all through development is not an answer key for phase
+    2, and FINAL answers never enter a container while they are still the thing
+    being predicted.
 
-    Returns (frame, cells, truth). `frame` is what predict() receives: training
-    respondents complete, test respondents with every PREDICT cell NaN. `cells`
-    is the canonical ordering -- rows top to bottom, and within a row, items in
-    schema order.
+    `data_fraction` thins the *visible* rows only, to keep a development run
+    inside its smaller budget. It never touches the hidden rows: every
+    submission in a phase is scored on exactly the same cells, which is what
+    makes two leaderboard entries comparable to each other.
+
+    Returns (frame, cells, truth). `frame` is what predict() receives: visible
+    respondents complete, hidden respondents with every PREDICT cell NaN.
+    `cells` is the canonical ordering -- rows top to bottom, and within a row,
+    items in schema order.
     """
     items = generated_items(schema)
     scored = scored_items(schema)
-    rng = np.random.default_rng([seed, STREAM_SPLIT])
+    roles = PHASE_ROLES[phase]
 
-    fraction = config["phases"][1]["data_fraction"]
-    in_phase_1_train = rng.random(len(train)) < fraction
-    in_phase_1_test = rng.random(len(test)) < fraction
+    visible = respondents[respondents[ROLE_COLUMN].isin(roles["visible"])]
+    hidden = respondents[respondents[ROLE_COLUMN] == roles["hidden"]]
 
-    if phase == 1:
-        visible, hidden = train[in_phase_1_train], test[in_phase_1_test]
-    else:
-        # Everything, with phase 1's test respondents demoted to training rows.
-        visible = pd.concat([train, test[in_phase_1_test]], ignore_index=True)
-        hidden = test[~in_phase_1_test]
+    fraction = config["phases"][phase]["data_fraction"]
+    if fraction < 1.0:
+        rng = np.random.default_rng([seed, STREAM_SPLIT])
+        visible = visible[rng.random(len(visible)) < fraction]
+
+    visible = visible[["respondent_id"] + items].reset_index(drop=True)
+    hidden = hidden[["respondent_id"] + items].reset_index(drop=True)
 
     if not len(hidden):
         raise ValueError("this phase holds out no respondents")
@@ -210,11 +230,17 @@ def privatize(value, config, n_respondents, phase, uniform_reference,
               rng=None):
     """The one number that leaves the grader.
 
-    Whether it is noised is a property of the phase. Phase 1 scores the same
-    respondents on every submission across a whole development period, so the
-    leaderboard is a query channel and the answer has to be noised. Phase 2 is
-    one submission per team, scored once, against respondents phase 1 never
-    touched -- there is no sequence to difference, so the score is exact.
+    Whether it is noised is a property of the phase. Phase 1 scores the DEV
+    respondents, the same ones on every submission across a whole development
+    period, so the leaderboard is a query channel and the answer has to be
+    noised. Phase 2 scores FINAL, once per team, against respondents phase 1
+    never touched -- there is no sequence to difference, so the score is exact.
+
+    That the scored set is fixed within a phase is what makes noising the right
+    defence rather than a workaround: the repetition is the whole exposure, and
+    it is bounded and accountable. Redrawing who is scored per submission would
+    spread the exposure over every respondent instead, and buy no amplification
+    in return, because the frame says outright which rows are held out.
 
     When noise does apply: every held-out respondent contributes exactly one
     cell per PREDICT item, so the log score is a plain mean over respondents
@@ -251,19 +277,46 @@ def privatize(value, config, n_respondents, phase, uniform_reference,
 
 # ------------------------------------------------------------- environment --
 
+def _declares_anything(requirements):
+    """Does this requirements.txt actually ask for a package?
+
+    A file holding only comments is the same as no file: it would otherwise
+    buy an empty venv, and a submission that imports pandas -- which the hosted
+    image has -- would fail here for a reason the worker does not have.
+    """
+    if not os.path.exists(requirements):
+        return False
+    with open(requirements, encoding="utf-8") as fh:
+        return any(line.strip() and not line.strip().startswith("#")
+                   for line in fh)
+
+
 def prepare_environment(submission, workdir, python):
     """Create the venv, install requirements with the network up, then cut it.
 
+    requirements.txt is optional, as it is on the worker: the hosted image
+    already carries numpy, pandas, torch, transformers and the rest, and the
+    file exists only to add what the image does not have. A submission that
+    declares nothing therefore runs in the environment score.py itself is
+    running in, which is what stands in for that image here -- a fresh venv
+    would not even hold pandas, and the local harness would fail submissions
+    the worker runs happily. A submission that does declare something gets the
+    isolated venv, where an undeclared import is the ImportError it would be
+    on the worker. `--docker` is the strict path either way.
+
     Returns the interpreter to run the driver with.
     """
+    requirements = os.path.join(submission, "requirements.txt")
+    if not _declares_anything(requirements):
+        print("[install] nothing declared; running in this environment, "
+              "which stands in for the hosted image")
+        return python
+
     venv = os.path.join(workdir, "venv")
     binary = os.path.join(venv, "Scripts" if os.name == "nt" else "bin",
                           "python.exe" if os.name == "nt" else "python")
 
     subprocess.run([python, "-m", "venv", venv], check=True, capture_output=True)
-    requirements = os.path.join(submission, "requirements.txt")
-    if not os.path.exists(requirements):
-        raise SubmissionError("submission has no requirements.txt")
     print("[install] %s, network up" % requirements)
     done = subprocess.run([binary, "-m", "pip", "install", "--quiet",
                            "-r", requirements],
@@ -293,7 +346,7 @@ def stage(schema, masked, workdir):
         json.dump(schema, fh, ensure_ascii=False)
 
 
-def run_submission(binary, submission, workdir, timeout, image,
+def run_submission(binary, submission, workdir, timeout, image, runner,
                    docker=False, verbose=True):
     """Call predict() with the network off. Returns the raw vectors.
 
@@ -308,8 +361,9 @@ def run_submission(binary, submission, workdir, timeout, image,
         fh.write(DRIVER)
 
     if docker:
-        command = _docker_command(submission, workdir, image)
-        print("[run] docker --network=none, network off")
+        command = _docker_command(submission, workdir, image, runner)
+        print("[run] docker --network=none, %dg, %d cpus, network off"
+              % (runner["memory_gb"], runner["cpus"]))
     else:
         command = [binary, driver, workdir, os.path.abspath(submission)]
         print("[run] sockets disabled in-process, network off")
@@ -342,22 +396,39 @@ def run_submission(binary, submission, workdir, timeout, image,
         return json.load(fh)
 
 
-def _docker_command(submission, workdir, image):
+def _docker_command(submission, workdir, image, runner):
+    """The container, capped at the worker's own limits.
+
+    Memory and CPU come from `runner` in config.yml rather than being written
+    here, so the local rehearsal is bounded the way the worker is: a submission
+    that fits locally fits there, and one that does not is killed here, where
+    the participant can see why.
+    """
     if shutil.which("docker") is None:
         raise SubmissionError("--docker was requested but docker is not installed")
     context = os.path.join(workdir, "image")
     os.makedirs(context, exist_ok=True)
-    shutil.copy(os.path.join(submission, "requirements.txt"), context)
+    # The driver itself reads the frame with pandas, so the base image needs it
+    # whether or not the submission declares anything. That is the floor, and
+    # nothing above it is implied: the hosted image ships far more, and a
+    # submission that leans on the rest of it has to say so in requirements.txt
+    # to see it here.
+    lines = ["FROM %s" % image,
+             "RUN pip install --no-cache-dir %s" % " ".join(DRIVER_PACKAGES)]
+    requirements = os.path.join(submission, "requirements.txt")
+    if os.path.exists(requirements):
+        shutil.copy(requirements, context)
+        lines += ["COPY requirements.txt .",
+                  "RUN pip install --no-cache-dir -r requirements.txt"]
     with open(os.path.join(context, "Dockerfile"), "w", encoding="utf-8") as fh:
-        fh.write("FROM %s\nCOPY requirements.txt .\n"
-                 "RUN pip install --no-cache-dir -r requirements.txt\n"
-                 % image)
+        fh.write("\n".join(lines) + "\n")
     # The build is the install phase: it is the only step with a network.
     print("[install] docker build, network up")
     subprocess.run(["docker", "build", "--quiet", "-t", "sbench-submission",
                     context], check=True, capture_output=True)
     return ["docker", "run", "--rm", "--network=none", "--read-only",
-            "--memory=8g", "--pids-limit=256",
+            "--memory=%dg" % runner["memory_gb"],
+            "--cpus=%d" % runner["cpus"], "--pids-limit=256",
             "--tmpfs", "/tmp",
             "-v", "%s:/work" % os.path.abspath(workdir),
             "-v", "%s:/submission:ro" % os.path.abspath(submission),
@@ -548,17 +619,19 @@ def main():
     verbose = settings["logging"] == "verbose"
 
     schema = load_schema(args.schema, config)
-    train, test = load_frames(args.data, schema)
-    if len(train) + len(test) != schema["dataset"]["n_rows"]:
+    respondents = load_frames(args.data, schema)
+    if len(respondents) != schema["dataset"]["n_rows"]:
         print("[warn] %s has %d rows; the schema declares %d"
-              % (args.data, len(train) + len(test),
-                 schema["dataset"]["n_rows"]))
-    masked, cells, truth = sample_rows(schema, train, test, config, args.phase,
+              % (args.data, len(respondents), schema["dataset"]["n_rows"]))
+    masked, cells, truth = sample_rows(schema, respondents, config, args.phase,
                                        seed=args.seed)
     n_test = len({cell[1] for cell in cells})
-    print("[phase] %d (%s): %.0f%% of the data, %ds for predict()"
-          % (args.phase, settings["name"], 100 * settings["data_fraction"],
-             timeout))
+    print("[phase] %d (%s): %s visible, %s scored, %.0f%% of the visible "
+          "rows, %ds for predict()"
+          % (args.phase, settings["name"],
+             "+".join(PHASE_ROLES[args.phase]["visible"]),
+             PHASE_ROLES[args.phase]["hidden"],
+             100 * settings["data_fraction"], timeout))
     print("[data] %s against %s: %d respondents, %d held out, %d cells"
           % (args.data, args.schema, len(masked), n_test, len(cells)))
 
@@ -579,6 +652,7 @@ def main():
                                            args.python))
         vectors = run_submission(binary, args.submission, workdir, timeout,
                                  config["scoring"]["docker_image"],
+                                 config["runner"],
                                  docker=args.docker, verbose=verbose)
         check(schema, vectors, cells)
         vectors = floored(vectors, schema, cells,
