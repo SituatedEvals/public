@@ -1,0 +1,16 @@
+item,option,weight
+visited_clinic,Yes,0.62
+visited_clinic,No,0.33
+visited_clinic,Prefer not to answer,0.05
+clinic_wait,Under 30 minutes,0.30
+clinic_wait,30 minutes to 2 hours,0.34
+clinic_wait,Over 2 hours,0.14
+clinic_wait,NA_GATED,0.22
+would_return,Yes,0.51
+would_return,No,0.13
+would_return,Not sure,0.14
+would_return,NA_GATED,0.22
+trusts_health_advice,Not at all,0.09
+trusts_health_advice,A little,0.21
+trusts_health_advice,Somewhat,0.38
+trusts_health_advice,A lot,0.32

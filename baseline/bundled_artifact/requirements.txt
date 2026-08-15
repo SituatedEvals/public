@@ -1,0 +1,9 @@
+# Everything your submission imports must be named here, or already be in the
+# runtime image. This file is installed while the network is still up; after
+# that there is no way to get a package, so anything you forgot is an
+# ImportError at scoring time. Pin your own dependencies exactly (package==1.2.3).
+#
+# The artifact here is a CSV, read with the standard library. A bundled model
+# would add its loader instead -- joblib, torch, safetensors.
+numpy>=1.26
+pandas>=2.2
