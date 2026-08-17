@@ -1,8 +1,8 @@
 {
   "dataset": {
-    "n_rows": 19847,
-    "version": "1.0",
-    "description": "Cross-sectional survey of adults on the influence of religious leaders and religious belief on COVID-19 vaccine uptake and on routine childhood immunisation. One row per individual respondent, fielded in ten countries: Brazil, Egypt, Guatemala, Iraq, Kenya, Mali, Nepal, Nigeria, Pakistan and Zambia. Two gated branches: a non-uptake-reasons branch for the unvaccinated, and a child-vaccination battery for parents of under-fives."
+    "n_rows": 19846,
+    "version": "1.1",
+    "description": "Cross-sectional survey of adults on the influence of religious leaders and religious belief on COVID-19 vaccine uptake and on routine childhood immunisation. One row per individual respondent, fielded in 10 countries: Brazil, Egypt, Guatemala, Iraq, Kenya, Mali, Nepal, Nigeria, Pakistan and Zambia. Two gated branches: a non-uptake branch asked of everyone who has not received a COVID-19 vaccine (Q09, Q10), and a child-vaccination battery asked of parents of under-fives (Q14-Q18). Age (Q01) was not fielded in Egypt and is gated on country. Items whose delivered levels differ from the raw instrument: Q07 case variants of 'Not sure' are folded into one level, and Q06 and Q17 carry an explicit 'No response' level for item non-response inside an open gate."
   },
   "items": {
     "Country": {
@@ -31,7 +31,20 @@
         "35 - 44 years old",
         "45 and above"
       ],
-      "gate": null
+      "gate": {
+        "parent": "Country",
+        "observed_if": [
+          "Brazil",
+          "Guatemala",
+          "Iraq",
+          "Kenya",
+          "Mali",
+          "Nepal",
+          "Nigeria",
+          "Pakistan",
+          "Zambia"
+        ]
+      }
     },
     "Q02": {
       "question": "What is your gender?",
@@ -73,7 +86,9 @@
         "Muslim",
         "Traditional religions",
         "Not religious",
-        "Other"
+        "Other",
+        "Baha'i",
+        "Sikh"
       ],
       "gate": null
     },
@@ -84,7 +99,8 @@
         "Yes, it matters what my religious leaders believe about the COVID-19 vaccine and if they support it",
         "No, it does not matter to me what my religious leaders believe about the COVID-19 vaccine",
         "Not sure",
-        "Prefer not to answer"
+        "Prefer not to answer",
+        "No response"
       ],
       "gate": null
     },
@@ -135,10 +151,9 @@
         "Other"
       ],
       "gate": {
-        "parent": "Q09",
+        "parent": "Q08",
         "observed_if": [
-          "No",
-          "Not sure"
+          "No"
         ]
       }
     },
@@ -233,7 +248,8 @@
         "Yes",
         "No",
         "Only some religious leaders support vaccination for children",
-        "Not sure"
+        "Not sure",
+        "No response"
       ],
       "gate": {
         "parent": "Q13",
@@ -260,8 +276,8 @@
     }
   },
   "split": {
-    "train_fraction": 0.75,
-    "dev_fraction": 0.075,
-    "final_fraction": 0.175
+    "n_train": 14885,
+    "n_dev": 1488,
+    "n_test": 3473
   }
 }

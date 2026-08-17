@@ -18,7 +18,8 @@
         "yes1",
         "yes2",
         "yes3",
-        "yes4"
+        "yes4",
+        "Not randomised"
       ],
       "gate": null
     },
@@ -31,7 +32,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -44,7 +46,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -57,7 +60,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -70,7 +74,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -83,7 +88,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -96,7 +102,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -109,7 +116,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -122,7 +130,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -135,7 +144,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -148,7 +158,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -161,7 +172,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -174,7 +186,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -187,7 +200,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -200,7 +214,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -213,7 +228,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -226,7 +242,8 @@
         "3.0-3.5",
         "3.5-4.0",
         "4.0-4.5",
-        "4.5-5.0"
+        "4.5-5.0",
+        "Not answered"
       ],
       "gate": null
     },
@@ -234,13 +251,14 @@
       "question": "Corsi Block-Tapping (visuospatial memory) — highest span achieved on test trials (number of blocks).",
       "class": "PREDICT",
       "values": [
-        "1",
+        "0",
         "2",
         "3",
         "4",
         "5",
         "6",
-        "7"
+        "7",
+        "Not answered"
       ],
       "gate": null
     },
@@ -260,7 +278,7 @@
       "question": "Digit Span forward (working memory) — maximal length ML: longest sequence recalled correctly (digits).",
       "class": "PREDICT",
       "values": [
-        "1",
+        "0",
         "2",
         "3",
         "4",
@@ -273,7 +291,8 @@
         "11",
         "12",
         "13",
-        "14"
+        "14",
+        "Not answered"
       ],
       "gate": null
     },
@@ -287,7 +306,7 @@
       "question": "Digit Span backward (working memory) — maximal length ML: longest sequence recalled correctly (digits).",
       "class": "PREDICT",
       "values": [
-        "1",
+        "0",
         "2",
         "3",
         "4",
@@ -300,7 +319,8 @@
         "11",
         "12",
         "13",
-        "14"
+        "14",
+        "Not answered"
       ],
       "gate": null
     },
@@ -314,7 +334,8 @@
         "0.5",
         "0.6",
         "0.7",
-        "0.8+"
+        "0.8+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -326,7 +347,8 @@
         "26-50",
         "51-75",
         "76-90",
-        ">90"
+        ">90",
+        "Not answered"
       ],
       "gate": null
     },
@@ -355,7 +377,8 @@
         "<3.9",
         "3.9-4.3",
         "4.3-4.6",
-        "4.6+"
+        "4.6+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -366,7 +389,8 @@
         "0",
         "1",
         "2",
-        "3+"
+        "3+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -383,7 +407,8 @@
         "<4.0",
         "4.0-4.4",
         "4.4-4.8",
-        "4.8+"
+        "4.8+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -394,7 +419,8 @@
         "0",
         "1",
         "2",
-        "3+"
+        "3+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -409,7 +435,8 @@
       "class": "PREDICT",
       "values": [
         "0",
-        "1"
+        "1",
+        "Not answered"
       ],
       "gate": null
     },
@@ -420,7 +447,8 @@
         "<0.10",
         "0.10-0.20",
         "0.20-0.30",
-        "0.30+"
+        "0.30+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -438,7 +466,8 @@
         "0.25-0.40",
         "0.40-0.50",
         "0.50-0.65",
-        "0.65+"
+        "0.65+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -451,7 +480,8 @@
         "25-29",
         "30-34",
         "35-44",
-        "45+"
+        "45+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -462,7 +492,8 @@
         "Female",
         "Male",
         "Other",
-        "Prefer not to say"
+        "Prefer not to say",
+        "Not answered"
       ],
       "gate": null
     },
@@ -473,7 +504,8 @@
         "South Africa",
         "Lesotho",
         "Nigeria",
-        "Other"
+        "Other",
+        "Not answered"
       ],
       "gate": null
     },
@@ -490,7 +522,8 @@
         "University bachelor’s degree",
         "University honours degree",
         "Master’s degree",
-        "Professional degree (Law, Medicine, PhD)"
+        "Professional degree (Law, Medicine, PhD)",
+        "Not answered"
       ],
       "gate": null
     },
@@ -550,7 +583,7 @@
         "4",
         "5",
         "6-10",
-        "11-15",
+        "10-15",
         "16-20",
         "21-30",
         "31-40",
@@ -574,7 +607,7 @@
         "4",
         "5",
         "6-10",
-        "11-15",
+        "10-15",
         "16-20",
         "21-30",
         "31-40",
@@ -592,7 +625,8 @@
       "class": "PREDICT",
       "values": [
         "no",
-        "yes"
+        "yes",
+        "Not answered"
       ],
       "gate": {
         "parent": "user.employmentStatus",
@@ -620,6 +654,7 @@
         "About one month",
         "2-3 months",
         "4-6 months",
+        "Under 6 months",
         "6 months – 1 year",
         "More than 1 year",
         "More than 2 years",
@@ -641,6 +676,7 @@
         "About one month",
         "2-3 months",
         "4-6 months",
+        "Under 6 months",
         "6 months – 1 year",
         "More than 1 year",
         "More than 2 years",
@@ -686,9 +722,20 @@
         "Protective Service",
         "Sales and Related",
         "Transportation and Material Moving",
-        "Other"
+        "Other",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "user.age",
+        "observed_if": [
+          "15-19",
+          "20-24",
+          "25-29",
+          "30-34",
+          "35-44",
+          "45+"
+        ]
+      }
     },
     "user.otherAppliedInThePastSector": {
       "question": "In which sector have you applied for jobs in the past? — Other (specify)",
@@ -728,9 +775,20 @@
         "Protective Service",
         "Sales and Related",
         "Transportation and Material Moving",
-        "Other"
+        "Other",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "user.age",
+        "observed_if": [
+          "15-19",
+          "20-24",
+          "25-29",
+          "30-34",
+          "35-44",
+          "45+"
+        ]
+      }
     },
     "user.otherPreferredSector": {
       "question": "In which sector would you like to work? — Other (specify)",
@@ -756,7 +814,8 @@
         "7000-9999",
         "10000-14999",
         "15000-24999",
-        "25000+"
+        "25000+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -773,7 +832,8 @@
         "7000-9999",
         "10000-14999",
         "15000-24999",
-        "25000+"
+        "25000+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -785,7 +845,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -797,7 +858,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -809,7 +871,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -820,7 +883,8 @@
         "yes",
         "same as before",
         "no",
-        "not applicable"
+        "not applicable",
+        "Not answered"
       ],
       "gate": null
     },
@@ -851,7 +915,8 @@
         "Protective Service",
         "Sales and Related",
         "Transportation and Material Moving",
-        "Other"
+        "Other",
+        "Not answered"
       ],
       "gate": null
     },
@@ -866,11 +931,12 @@
         "4",
         "5",
         "6-10",
-        "11-15",
+        "10-15",
         "16-20",
         "21-30",
         "31-40",
-        "more than 40"
+        "more than 40",
+        "Not answered"
       ],
       "gate": null
     },
@@ -885,11 +951,12 @@
         "4",
         "5",
         "6-10",
-        "11-15",
+        "10-15",
         "16-20",
         "21-30",
         "31-40",
-        "more than 40"
+        "more than 40",
+        "Not answered"
       ],
       "gate": null
     },
@@ -898,7 +965,8 @@
       "class": "PREDICT",
       "values": [
         "no",
-        "yes"
+        "yes",
+        "Not answered"
       ],
       "gate": null
     },
@@ -910,7 +978,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -919,7 +988,8 @@
       "class": "PREDICT",
       "values": [
         "no",
-        "yes"
+        "yes",
+        "Not answered"
       ],
       "gate": null
     },
@@ -936,7 +1006,8 @@
         "7000-9999",
         "10000-14999",
         "15000-24999",
-        "25000+"
+        "25000+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -953,7 +1024,8 @@
         "7000-9999",
         "10000-14999",
         "15000-24999",
-        "25000+"
+        "25000+",
+        "Not answered"
       ],
       "gate": null
     },
@@ -963,7 +1035,8 @@
       "values": [
         "no",
         "plan to",
-        "yes"
+        "yes",
+        "Not answered"
       ],
       "gate": null
     },
@@ -978,7 +1051,7 @@
         "4",
         "5",
         "6-10",
-        "11-15",
+        "10-15",
         "16-20",
         "21-30",
         "31-40",
@@ -1023,7 +1096,8 @@
         "Small Business Marketing",
         "Social Media Marketing",
         "Speed",
-        "Visual-spatial Working memory"
+        "Visual-spatial Working memory",
+        "Not answered"
       ],
       "gate": null
     },
@@ -1035,7 +1109,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -1047,7 +1122,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -1059,7 +1135,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -1071,7 +1148,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "Not answered"
       ],
       "gate": null
     },
@@ -1083,27 +1161,46 @@
         "Not actively searching for a job",
         "Full-time employed",
         "Part-time employed",
-        "Freelancing / Gig Work ",
+        "Freelancing / Gig Work",
         "Running own business / Self-employed",
         "Internship / Apprenticeship",
         "Skills training/ Certification course",
-        "Studying"
+        "Studying",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_job_full": {
       "question": "Do you currently have a job? (6-month follow-up)",
       "class": "PREDICT",
       "values": [
         "No",
-        "Yes"
+        "Yes",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_job_number": {
       "question": "How many jobs do you currently hold? (count)",
       "class": "PREDICT",
       "values": [
+        "0",
         "1",
         "2",
         "4"
@@ -1176,9 +1273,18 @@
       "values": [
         "Yes",
         "No",
-        "I don’t remember"
+        "I don’t remember",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_increase_job_search_full": {
       "question": "Since registering, has your job-search effort changed?",
@@ -1191,9 +1297,18 @@
       "class": "PREDICT",
       "values": [
         "No",
-        "Yes"
+        "Yes",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_feedback_increase_job": {
       "question": "After the feedback, did your job-search effort change?",
@@ -1203,9 +1318,18 @@
         "No change. The time I spend job searching hasn’t changed since I registered",
         "I spend less time job searching since I registered for the YES program.",
         "I job searched for a little while and now have a job",
-        "I was already employed when I registered for the YES program"
+        "I was already employed when I registered for the YES program",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_target_sector": {
       "question": "In which sector do you want to work? (6-month follow-up)",
@@ -1234,9 +1358,17 @@
         "Protective Service",
         "Sales and Related",
         "Transportation and Material Moving",
-        "Other"
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_help_job_search_full": {
       "question": "Did the Job-related Skills Assessment help your job search?",
@@ -1244,9 +1376,18 @@
       "values": [
         "Yes",
         "No",
-        "Not sure"
+        "Not sure",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_help_get_job_full": {
       "question": "Did the Job-related Skills Assessment help you get a job?",
@@ -1254,9 +1395,18 @@
       "values": [
         "Yes",
         "No",
-        "Not sure"
+        "Not sure",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_recommend_full": {
       "question": "How likely are you to recommend the Job-related Skills Assessment? (6-month follow-up)",
@@ -1264,18 +1414,36 @@
       "values": [
         "Not likely",
         "Not sure",
-        "Likely"
+        "Likely",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_attach_skills_report_full": {
       "question": "Did you attach the Skills Report to your job applications?",
       "class": "PREDICT",
       "values": [
         "No",
-        "Yes"
+        "Yes",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_report_help_interview_full": {
       "question": "Did attaching the report help you get an interview?",
@@ -1283,15 +1451,23 @@
       "values": [
         "Yes",
         "No",
-        "Not sure"
+        "Not sure",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_similar_wage_after": {
       "question": "What is the typical take-home monthly wage for other people like you with full-time jobs? (6-month follow-up)",
       "class": "PREDICT",
       "values": [
-        "0",
         "1-1999",
         "2000-2999",
         "3000-3999",
@@ -1300,15 +1476,22 @@
         "7000-9999",
         "10000-14999",
         "15000-24999",
-        "25000+"
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_low_pay_after": {
       "question": "What is the lowest monthly pay you would accept for a full-time job? (6-month follow-up)",
       "class": "PREDICT",
       "values": [
-        "0",
         "1-1999",
         "2000-2999",
         "3000-3999",
@@ -1317,9 +1500,17 @@
         "7000-9999",
         "10000-14999",
         "15000-24999",
-        "25000+"
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_search_hours_after": {
       "question": "For how many hours do you search for a job each week? (6-month follow-up)",
@@ -1336,9 +1527,18 @@
         "16-20",
         "21-30",
         "31-40",
-        "more than 40"
+        "more than 40",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_applications_next_1m": {
       "question": "How many jobs do you plan to apply to in the next month? (6-month follow-up)",
@@ -1355,9 +1555,18 @@
         "16-20",
         "21-30",
         "31-40",
-        "more than 40"
+        "more than 40",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_job_offers": {
       "question": "How many job offers have you received? (6-month follow-up)",
@@ -1366,9 +1575,18 @@
         "0",
         "1",
         "2",
-        "3+"
+        "3+",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_upskill_hours_week": {
       "question": "For how many hours per week do you plan to upskill yourself? (6-month follow-up)",
@@ -1385,9 +1603,18 @@
         "16-20",
         "21-30",
         "31-40",
-        "more than 40"
+        "more than 40",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_riasec_sector_past": {
       "question": "RIASEC code of the respondent's past or current sector (1 = Realistic ... 6 = Conventional).",
@@ -1406,42 +1633,37 @@
       "values": [
         "Realistic",
         "Investigative",
-        "Artistic",
         "Social",
         "Enterprising",
-        "Conventional"
+        "Conventional",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     },
     "tr_feel_work": {
       "question": "Feelings about work — mean of the eight feel_work items (1-4 scale), rounded to the nearest 0.125.",
       "class": "PREDICT",
       "values": [
-        "1.0",
-        "1.125",
-        "1.25",
-        "1.375",
-        "1.5",
-        "1.625",
-        "1.75",
-        "1.875",
-        "2.0",
         "2.125",
-        "2.25",
-        "2.375",
-        "2.5",
-        "2.625",
         "2.75",
         "2.875",
         "3.0",
         "3.125",
         "3.25",
-        "3.375",
         "3.5",
         "3.625",
         "3.75",
         "3.875",
-        "4.0"
+        "4.0",
+        "Not answered"
       ],
       "gate": {
         "parent": "tr_job_full",
@@ -1457,14 +1679,23 @@
         "<3.4",
         "3.4-3.7",
         "3.8-3.9",
-        "4.0"
+        "4.0",
+        "Not answered"
       ],
-      "gate": null
+      "gate": {
+        "parent": "group",
+        "observed_if": [
+          "yes1",
+          "yes2",
+          "yes3",
+          "yes4"
+        ]
+      }
     }
   },
   "split": {
-    "train_fraction": 0.75,
-    "dev_fraction": 0.075,
-    "final_fraction": 0.175
+    "n_train": 5195,
+    "n_dev": 520,
+    "n_test": 1212
   }
 }

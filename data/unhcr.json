@@ -1,8 +1,8 @@
 {
   "dataset": {
     "n_rows": 10349,
-    "version": "1.0",
-    "description": "Household survey of Syrian refugees in four countries of asylum, covering displacement history, housing/land/property at origin, return intentions, employment, social cohesion, economic status and protection risks. One row per household per round, reported by a single adult respondent whose position on the roster is recorded in s2_1_hh_relationship_lbl. Countries of asylum: Egypt, Iraq, Jordan, Lebanon (46 governorates); areas of origin: 15 Syrian governorates. Fieldwork May-June 2025 over 67 distinct interview dates, with both wave labels falling inside the same two-month window. Three mutually exclusive conditional branches hang off the twelve-month return-intention item (s3_11): a return branch (s7a), a do-not-return branch (s7b) and an undecided branch (s7c). Note that no questionnaire was delivered with this file: every question string below is a gloss reconstructed from the variable name and the observed response labels, and is not verbatim instrument wording."
+    "version": "1.2",
+    "description": "Household survey of Syrian refugees in four countries of asylum, covering displacement history, housing/land/property at origin, return intentions, employment, social cohesion, economic status and protection risks. One row per household per round, reported by a single adult respondent. Fieldwork May-June 2025 over 67 distinct interview dates, with both wave labels falling inside the same two-month window. Three mutually exclusive conditional branches hang off the twelve-month return-intention item (s3_11): a return branch (s7a), a do-not-return branch (s7b) and an undecided branch (s7c)."
   },
   "items": {
     "panel_hh_key": {
@@ -21,7 +21,7 @@
       "gate": null
     },
     "s1_2_country_asylum_lbl": {
-      "question": "Country of asylum in which the household was interviewed.",
+      "question": "The refugee lives in...: [host country]",
       "class": "GIVEN",
       "values": [
         "Egypt",
@@ -48,21 +48,21 @@
       "gate": null
     },
     "s2_1b_age": {
-      "question": "What is the respondent’s age in years?",
+      "question": "What is your age?",
       "class": "GIVEN",
       "values": [
-        "<18",
         "18-24",
         "25-34",
         "35-44",
         "45-54",
         "55-64",
-        "65+"
+        "65+",
+        "[generalised:s2]"
       ],
       "gate": null
     },
     "s2_1c_education_level_lbl": {
-      "question": "What is the respondent’s highest completed level of education?",
+      "question": "What is the highest level of education you have completed?",
       "class": "GIVEN",
       "values": [
         "1. No formal education",
@@ -71,12 +71,13 @@
         "4. Secondary",
         "5. Secondary - Technical and Vocational Education and Training (TVET)",
         "6. Post-secondary - Technical and Vocational Education and Training (TVET)",
-        "7. Tertiary and above"
+        "7. Tertiary and above",
+        "[generalised:s2]"
       ],
       "gate": null
     },
     "s2_1d_marital_status_lbl": {
-      "question": "What is the respondent’s marital status?",
+      "question": "What is your marital status?",
       "class": "GIVEN",
       "values": [
         "1. Never married",
@@ -90,7 +91,7 @@
       "gate": null
     },
     "s2_2_single_parent_lbl": {
-      "question": "Is the respondent a single parent?",
+      "question": "Are you a single parent or a single caregiver?",
       "class": "GIVEN",
       "values": [
         "0. No",
@@ -99,7 +100,7 @@
       "gate": null
     },
     "s2_3_boys_0_5": {
-      "question": "How many boys aged 0–5 live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
@@ -114,7 +115,7 @@
       "gate": null
     },
     "s2_3_girls_0_5": {
-      "question": "How many girls aged 0–5 live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
@@ -129,7 +130,7 @@
       "gate": null
     },
     "s2_3_boys_6_17": {
-      "question": "How many boys aged 6–17 live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
@@ -144,7 +145,7 @@
       "gate": null
     },
     "s2_3_girls_6_17": {
-      "question": "How many girls aged 6–17 live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
@@ -159,7 +160,7 @@
       "gate": null
     },
     "s2_3_men_18_59": {
-      "question": "How many men aged 18–59 live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
@@ -174,7 +175,7 @@
       "gate": null
     },
     "s2_3_women_18_59": {
-      "question": "How many women aged 18–59 live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
@@ -189,30 +190,24 @@
       "gate": null
     },
     "s2_3_men_60plus": {
-      "question": "How many men aged 60 and over live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
         "1",
         "2",
-        "3",
-        "4",
-        "5",
-        "6-10",
         "11+"
       ],
       "gate": null
     },
     "s2_3_women_60plus": {
-      "question": "How many women aged 60 and over live in the household?",
+      "question": "A household is defined as a group of people living together under the same roof, that eat at least one meal together daily and share expenses with. Including yourself, in your household",
       "class": "GIVEN",
       "values": [
         "0",
         "1",
         "2",
-        "3",
         "4",
-        "5",
         "6-10",
         "11+"
       ],
@@ -272,7 +267,7 @@
       "gate": null
     },
     "s2_4a_origin_governorate_lbl": {
-      "question": "Which governorate in Syria is the household originally from?",
+      "question": "Governorate of origin in Syria",
       "class": "GIVEN",
       "values": [
         "Al-Hasakeh",
@@ -295,7 +290,7 @@
       "gate": null
     },
     "s2_6_return_decision_maker": {
-      "question": "If a decision were made to return to Syria to stay, who in the household would make it?",
+      "question": "If a decision is to be made to return to Syria with the intention of staying, who in your household would make this decision?",
       "class": "PREDICT",
       "values": [
         "1. Decision is made by Head of household",
@@ -308,7 +303,7 @@
       "gate": null
     },
     "s2_7_own_house_syria_lbl": {
-      "question": "Does the household own a house in Syria?",
+      "question": "Do you or another member of your household own (not rent) a residential house or apartment in Syria?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -318,7 +313,7 @@
       "gate": null
     },
     "s2_8_own_land_syria_lbl": {
-      "question": "Does the household own land in Syria?",
+      "question": "Do you or another member of your household own land in Syria?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -328,7 +323,7 @@
       "gate": null
     },
     "s2_9_property_docs_lbl": {
-      "question": "Does the household hold documentation for its property in Syria?",
+      "question": "Does your household possess legal documents to prove ownership for any or all of this property in Syria?",
       "class": "PREDICT",
       "values": [
         "1. Yes, we have documents for all the property in Syria",
@@ -344,7 +339,7 @@
       }
     },
     "s2_10_house_condition_lbl": {
-      "question": "What is the current condition of the household’s home in Syria?",
+      "question": "Which of the following statements best describes the condition of your house/apartment in Syria?",
       "class": "PREDICT",
       "values": [
         "1. The home is partially damaged but safe to live in",
@@ -361,7 +356,7 @@
       }
     },
     "s2_11_house_occupancy_lbl": {
-      "question": "Who currently occupies the household’s home in Syria?",
+      "question": "Which of the following statements best describes the occupational status of your house or apartment in Syria?",
       "class": "PREDICT",
       "values": [
         "1. Inhabited with our household’s consent for free",
@@ -372,14 +367,15 @@
         "98. Don't know"
       ],
       "gate": {
-        "parent": "s2_7_own_house_syria_lbl",
+        "parent": "s2_10_house_condition_lbl",
         "observed_if": [
-          "1. Yes"
+          "1. The home is partially damaged but safe to live in",
+          "4. The home has not been damaged or destroyed"
         ]
       }
     },
     "s3_1_has_valid_docs_lbl": {
-      "question": "Does the respondent hold valid documentation?",
+      "question": "Do you or anyone in your household possess at least one valid, official Syrian civil document showing Syrian origin? (Government-issued only)",
       "class": "PREDICT",
       "values": [
         "1. Yes",
@@ -389,7 +385,7 @@
       "gate": null
     },
     "s3_2_visited_syria_lbl": {
-      "question": "Has anyone in the household visited Syria since displacement?",
+      "question": "Since leaving Syria, have you or any household member from [host country] visited Syria for any length of time?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
@@ -400,7 +396,7 @@
       "gate": null
     },
     "s3_3_who_visited_lbl": {
-      "question": "Who made that visit?",
+      "question": "Thinking about the most recent visit to Syria from [host country], who travelled to Syria from your household?",
       "class": "PREDICT",
       "values": [
         "1. I alone",
@@ -415,7 +411,7 @@
       }
     },
     "s3_4a_visit_year": {
-      "question": "In what year was the most recent visit?",
+      "question": "Year of that visit (e.g. 2025)",
       "class": "PREDICT",
       "values": [
         "before 2011",
@@ -424,7 +420,9 @@
         "2019-2022",
         "2023",
         "2024",
-        "2025"
+        "2025",
+        "98",
+        "99"
       ],
       "gate": {
         "parent": "s3_2_visited_syria_lbl",
@@ -434,7 +432,7 @@
       }
     },
     "s3_4b_visit_month": {
-      "question": "In what month was the most recent visit?",
+      "question": "Month of that visit (1-12)",
       "class": "PREDICT",
       "values": [
         "1",
@@ -460,17 +458,18 @@
       }
     },
     "s3_5_family_in_syria_lbl": {
-      "question": "Does the household have family members currently in Syria?",
+      "question": "Do you have family members (including extended family) in Syria?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
         "2. No",
-        "98. I don't know (DO NOT READ ALOUD)"
+        "98. I don't know (DO NOT READ ALOUD)",
+        "Not recorded"
       ],
       "gate": null
     },
     "s3_6_permanent_returns_lbl": {
-      "question": "Has any household member returned to Syria permanently?",
+      "question": "Has any household member residing in [host country] returned to Syria with the intention of staying?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -478,10 +477,15 @@
         "98. I don't know",
         "99. Refused to answer"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s3_5_family_in_syria_lbl",
+        "observed_if": [
+          "1. Yes"
+        ]
+      }
     },
     "s3_7_num_permanent_returns_lbl": {
-      "question": "How many household members returned permanently? (labelled copy)",
+      "question": "How many household members in [host country] have returned to stay permanently in Syria?",
       "class": "PREDICT",
       "values": [
         "0",
@@ -501,7 +505,7 @@
       }
     },
     "s3_9a_recent_returns_count_lbl": {
-      "question": "How many household members returned recently? (labelled copy)",
+      "question": "How many household members in [host country] have recently returned to stay permanently in Syria?",
       "class": "PREDICT",
       "values": [
         "0",
@@ -513,10 +517,15 @@
         "6-10",
         "11+"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s3_6_permanent_returns_lbl",
+        "observed_if": [
+          "1. Yes"
+        ]
+      }
     },
     "s3_8a_return_year": {
-      "question": "In what year did the most recent permanent return occur?",
+      "question": "Year of the most recent permanent return (e.g. 2025)",
       "class": "PREDICT",
       "values": [
         "before 2011",
@@ -525,7 +534,9 @@
         "2019-2022",
         "2023",
         "2024",
-        "2025"
+        "2025",
+        "98",
+        "99"
       ],
       "gate": {
         "parent": "s3_6_permanent_returns_lbl",
@@ -535,7 +546,7 @@
       }
     },
     "s3_8b_return_month": {
-      "question": "In what month did the most recent permanent return occur?",
+      "question": "Month of that return (e.g. 1-12)",
       "class": "PREDICT",
       "values": [
         "1",
@@ -564,12 +575,7 @@
       "question": "How many household members returned permanently? (unlabelled copy)",
       "class": "EXCLUDE",
       "values": null,
-      "gate": {
-        "parent": "s3_6_permanent_returns_lbl",
-        "observed_if": [
-          "1. Yes"
-        ]
-      }
+      "gate": null
     },
     "s3_9a_recent_returns_calc": {
       "question": "Recent-return count, derived at collection.",
@@ -578,7 +584,7 @@
       "gate": null
     },
     "s3_9b_returned_children": {
-      "question": "How many children were among the returnees?",
+      "question": "Of those who recently returned permanently to Syria, how many were children (17 years old and younger)?",
       "class": "PREDICT",
       "values": [
         "0",
@@ -598,12 +604,12 @@
       }
     },
     "s3_9c_returnee_working_lbl": {
-      "question": "Is the returnee working in Syria?",
+      "question": "Among those who recently returned permanently to Syria, is anyone currently working in Syria who is 18 years old or older?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
         "2. No",
-        "98. I don't know (DO NOT READ ALOUD)"
+        "98. Don't know"
       ],
       "gate": {
         "parent": "s3_6_permanent_returns_lbl",
@@ -613,38 +619,37 @@
       }
     },
     "s3_10a_returnee_is_head_lbl": {
-      "question": "Was the returnee the head of household?",
+      "question": "Is this person who returned, the head of your household?",
       "class": "PREDICT",
       "values": [
         "0. No",
         "1. Yes"
       ],
       "gate": {
-        "parent": "s3_6_permanent_returns_lbl",
+        "parent": "s3_9c_returnee_working_lbl",
         "observed_if": [
           "1. Yes"
         ]
       }
     },
     "s3_10b_returnee_gender_lbl": {
-      "question": "What is the returnee’s gender?",
+      "question": "What is the person’s gender?",
       "class": "PREDICT",
       "values": [
         "1. Male",
         "2. Female"
       ],
       "gate": {
-        "parent": "s3_6_permanent_returns_lbl",
+        "parent": "s3_9c_returnee_working_lbl",
         "observed_if": [
           "1. Yes"
         ]
       }
     },
     "s3_10c_returnee_age": {
-      "question": "What is the returnee’s age?",
+      "question": "What is the persons’s age, in completed years?",
       "class": "PREDICT",
       "values": [
-        "<18",
         "18-24",
         "25-34",
         "35-44",
@@ -653,14 +658,14 @@
         "65+"
       ],
       "gate": {
-        "parent": "s3_6_permanent_returns_lbl",
+        "parent": "s3_9c_returnee_working_lbl",
         "observed_if": [
           "1. Yes"
         ]
       }
     },
     "s3_10d_employ_before_return_lbl": {
-      "question": "What was the returnee’s employment status before returning?",
+      "question": "What was this person employment status in [host country] just before returning to Syria?",
       "class": "PREDICT",
       "values": [
         "1. Employed in regular work",
@@ -670,14 +675,19 @@
         "98. I don’t know"
       ],
       "gate": {
-        "parent": "s3_6_permanent_returns_lbl",
+        "parent": "s3_10c_returnee_age",
         "observed_if": [
-          "1. Yes"
+          "18-24",
+          "25-34",
+          "35-44",
+          "45-54",
+          "55-64",
+          "65+"
         ]
       }
     },
     "s3_10g_employ_syria_lbl": {
-      "question": "What is the returnee’s employment status in Syria?",
+      "question": "What is this person’s current employment status in Syria?",
       "class": "PREDICT",
       "values": [
         "1. Employed in regular work",
@@ -687,14 +697,14 @@
         "5. I don’t know"
       ],
       "gate": {
-        "parent": "s3_6_permanent_returns_lbl",
+        "parent": "s3_9c_returnee_working_lbl",
         "observed_if": [
           "1. Yes"
         ]
       }
     },
     "s3_11_intent_return_12m_lbl": {
-      "question": "Does the household intend to return to Syria in the next 12 months?",
+      "question": "Do you intend to return with the intention of staying in Syria in the next 12 months?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -704,7 +714,7 @@
       "gate": null
     },
     "s7a_1_return_destination_lbl": {
-      "question": "Where in Syria would the household return to?",
+      "question": "You mentioned you are intending to return to Syria in the next 12 months. Where do you intend to return to with the intention of staying?",
       "class": "PREDICT",
       "values": [
         "1. Same place of origin in Syria",
@@ -719,7 +729,7 @@
       }
     },
     "s7a_2_location_known_lbl": {
-      "question": "Is the specific return location known?",
+      "question": "Do you know the specific governorate, district, and sub-district you intend to return to?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -729,7 +739,6 @@
       "gate": {
         "parent": "s7a_1_return_destination_lbl",
         "observed_if": [
-          "1. Same place of origin in Syria",
           "2. Another village/town/city/governorate/district"
         ]
       }
@@ -753,7 +762,7 @@
       "gate": null
     },
     "s7a_4_return_alone_lbl": {
-      "question": "Would the respondent return alone?",
+      "question": "Are you intending to return to Syria alone?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -767,7 +776,7 @@
       }
     },
     "s7a_5_alone_reason_lbl": {
-      "question": "Why would the respondent return alone?",
+      "question": "Why do you intend to return alone?",
       "class": "PREDICT",
       "values": [
         "1. I want to reestablish a situation first before bringing my family",
@@ -784,7 +793,7 @@
       }
     },
     "s7a_6_return_companions_lbl": {
-      "question": "Who would return with the respondent?",
+      "question": "Who else are you intending to return to Syria with?",
       "class": "PREDICT",
       "values": [
         "1. All family members",
@@ -800,7 +809,7 @@
       }
     },
     "s7a_7_reason_safety_improved_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: safety improved]",
+      "question": "Why do you intend to return to Syria? [option: 1. The security and safety situation has improved]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -814,7 +823,7 @@
       }
     },
     "s7a_7_reason_family_reunite_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: family reunite]",
+      "question": "Why do you intend to return to Syria? [option: 2. I want to reunite with my family]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -828,7 +837,7 @@
       }
     },
     "s7a_7_reason_sufficient_resources_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: sufficient resources]",
+      "question": "Why do you intend to return to Syria? [option: 3. I/we have sufficient resources to return]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -842,7 +851,7 @@
       }
     },
     "s7a_7_reason_livelihood_found_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: livelihood found]",
+      "question": "Why do you intend to return to Syria? [option: 4. I/we have found a livelihood opportunity]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -856,7 +865,7 @@
       }
     },
     "s7a_7_reason_services_adequate_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: services adequate]",
+      "question": "Why do you intend to return to Syria? [option: 5. There is access to adequate services in my place of return for myself and for my family (health, education, water, power, infrastructure etc.)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -870,7 +879,7 @@
       }
     },
     "s7a_7_reason_property_access_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: property access]",
+      "question": "Why do you intend to return to Syria? [option: 6.To access our property/housing and/or check on our property back home]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -884,7 +893,7 @@
       }
     },
     "s7a_7_reason_movement_freedom_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: movement freedom]",
+      "question": "Why do you intend to return to Syria? [option: 7. There is improved freedom of movement]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -898,7 +907,7 @@
       }
     },
     "s7a_7_reason_sufficient_info_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: sufficient info]",
+      "question": "Why do you intend to return to Syria? [option: 8.I/we have sufficient information about the situation in my/our intended area of return to make a decision]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -912,7 +921,7 @@
       }
     },
     "s7a_7_reason_positive_feedback_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: positive feedback]",
+      "question": "Why do you intend to return to Syria? [option: 9. I/we received positive feedback from returnees about conditions in the intended area of return]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -926,7 +935,7 @@
       }
     },
     "s7a_7_reason_problems_host_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: problems host]",
+      "question": "Why do you intend to return to Syria? [option: 10. I/my family are facing problems in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -940,7 +949,7 @@
       }
     },
     "s7a_7_reason_residency_delays_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: residency delays]",
+      "question": "Why do you intend to return to Syria? [option: 11. I have issues with my residency in [host country] due to long waiting times for issuance / reissuance]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -954,7 +963,7 @@
       }
     },
     "s7a_7_reason_residency_other": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: residency other]",
+      "question": "Why do you intend to return to Syria? [option: 12. I am unable to issue/reissue my residency for issues other than long waiting times]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -968,7 +977,7 @@
       }
     },
     "s7a_7_reason_high_cost_living_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: high cost living]",
+      "question": "Why do you intend to return to Syria? [option: 13. High cost of living in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -982,7 +991,7 @@
       }
     },
     "s7a_7_reason_limited_jobs_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: limited jobs]",
+      "question": "Why do you intend to return to Syria? [option: 14. There are limited job opportunities in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -996,7 +1005,7 @@
       }
     },
     "s7a_7_reason_work_permit_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: work permit]",
+      "question": "Why do you intend to return to Syria? [option: 15. Unable to obtain or afford a work permit in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1010,7 +1019,7 @@
       }
     },
     "s7a_7_reason_homeland_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: homeland]",
+      "question": "Why do you intend to return to Syria? [option: 16. Syria is my homeland]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1024,7 +1033,7 @@
       }
     },
     "s7a_7_reason_education_opps_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: education opps]",
+      "question": "Why do you intend to return to Syria? [option: 17. Access to more education opportunities for my household]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1038,7 +1047,7 @@
       }
     },
     "s7a_7_reason_other": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: other]",
+      "question": "Why do you intend to return to Syria? [option: 97. Other, please specify]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1052,11 +1061,10 @@
       }
     },
     "s7a_7_reason_pna_lbl": {
-      "question": "Reasons the household would return to Syria (multi-select).  [option: pna]",
+      "question": "Why do you intend to return to Syria? [option: 99. I prefer not to answer]",
       "class": "PREDICT",
       "values": [
-        "0",
-        "1"
+        "0"
       ],
       "gate": {
         "parent": "s3_11_intent_return_12m_lbl",
@@ -1066,7 +1074,7 @@
       }
     },
     "s7b_1_no_return_safety_concerns_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: safety concerns]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 1. Safety and security concerns]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1080,7 +1088,7 @@
       }
     },
     "s7b_1_no_return_economic_syria_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: economic syria]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 2. Economic challenges in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1094,7 +1102,7 @@
       }
     },
     "s7b_1_no_return_legal_docs_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: legal docs]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 3. Legal and documentation concerns]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1108,7 +1116,7 @@
       }
     },
     "s7b_1_no_return_debt_host_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: debt host]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 4. Debt in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1122,7 +1130,7 @@
       }
     },
     "s7b_1_no_return_livelihood_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: livelihood]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 5.Concerns about livelihood opportunities]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1136,7 +1144,7 @@
       }
     },
     "s7b_1_no_return_services_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: services]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 6. Concerns about available services]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1150,7 +1158,7 @@
       }
     },
     "s7b_1_no_return_family_needs_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: family needs]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 7. Concerns about my family's specific needs (disability, medical needs, etc.)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1164,7 +1172,7 @@
       }
     },
     "s7b_1_no_return_housing_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: housing]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 8. Concerns over available housing/property]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1178,7 +1186,7 @@
       }
     },
     "s7b_1_no_return_social_tensions_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: social tensions]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 9. Social and community tensions]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1192,7 +1200,7 @@
       }
     },
     "s7b_1_no_return_debt_syria_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: debt syria]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 10. Debt in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1206,7 +1214,7 @@
       }
     },
     "s7b_1_no_return_advised_against_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: advised against]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 11. Being advised against return by those who have previously returned to Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1220,7 +1228,7 @@
       }
     },
     "s7b_1_no_return_better_assistance_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: better assistance]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 12. The humanitarian assistance in [host country] is better than in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1234,7 +1242,7 @@
       }
     },
     "s7b_1_no_return_no_family_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: no family]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 13. No family to reunite with in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1248,7 +1256,7 @@
       }
     },
     "s7b_1_no_return_no_resources_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: no resources]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 14. Not enough money or resources to return (e.g. the cost of transportation to Syria is high)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1262,7 +1270,7 @@
       }
     },
     "s7b_1_no_return_adapted_host_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: adapted host]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 15. My family have adapted and gotten used to living in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1276,7 +1284,7 @@
       }
     },
     "s7b_1_no_return_home_damaged_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: home damaged]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 16. Home in Syria has been heavily damaged or destroyed]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1290,7 +1298,7 @@
       }
     },
     "s7b_1_no_return_have_citizenship_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: have citizenship]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 17. One or more household members have citizenship in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1304,7 +1312,7 @@
       }
     },
     "s7b_1_no_return_health_travel_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: health travel]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 18. I or family member not well enough to travel (due to illness)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1318,7 +1326,7 @@
       }
     },
     "s7b_1_no_return_other": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: other]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 97. Others (please specify)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1332,7 +1340,7 @@
       }
     },
     "s7b_1_no_return_dont_know_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: dont know]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 98. I don’t know]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1346,7 +1354,7 @@
       }
     },
     "s7b_1_no_return_PNA_lbl": {
-      "question": "Reasons the household would not return to Syria (multi-select).  [option: PNA]",
+      "question": "What are the main reasons why you are not intending to return to Syria in the next 12 months? [option: 99. I prefer not to answer]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1360,7 +1368,7 @@
       }
     },
     "s7b_2_recon_safety_improved_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: safety improved]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 1. Improved safety and security]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1374,7 +1382,7 @@
       }
     },
     "s7b_2_recon_legal_access_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: legal access]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 2. When my family has access to legal assistance and documentation]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1388,7 +1396,7 @@
       }
     },
     "s7b_2_recon_sufficient_resources_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: sufficient resources]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 3. When my family has sufficient resources]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1402,7 +1410,7 @@
       }
     },
     "s7b_2_recon_livelihood_opps_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: livelihood opps]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 4. When there are sufficient livelihood/work opportunities]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1416,7 +1424,7 @@
       }
     },
     "s7b_2_recon_basic_services_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: basic services]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 5. When my family has access to adequate basic services (health, education, water, power, infrastructure etc.)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1430,7 +1438,7 @@
       }
     },
     "s7b_2_recon_special_services_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: special services]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 6. When there are services to cater for the specific needs of my family (such as disability, special medical and mental health needs, and older people requiring care etc.)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1444,7 +1452,7 @@
       }
     },
     "s7b_2_recon_housing_access_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: housing access]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 7. When there is access to our family’s own property/housing or alternative housing]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1458,7 +1466,7 @@
       }
     },
     "s7b_2_recon_debt_paid_host_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: debt paid host]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 8. When my family paid off debt in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1472,7 +1480,7 @@
       }
     },
     "s7b_2_recon_family_together_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: family together]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 9. Will return if other family members return with me]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1486,7 +1494,7 @@
       }
     },
     "s7b_2_recon_reentry_possible_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: reentry possible]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 10. When family can re-enter [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1500,7 +1508,7 @@
       }
     },
     "s7b_2_recon_asylum_negative_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: asylum negative]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 11. Negative changes in [host country] asylum policies]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1514,7 +1522,7 @@
       }
     },
     "s7b_2_recon_debt_paid_syria_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: debt paid syria]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 12. Family pays off debt in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1528,7 +1536,7 @@
       }
     },
     "s7b_2_recon_others_returning_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: others returning]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 13. When more Syrians begin returning]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1542,7 +1550,7 @@
       }
     },
     "s7b_2_recon_host_worse_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: host worse]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 14. Living conditions in [host country] get worse]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1556,7 +1564,7 @@
       }
     },
     "s7b_2_recon_war_host_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: war host]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 15. War breaks out in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1570,7 +1578,7 @@
       }
     },
     "s7b_2_recon_never_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: never]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 16. Under no circumstances]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1584,7 +1592,7 @@
       }
     },
     "s7b_2_recon_other": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: other]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 97. Other, please specify]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1598,7 +1606,7 @@
       }
     },
     "s7b_2_recon_PNA_lbl": {
-      "question": "Conditions under which the household would reconsider returning (multi-select).  [option: PNA]",
+      "question": "Under what circumstances would you consider changing your decision about not returning? [option: 99. I prefer not to answer]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1612,7 +1620,7 @@
       }
     },
     "s7c_1_cond_safety_improved_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: safety improved]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 1. Improved safety and security]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1626,7 +1634,7 @@
       }
     },
     "s7c_1_cond_sufficient_resources_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: sufficient resources]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 3. When my family has sufficient resources to return]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1640,7 +1648,7 @@
       }
     },
     "s7c_1_cond_livelihood_opps_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: livelihood opps]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 4. When there are livelihood/work opportunities]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1654,7 +1662,7 @@
       }
     },
     "s7c_1_cond_basic_services_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: basic services]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 5. When my family has access to adequate basic services (health, education water, power, infrastructure etc.)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1668,7 +1676,7 @@
       }
     },
     "s7c_1_cond_special_services_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: special services]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 6. When services cater to my family’s specific needs (disability, medical, psychological needs, older persons requiring care etc.)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1682,7 +1690,7 @@
       }
     },
     "s7c_1_cond_housing_access_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: housing access]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 7. When there is access to family’s own property/housing or alternative housing]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1696,7 +1704,7 @@
       }
     },
     "s7c_1_cond_reentry_possible_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: reentry possible]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 8. When my family can re-enter [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1710,7 +1718,7 @@
       }
     },
     "s7c_1_cond_debt_paid_host_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: debt paid host]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 9. When my family paid off debt in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1724,7 +1732,7 @@
       }
     },
     "s7c_1_cond_debt_paid_syria_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: debt paid syria]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 10. When my family has paid off debt in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1738,7 +1746,7 @@
       }
     },
     "s7c_1_cond_host_worse_lbl": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: host worse]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 11. Living conditions in [host country] gets worse]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1752,7 +1760,7 @@
       }
     },
     "s7c_1_cond_other": {
-      "question": "Conditions the undecided would need in order to consider return (multi-select).  [option: other]",
+      "question": "Under what circumstances would you consider returning to Syria in the next 12 months? [option: 97. Others (please specify)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1766,7 +1774,7 @@
       }
     },
     "s3_12_hope_return_someday_lbl": {
-      "question": "Does the respondent hope to return to Syria someday?",
+      "question": "Do you hope to return with the intention of staying in Syria one day?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -1776,12 +1784,13 @@
       "gate": {
         "parent": "s3_11_intent_return_12m_lbl",
         "observed_if": [
-          "0. No"
+          "0. No",
+          "98. I don't know"
         ]
       }
     },
     "s3_13_hope_return_5yr_lbl": {
-      "question": "Does the respondent hope to return within five years?",
+      "question": "Do you hope to return with the intention of staying in Syria within 5 years?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -1791,12 +1800,13 @@
       "gate": {
         "parent": "s3_12_hope_return_someday_lbl",
         "observed_if": [
-          "1. Yes"
+          "1. Yes",
+          "98. I don't know"
         ]
       }
     },
     "s3_14_visit_importance_lbl": {
-      "question": "How important is it to be able to visit Syria?",
+      "question": "Following the recent developments in Syria, how important is it for you or a household member to first temporarily visit Syria before deciding on return with the intention of staying there?",
       "class": "PREDICT",
       "values": [
         "1. Extremely important",
@@ -1805,12 +1815,13 @@
         "4. Slightly unimportant",
         "5. Not important at all",
         "98. I don't know",
-        "99. I prefer not to answer"
+        "99. I prefer not to answer",
+        "Not recorded"
       ],
       "gate": null
     },
     "s3_15_friend_return_likely_lbl": {
-      "question": "Is the respondent’s closest friend likely to return to Syria?",
+      "question": "Now I want to ask you about your best friend. Is your best friend likely to move back to Syria in the next 12 months?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
@@ -1821,7 +1832,7 @@
       "gate": null
     },
     "s3_16_friend_ret_family_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: family]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 1. To reunite with family in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1835,7 +1846,7 @@
       }
     },
     "s3_16_friend_ret_safety_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: safety]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 2. Improvements in safety/security in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1849,7 +1860,7 @@
       }
     },
     "s3_16_friend_ret_econ_syria_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: econ syria]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 3. Economic opportunities in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1863,7 +1874,7 @@
       }
     },
     "s3_16_friend_ret_no_legal_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: no legal]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 4. Lack of legal status in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1877,7 +1888,7 @@
       }
     },
     "s3_16_friend_ret_no_econ_host_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: no econ host]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 5. Lack of economic opportunities in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1891,7 +1902,7 @@
       }
     },
     "s3_16_friend_ret_no_services_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: no services]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 6. Lack of access to services (education, health) in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1905,7 +1916,7 @@
       }
     },
     "s3_16_friend_ret_high_cost_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: high cost]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 7. High cost of living in [host country]]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1919,7 +1930,7 @@
       }
     },
     "s3_16_friend_ret_homeland_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: homeland]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 8. Love of the homeland]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1933,7 +1944,7 @@
       }
     },
     "s3_16_friend_ret_has_property_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: has property]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 9. Has a home and/or land in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1947,7 +1958,7 @@
       }
     },
     "s3_16_friend_ret_has_resources_lbl": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: has resources]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 10. Has enough financial resources to return]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1961,7 +1972,7 @@
       }
     },
     "s3_16_friend_ret_other": {
-      "question": "Reasons the respondent’s closest friend is likely to return (multi-select).  [option: other]",
+      "question": "What are the main reasons that your best friend is likely to go back to Syria in the next 12 months? [option: 97. Other, please specify]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1975,7 +1986,7 @@
       }
     },
     "s3_17_friend_no_ret_safety_lbl": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: safety]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 1. Concerns over safety/security in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -1989,7 +2000,7 @@
       }
     },
     "s3_17_friend_no_ret_no_econ_lbl": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: no econ]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 2. Lack of economic opportunities in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2003,7 +2014,7 @@
       }
     },
     "s3_17_friend_no_ret_no_education_lbl": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: no education]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 3. Concern about lack of quality education opportunities]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2017,7 +2028,7 @@
       }
     },
     "s3_17_friend_no_ret_no_health_lbl": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: no health]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 4. Concern about lack of quality healthcare]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2031,7 +2042,7 @@
       }
     },
     "s3_17_friend_no_ret_no_water_lbl": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: no water]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 5. Concern about lack of access to water]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2045,7 +2056,7 @@
       }
     },
     "s3_17_friend_no_ret_no_electricity_lbl": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: no electricity]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 6. Concern about lack of access to electricity]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2059,7 +2070,7 @@
       }
     },
     "s3_17_friend_no_ret_food_insecurity_lbl": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: food insecurity]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 7. Concern about food security]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2073,7 +2084,7 @@
       }
     },
     "s3_17_friend_no_ret_other": {
-      "question": "Reasons the respondent’s closest friend is not likely to return (multi-select).  [option: other]",
+      "question": "What are the main reasons that your best friend is not likely to move back to Syria in the next 12 months? [option: 8. Other (specify)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2087,7 +2098,7 @@
       }
     },
     "s3_18_num_network_returned_lbl": {
-      "question": "How many people in the respondent’s network have returned?",
+      "question": "Approximately, how many relatives or friends who have lived in [host country] have gone back to Syria with the intention of staying?",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2102,7 +2113,7 @@
       "gate": null
     },
     "s3_19_origin_comm_freq_lbl": {
-      "question": "How often does the respondent communicate with people in the area of origin?",
+      "question": "In general, how often do you communicate with people in [place of origin]?",
       "class": "PREDICT",
       "values": [
         "1. Daily",
@@ -2117,7 +2128,7 @@
       "gate": null
     },
     "s3_20_origin_employ_rating_lbl": {
-      "question": "How does the respondent rate employment prospects in the area of origin?",
+      "question": "How would you rate the current employment opportunities in [place of origin]?",
       "class": "PREDICT",
       "values": [
         "1. Very poor",
@@ -2131,7 +2142,7 @@
       "gate": null
     },
     "s3_21_employ_info_confidence_lbl": {
-      "question": "How confident is the respondent in their information about employment at origin?",
+      "question": "Thinking about the employment opportunities in [place of origin], how confident are you in understanding what is currently happening?",
       "class": "PREDICT",
       "values": [
         "1. I am very confident – I know enough to understand",
@@ -2144,7 +2155,7 @@
       "gate": null
     },
     "s3_22_return_safety_feeling_lbl": {
-      "question": "How safe would the respondent feel returning to their area of origin?",
+      "question": "Overall, if you and/or your household returned to Syria, how safe would you feel in [place of origin]?",
       "class": "PREDICT",
       "values": [
         "1. Very safe",
@@ -2157,7 +2168,7 @@
       "gate": null
     },
     "s3_23_safety_active_conflict_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: active conflict]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 1. There is no reduction or end of active conflict]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2166,7 +2177,7 @@
       "gate": null
     },
     "s3_23_safety_law_enforcement_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: law enforcement]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 2. Laws are not being enforced effectively]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2175,7 +2186,7 @@
       "gate": null
     },
     "s3_23_safety_tribal_conflict_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: tribal conflict]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 3. There is no reduction or cessation of tribal/ social conflict]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2184,7 +2195,7 @@
       "gate": null
     },
     "s3_23_safety_armed_actors_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: armed actors]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 4. There is a large presence of armed actors]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2193,7 +2204,7 @@
       "gate": null
     },
     "s3_23_safety_explosives_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: explosives]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 5. The area is not free of explosive hazards, mines, IEDs]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2202,7 +2213,7 @@
       "gate": null
     },
     "s3_23_safety_public_spaces_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: public spaces]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 6. Public spaces remain unsafe to visit]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2211,7 +2222,7 @@
       "gate": null
     },
     "s3_23_safety_no_concerns_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: no concerns]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 7. I have no safety or security concerns]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2220,7 +2231,7 @@
       "gate": null
     },
     "s3_23_safety_theft_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: theft]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 8. Concerns over theft]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2229,7 +2240,7 @@
       "gate": null
     },
     "s3_23_safety_kidnapping_lbl": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: kidnapping]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 9. Concerns over kidnapping]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2238,7 +2249,7 @@
       "gate": null
     },
     "s3_23_safety_other": {
-      "question": "Safety and security concerns about returning (multi-select).  [option: other]",
+      "question": "What are your top two safety and security concerns in [place of origin]? [option: 97. Other (specify)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2247,7 +2258,7 @@
       "gate": null
     },
     "s3_23a_safety_rank1_lbl": {
-      "question": "Which safety concern is the most important?",
+      "question": "What are your top priority safety and security concerns?",
       "class": "PREDICT",
       "values": [
         "1. There is no reduction or end of active conflict",
@@ -2259,12 +2270,13 @@
         "7. I have no safety or security concerns",
         "8. Concerns over theft",
         "9. Concerns over kidnapping",
-        "97. Other (specify)"
+        "97. Other (specify)",
+        "Not recorded"
       ],
       "gate": null
     },
     "s3_23b_safety_rank2_lbl": {
-      "question": "Which safety concern is the second most important?",
+      "question": "What are your second priority safety and security concerns?",
       "class": "PREDICT",
       "values": [
         "1. There is no reduction or end of active conflict",
@@ -2276,12 +2288,13 @@
         "7. I have no safety or security concerns",
         "8. Concerns over theft",
         "9. Concerns over kidnapping",
-        "97. Other (specify)"
+        "97. Other (specify)",
+        "Not recorded"
       ],
       "gate": null
     },
     "s3_24_origin_electricity_lbl": {
-      "question": "How available is electricity in the area of origin?",
+      "question": "Which of these statements best describes electricity availability in [place of origin] currently? As far as you know, how many hours per day is electricity available in [place of origin] currently?",
       "class": "PREDICT",
       "values": [
         "1. Available 24 hours a day",
@@ -2295,7 +2308,7 @@
       "gate": null
     },
     "s3_25_origin_water_lbl": {
-      "question": "How available is water in the area of origin?",
+      "question": "Which of the statements best describes the availability of water in [place of origin] currently? As far as you know, how often is water available in [place of origin] currently?",
       "class": "PREDICT",
       "values": [
         "1. Water is available 24 hours a day",
@@ -2309,7 +2322,7 @@
       "gate": null
     },
     "s4_0_hh_anyone_working_lbl": {
-      "question": "Is anyone in the household working?",
+      "question": "Is there anyone in your household that is working – either regularly or occasionally - for payment, whether in cash or in-kind (such as food, goods, or services)?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -2318,7 +2331,7 @@
       "gate": null
     },
     "s4_1_is_main_earner_lbl": {
-      "question": "Is the respondent the household’s main earner?",
+      "question": "Are you the main income earner in your household?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -2332,12 +2345,10 @@
       }
     },
     "s4_3_main_earner_gender": {
-      "question": "What is the main earner’s gender?",
+      "question": "What is the gender of [main_name]?",
       "class": "PREDICT",
       "values": [
-        "1",
         "1. Male",
-        "2",
         "2. Female"
       ],
       "gate": {
@@ -2348,7 +2359,7 @@
       }
     },
     "s4_4_main_earner_age": {
-      "question": "What is the main earner’s age?",
+      "question": "How old is [main_name] in completed years? (Years)",
       "class": "PREDICT",
       "values": [
         "<18",
@@ -2367,7 +2378,7 @@
       }
     },
     "s4_5_main_earner_relation_lbl": {
-      "question": "What is the main earner’s relationship to the head of household?",
+      "question": "Who is [main_name] in relationship to the household head?",
       "class": "PREDICT",
       "values": [
         "1. Head of household",
@@ -2388,7 +2399,7 @@
       }
     },
     "s4_6_main_earner_education_lbl": {
-      "question": "What is the main earner’s education level?",
+      "question": "What is the highest level of education completed by [main_name]?",
       "class": "PREDICT",
       "values": [
         "1. No formal education",
@@ -2407,7 +2418,7 @@
       }
     },
     "s4_7_has_work_permit_lbl": {
-      "question": "Does the main earner hold a work permit?",
+      "question": "Do you / Does [main_name] have a residency or work permit that allows you/[main_name] to work legally in [host country]?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -2429,7 +2440,7 @@
       "gate": null
     },
     "s4_8_worked_pay_lastweek_lbl": {
-      "question": "Did the main earner work for pay in the last week?",
+      "question": "Last week, that is from [start day] up to [end day] did you/[main_name] work for someone else for pay, for one or more hours?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
@@ -2445,7 +2456,7 @@
       }
     },
     "s4_9_business_lastweek_lbl": {
-      "question": "Did the main earner run a business in the last week?",
+      "question": "Last week, that is from [start day] up to [start day] did you/[main_name] run or do any kind of business, farming, or other activity to generate income?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
@@ -2454,14 +2465,16 @@
         "99. I prefer not to answer (DO NOT READ ALOUD)"
       ],
       "gate": {
-        "parent": "s4_0_hh_anyone_working_lbl",
+        "parent": "s4_8_worked_pay_lastweek_lbl",
         "observed_if": [
-          "1. Yes"
+          "2. No",
+          "98. I don't know (DO NOT READ ALOUD)",
+          "99. I prefer not to answer (DO NOT READ ALOUD)"
         ]
       }
     },
     "s4_10_family_biz_lastweek_lbl": {
-      "question": "Did the main earner work in a family business in the last week?",
+      "question": "Last week, that is from [start day] up to [start day] did you/[main_name] help in a family business or farm?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
@@ -2470,14 +2483,16 @@
         "99. I prefer not to answer (DO NOT READ ALOUD)"
       ],
       "gate": {
-        "parent": "s4_0_hh_anyone_working_lbl",
+        "parent": "s4_9_business_lastweek_lbl",
         "observed_if": [
-          "1. Yes"
+          "2. No",
+          "98. I don't know (DO NOT READ ALOUD)",
+          "99. I prefer not to answer (DO NOT READ ALOUD)"
         ]
       }
     },
     "s4_11_job_but_absent_lbl": {
-      "question": "Did the main earner have a job but was absent from it in the last week?",
+      "question": "Do you/[main_name] have a paid job or income-generating activity, but did not work last week?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
@@ -2486,14 +2501,16 @@
         "99. I prefer not to answer (DO NOT READ ALOUD)"
       ],
       "gate": {
-        "parent": "s4_0_hh_anyone_working_lbl",
+        "parent": "s4_10_family_biz_lastweek_lbl",
         "observed_if": [
-          "1. Yes"
+          "2. No",
+          "98. I don't know (DO NOT READ ALOUD)",
+          "99. I prefer not to answer (DO NOT READ ALOUD)"
         ]
       }
     },
     "s4_16_employment_type_lbl": {
-      "question": "What kind of employment does the main earner have?",
+      "question": "In this main job, do you/[main_name] work as a...?",
       "class": "PREDICT",
       "values": [
         "1. Day laborer",
@@ -2514,7 +2531,7 @@
       }
     },
     "s5_1_unfair_treatment_freq_lbl": {
-      "question": "How often has the respondent been treated unfairly in the country of asylum?",
+      "question": "How often, in your opinion, if ever, are Syrian refugees treated unfairly by the government of [host country]?",
       "class": "PREDICT",
       "values": [
         "1. Never",
@@ -2528,7 +2545,7 @@
       "gate": null
     },
     "s5_2_citizen_friends_ratio_lbl": {
-      "question": "What share of the respondent’s friends are host-country citizens?",
+      "question": "Of all your friends in [host country] how many of them are citizens?",
       "class": "PREDICT",
       "values": [
         "1. None",
@@ -2540,7 +2557,7 @@
       "gate": null
     },
     "s5_3_refugee_friends_ratio_lbl": {
-      "question": "What share of the respondent’s friends are refugees?",
+      "question": "Of all your friends in [host country], how many of them are Syrian refugees?",
       "class": "PREDICT",
       "values": [
         "1. None",
@@ -2552,7 +2569,7 @@
       "gate": null
     },
     "s5_4_employ_discrimination_lbl": {
-      "question": "How often has the respondent faced discrimination in employment?",
+      "question": "In your opinion, to what extent are Syrian refugees discriminated against by [host country] when seeking employment?",
       "class": "PREDICT",
       "values": [
         "1. Never",
@@ -2566,7 +2583,7 @@
       "gate": null
     },
     "s5_5_shopping_discrimination_lbl": {
-      "question": "Agreement: the respondent faces discrimination when shopping.",
+      "question": "When you go out shopping around town do you feel shopkeepers or other shoppers frequently discriminate against you?",
       "class": "PREDICT",
       "values": [
         "1. Strongly agree",
@@ -2579,7 +2596,7 @@
       "gate": null
     },
     "s5_6_feel_left_out_lbl": {
-      "question": "Agreement: the respondent feels left out of society.",
+      "question": "“I feel left out of society.”",
       "class": "PREDICT",
       "values": [
         "1. Strongly agree",
@@ -2592,7 +2609,7 @@
       "gate": null
     },
     "s5_7_life_complicated_lbl": {
-      "question": "Agreement: being a refugee makes daily life complicated.",
+      "question": "“Life has become so complicated today that I almost can’t find my way.”",
       "class": "PREDICT",
       "values": [
         "1. Strongly agree",
@@ -2605,7 +2622,7 @@
       "gate": null
     },
     "s5_8_value_not_recognized_lbl": {
-      "question": "Agreement: the respondent’s value is not recognised.",
+      "question": "“I feel that the value of what I do is not recognized by others.”",
       "class": "PREDICT",
       "values": [
         "1. Strongly agree",
@@ -2618,7 +2635,7 @@
       "gate": null
     },
     "s5_9_looked_down_on_lbl": {
-      "question": "Agreement: the respondent is looked down on by others.",
+      "question": "“Some people look down on me because of my job situation or income.”",
       "class": "PREDICT",
       "values": [
         "1. Strongly agree",
@@ -2631,7 +2648,7 @@
       "gate": null
     },
     "s5_10_community_relations_lbl": {
-      "question": "How would the respondent describe relations with the host community?",
+      "question": "Do you perceive the current relations between non-Syrian and Syrian people in your neighborhood as...?",
       "class": "PREDICT",
       "values": [
         "1. Very positive",
@@ -2645,7 +2662,7 @@
       "gate": null
     },
     "s6_1_income_work_lbl": {
-      "question": "Household sources of income (multi-select).  [option: work]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 1. Work]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2654,7 +2671,7 @@
       "gate": null
     },
     "s6_1_income_remittances_lbl": {
-      "question": "Household sources of income (multi-select).  [option: remittances]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 2. Money from family or friends living abroad]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2663,7 +2680,7 @@
       "gate": null
     },
     "s6_1_income_humanitarian_lbl": {
-      "question": "Household sources of income (multi-select).  [option: humanitarian]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 3. Humanitarian assistance]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2672,7 +2689,7 @@
       "gate": null
     },
     "s6_1_income_government_lbl": {
-      "question": "Household sources of income (multi-select).  [option: government]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 4. Government assistance]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2681,7 +2698,7 @@
       "gate": null
     },
     "s6_1_income_selling_assets_lbl": {
-      "question": "Household sources of income (multi-select).  [option: selling assets]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 5. Selling belongings]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2690,7 +2707,7 @@
       "gate": null
     },
     "s6_1_income_syria_pension_lbl": {
-      "question": "Household sources of income (multi-select).  [option: syria pension]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 6. Government pension in Syria]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2699,7 +2716,7 @@
       "gate": null
     },
     "s6_1_income_savings_lbl": {
-      "question": "Household sources of income (multi-select).  [option: savings]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 7. Savings]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2708,7 +2725,7 @@
       "gate": null
     },
     "s6_1_income_loans_lbl": {
-      "question": "Household sources of income (multi-select).  [option: loans]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 8. Loans/credit]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2717,7 +2734,7 @@
       "gate": null
     },
     "s6_1_income_community_lbl": {
-      "question": "Household sources of income (multi-select).  [option: community]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 9. Community assistance]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2726,7 +2743,7 @@
       "gate": null
     },
     "s6_1_income_none_lbl": {
-      "question": "Household sources of income (multi-select).  [option: none]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 10. None]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2735,7 +2752,7 @@
       "gate": null
     },
     "s6_1_income_other": {
-      "question": "Household sources of income (multi-select).  [option: other]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 97. Others (please specify)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2744,7 +2761,7 @@
       "gate": null
     },
     "s6_1_income_dont_know_lbl": {
-      "question": "Household sources of income (multi-select).  [option: dont know]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 98. Don’t know]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2753,7 +2770,7 @@
       "gate": null
     },
     "s6_1_income_no_answer_lbl": {
-      "question": "Household sources of income (multi-select).  [option: no answer]",
+      "question": "In the last six months, what were the main sources of income for you and your family in [host country]? [option: 99. Prefer not to answer]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2762,7 +2779,7 @@
       "gate": null
     },
     "s6_2_income_varies_lbl": {
-      "question": "Does household income vary month to month?",
+      "question": "Does your household income vary from month to month?",
       "class": "PREDICT",
       "values": [
         "1. Yes, it varies a lot",
@@ -2774,7 +2791,7 @@
       "gate": null
     },
     "s6_3_income_adequacy_lbl": {
-      "question": "Does household income cover expenses?",
+      "question": "Which of these statements best describes your household's monthly income situation?",
       "class": "PREDICT",
       "values": [
         "1. Our household income covers our expenses, and we are able to save",
@@ -2785,79 +2802,127 @@
       "gate": null
     },
     "s6_4_need_housing_lbl": {
-      "question": "The household’s most pressing needs (multi-select).  [option: housing]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 1. Housing]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_4_need_food_lbl": {
-      "question": "The household’s most pressing needs (multi-select).  [option: food]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 2. Food]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_4_need_commodities_lbl": {
-      "question": "The household’s most pressing needs (multi-select).  [option: commodities]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 3. Basic commodities (clothes, hygiene items, minimum furniture etc.)]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_4_need_education_lbl": {
-      "question": "The household’s most pressing needs (multi-select).  [option: education]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 4. School/education related expenses]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_4_need_health_lbl": {
-      "question": "The household’s most pressing needs (multi-select).  [option: health]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 5. Medical services and medication]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_4_need_electricity_lbl": {
-      "question": "The household’s most pressing needs (multi-select).  [option: electricity]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 6. Electricity]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_4_need_water_lbl": {
-      "question": "The household’s most pressing needs (multi-select).  [option: water]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 7. Water]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_4_need_other": {
-      "question": "The household’s most pressing needs (multi-select).  [option: other]",
+      "question": "If your family struggles to cover basic needs, which basic needs do you struggle with most? [option: 97. Others (please specify)]",
       "class": "PREDICT",
       "values": [
         "0",
         "1"
       ],
-      "gate": null
+      "gate": {
+        "parent": "s6_3_income_adequacy_lbl",
+        "observed_if": [
+          "3. Our household income does not cover our expenses and we face some difficulties in meeting our needs",
+          "4. Our household income does not cover our expenses and we face significant difficulties in meeting our needs"
+        ]
+      }
     },
     "s6_5_assistance_received_lbl": {
-      "question": "Has the household received humanitarian assistance?",
+      "question": "Over the past 3 months, did your household receive assistance (food, cash, in-kind) from any institution (government, international org., religious body)?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -2868,7 +2933,7 @@
       "gate": null
     },
     "s6_6_assist_unhcr_lbl": {
-      "question": "Which actors provided assistance to the household (multi-select).  [option: unhcr]",
+      "question": "What was the source of assistance? [option: 1. UNHCR]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2882,7 +2947,7 @@
       }
     },
     "s6_6_assist_wfp_lbl": {
-      "question": "Which actors provided assistance to the household (multi-select).  [option: wfp]",
+      "question": "What was the source of assistance? [option: 2. WFP]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2896,7 +2961,7 @@
       }
     },
     "s6_6_assist_intl_orgs_lbl": {
-      "question": "Which actors provided assistance to the household (multi-select).  [option: intl orgs]",
+      "question": "What was the source of assistance? [option: 3. Other international organizations]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2910,7 +2975,7 @@
       }
     },
     "s6_6_assist_government_lbl": {
-      "question": "Which actors provided assistance to the household (multi-select).  [option: government]",
+      "question": "What was the source of assistance? [option: 4. Government]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2924,7 +2989,7 @@
       }
     },
     "s6_6_assist_religious_lbl": {
-      "question": "Which actors provided assistance to the household (multi-select).  [option: religious]",
+      "question": "What was the source of assistance? [option: 5. Religious organizations]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2938,7 +3003,7 @@
       }
     },
     "s6_6_assist_ngo_lbl": {
-      "question": "Which actors provided assistance to the household (multi-select).  [option: ngo]",
+      "question": "What was the source of assistance? [option: 6. Other non-profit organization]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2952,7 +3017,7 @@
       }
     },
     "s6_6_assist_other": {
-      "question": "Which actors provided assistance to the household (multi-select).  [option: other]",
+      "question": "What was the source of assistance? [option: 97. Others (please specify)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -2966,7 +3031,7 @@
       }
     },
     "s6_7_receive_remittances_lbl": {
-      "question": "Does the household receive remittances?",
+      "question": "Does your household receive money from family or friends abroad?",
       "class": "PREDICT",
       "values": [
         "1. Yes, regularly",
@@ -2977,7 +3042,7 @@
       "gate": null
     },
     "s6_8_send_remittances_lbl": {
-      "question": "Does the household send remittances?",
+      "question": "Does your household send money to family or friends in Syria?",
       "class": "PREDICT",
       "values": [
         "1. Yes, regularly",
@@ -2989,27 +3054,29 @@
       "gate": null
     },
     "s6_9a_debt_host_country_lbl": {
-      "question": "Does the household hold debt in the country of asylum?",
+      "question": "Do you or your household members currently have debt, i.e. owe money to other persons or entities in [host country]?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
         "2. No",
-        "98. I don't know (DO NOT READ ALOUD)"
+        "98. Don't know",
+        "99. Prefer not to answer"
       ],
       "gate": null
     },
     "s6_9b_debt_syria_lbl": {
-      "question": "Does the household hold debt in Syria?",
+      "question": "Do you or your household members currently have debt, i.e. owe money to other persons or entities in Syria?",
       "class": "PREDICT",
       "values": [
         "1. Yes",
         "2. No",
-        "98. I don't know (DO NOT READ ALOUD)"
+        "98. Don't know",
+        "99. Prefer not to answer"
       ],
       "gate": null
     },
     "s6_10_face_challenges_lbl": {
-      "question": "Does the household face protection challenges in the country of asylum?",
+      "question": "Do you and your family face challenges in [host country] in your daily life?",
       "class": "PREDICT",
       "values": [
         "0. No",
@@ -3020,7 +3087,7 @@
       "gate": null
     },
     "s6_11_challenge_movement_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: movement]",
+      "question": "What are the main challenges you and your family are facing? [option: 1. Lack of freedom of movement]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3034,7 +3101,7 @@
       }
     },
     "s6_11_challenge_eviction_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: eviction]",
+      "question": "What are the main challenges you and your family are facing? [option: 2. Threat of eviction]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3048,7 +3115,7 @@
       }
     },
     "s6_11_challenge_safety_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: safety]",
+      "question": "What are the main challenges you and your family are facing? [option: 3. Physical safety/security challenges]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3062,7 +3129,7 @@
       }
     },
     "s6_11_challenge_legal_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: legal]",
+      "question": "What are the main challenges you and your family are facing? [option: 4. Challenges with legal residency or documentation]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3076,7 +3143,7 @@
       }
     },
     "s6_11_challenge_employment_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: employment]",
+      "question": "What are the main challenges you and your family are facing? [option: 5. Lack of employment/livelihood opportunities]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3090,7 +3157,7 @@
       }
     },
     "s6_11_challenge_no_assistance_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: no assistance]",
+      "question": "What are the main challenges you and your family are facing? [option: 6. No access to financial assistance]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3104,7 +3171,7 @@
       }
     },
     "s6_11_challenge_debt_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: debt]",
+      "question": "What are the main challenges you and your family are facing? [option: 7. Have acquired debts]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3118,7 +3185,7 @@
       }
     },
     "s6_11_challenge_health_access_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: health access]",
+      "question": "What are the main challenges you and your family are facing? [option: 8. Lack of access to health services]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3132,7 +3199,7 @@
       }
     },
     "s6_11_challenge_education_access_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: education access]",
+      "question": "What are the main challenges you and your family are facing? [option: 9. Lack of access to education]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3146,7 +3213,7 @@
       }
     },
     "s6_11_challenge_separation_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: separation]",
+      "question": "What are the main challenges you and your family are facing? [option: 10. My family has been separated]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3160,7 +3227,7 @@
       }
     },
     "s6_11_challenge_tensions_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: tensions]",
+      "question": "What are the main challenges you and your family are facing? [option: 11. Tensions with the host community]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3174,7 +3241,7 @@
       }
     },
     "s6_11_challenge_forced_return_lbl": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: forced return]",
+      "question": "What are the main challenges you and your family are facing? [option: 12. Fear of being forcibly returned]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3188,7 +3255,7 @@
       }
     },
     "s6_11_challenge_other": {
-      "question": "Protection challenges the household faces in the country of asylum (multi-select).  [option: other]",
+      "question": "What are the main challenges you and your family are facing? [option: 13. Other (please specify)]",
       "class": "PREDICT",
       "values": [
         "0",
@@ -3202,23 +3269,21 @@
       }
     },
     "s6_12_children_schooling_lbl": {
-      "question": "Are the household’s children attending school?",
+      "question": "Are all children aged 6-17 in your household attending school in [host country]?",
       "class": "PREDICT",
       "values": [
         "0. No",
         "1. Yes",
         "98. I don't know",
-        "99. Refused to answer"
+        "99. Refused to answer",
+        "Not recorded"
       ],
       "gate": null
     },
     "bc3_followup_permission_lbl": {
       "question": "Did the respondent consent to a follow-up contact?",
       "class": "EXCLUDE",
-      "values": [
-        "0. No",
-        "1. Yes"
-      ],
+      "values": null,
       "gate": null
     },
     "include_final_analysis1": {
@@ -3248,10 +3313,7 @@
     "q7c_undecided_conditions_consider_return_99_lbl": {
       "question": "Undecided-branch condition (prefer not to answer).",
       "class": "EXCLUDE",
-      "values": [
-        "0",
-        "1"
-      ],
+      "values": null,
       "gate": null
     },
     "return_to_syria_qS_1_interviewed_before_lbl": {
@@ -3508,8 +3570,8 @@
     }
   },
   "split": {
-    "train_fraction": 0.8,
-    "dev_fraction": 0.06,
-    "final_fraction": 0.14
+    "n_train": 8279,
+    "n_dev": 621,
+    "n_test": 1449
   }
 }
