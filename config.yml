@@ -17,25 +17,23 @@ gated_value: NA_GATED
 privacy:
   mechanism: laplace
   epsilon: 10.0
-  max_submissions_per_participant: 20
 
 # Who is visible and who is scored is decided by the respondent roles in the
-# delivered dataset, not here: phase 1 scores DEV, phase 2 scores FINAL and
-# hands DEV over as visible rows. `data_fraction` thins the *visible* rows only,
-# to keep a development run inside its smaller budget. It must never touch the
-# hidden rows -- every submission in a phase is scored on the same cells, and
-# that is what makes two leaderboard entries comparable to each other.
+# delivered dataset, not here: phase 1 shows TRAIN in full and scores DEV,
+# phase 2 shows TRAIN and DEV in full and scores TEST. Nothing is sampled or
+# thinned in either phase -- a phase takes every row of every role it is
+# entitled to, so every submission in a phase is scored on the same cells, and
+# that is what makes two leaderboard entries comparable to each other. How many
+# respondents carry each role is in the schema's `split` block, as counts.
 phases:
   1:
     name: Development
-    data_fraction: 0.30
     timeout_seconds: 900
     noised: true
     round_to: 0.01
     logging: verbose
   2:
     name: Final
-    data_fraction: 1.0
     timeout_seconds: 3600
     noised: false
     round_to: null
