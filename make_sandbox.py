@@ -16,19 +16,18 @@ import numpy as np
 import pandas as pd
 import yaml
 
-# Generation and the role assignment draw from separate streams. They have to
-# stay separate: both consume the same seed, so sharing a stream would tie who
-# is held out to the hidden trait that decides how they answer.
+# The one stream the sandbox draws from. Roles do not draw at all -- they are
+# counted off the schema -- so there is no second stream to keep separate from
+# the hidden trait that decides how a respondent answers.
 STREAM_DATA = 11
-STREAM_SPLIT = 22
 
 # What a respondent is for, decided once when the dataset is built and never
 # recomputed. TRAIN is visible in both phases; DEV is scored in phase 1 and
-# becomes visible in phase 2; FINAL is scored in phase 2 and is not shipped at
+# becomes visible in phase 2; TEST is scored in phase 2 and is not shipped at
 # all before then, so those answers never enter a submission's container while
 # they are still the thing being predicted.
-ROLES = ("TRAIN", "DEV", "FINAL")
-ROLE_FRACTIONS = ("train_fraction", "dev_fraction", "final_fraction")
+ROLES = ("TRAIN", "DEV", "TEST")
+ROLE_COUNTS = ("n_train", "n_dev", "n_test")
 ROLE_COLUMN = "role"
 
 
@@ -38,15 +37,10 @@ def load_config(path="config.yml"):
         config = yaml.safe_load(fh)
 
     for number, phase in config["phases"].items():
-        if not 0.0 < phase["data_fraction"] <= 1.0:
-            raise ValueError("phase %s: data_fraction must be in (0, 1]"
-                             % number)
         # Explicit, never defaulted: whether a phase's score is noised decides
         # whether the leaderboard leaks, and it should not be silently on.
         if not isinstance(phase.get("noised"), bool):
             raise ValueError("phase %s: noised must be true or false" % number)
-    if config["phases"][2]["data_fraction"] != 1.0:
-        raise ValueError("phase 2 is the final phase and scores all the data")
     if config["privacy"]["mechanism"] != "laplace":
         raise ValueError("unknown privacy mechanism %r"
                          % config["privacy"]["mechanism"])
@@ -109,21 +103,29 @@ def load_schema(path, config):
         raise ValueError("dataset.n_rows must be a positive integer, not %r"
                          % (dataset["n_rows"],))
 
-    # All three fractions are written out because all three are worth reading,
-    # so the one thing that can go wrong is that they stop agreeing.
+    # Counts, not shares. How many respondents carry each role is the thing
+    # worth reading -- it says outright how much is visible in a phase and how
+    # much is scored -- and a count cannot drift from n_rows through a rounding
+    # step the way a share can. All three are written out, so the one thing
+    # that can go wrong is that they stop agreeing with n_rows.
     split = schema["split"]
-    missing = [key for key in ROLE_FRACTIONS if key not in split]
+    missing = [key for key in ROLE_COUNTS if key not in split]
     if missing:
         raise ValueError("split is missing %s" % ", ".join(missing))
-    total = sum(split[key] for key in ROLE_FRACTIONS)
-    if abs(total - 1.0) > 1e-9:
-        raise ValueError("%s sum to %g, not 1"
-                         % (", ".join(ROLE_FRACTIONS), total))
-    for role, key in zip(ROLES[1:], ROLE_FRACTIONS[1:]):
-        if not 0.0 < split[key] < 1.0:
-            raise ValueError("%s must be strictly between 0 and 1: a phase "
-                             "with no %s respondents has nothing to score"
-                             % (key, role))
+    for key in ROLE_COUNTS:
+        count = split[key]
+        if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+            raise ValueError("split.%s must be a count of respondents, a "
+                             "non-negative integer, not %r" % (key, count))
+    total = sum(split[key] for key in ROLE_COUNTS)
+    if total != dataset["n_rows"]:
+        raise ValueError("%s sum to %d, but dataset.n_rows is %d: every "
+                         "respondent has exactly one role"
+                         % (" + ".join(ROLE_COUNTS), total, dataset["n_rows"]))
+    for role, key in zip(ROLES[1:], ROLE_COUNTS[1:]):
+        if split[key] < 1:
+            raise ValueError("split.%s must be at least 1: a phase with no %s "
+                             "respondents has nothing to score" % (key, role))
 
     return schema
 
@@ -243,27 +245,29 @@ def make_sandbox(schema, config, seed=0):
     return frame.astype(object)
 
 
-def assign_roles(schema, frame, seed=0):
-    """Give every respondent one role, at the schema's fractions.
+def assign_roles(schema, frame):
+    """Give every respondent one role, in the counts the schema declares.
 
-    One draw, decided once and written to disk, not something the grader
-    recomputes on every run. Fixing it is what keeps the leaderboard paired:
-    every submission is scored on the same cells, so the sampling variability
-    they share cancels in the differences between them, which is all a
-    leaderboard reports. Redrawing per run would swamp those differences with
-    the luck of the draw.
+    Nothing is sampled. The first `n_train` rows are TRAIN, the next `n_dev`
+    are DEV and the rest are TEST, so the composition of the file is exactly
+    what the schema says it is rather than what a draw happened to produce, and
+    the counts printed here are the counts a participant reads in the schema.
+
+    Decided once and written to disk, not something the grader recomputes on
+    every run. Fixing it is what keeps the leaderboard paired: every submission
+    is scored on the same cells, so the variability they share cancels in the
+    differences between them, which is all a leaderboard reports.
 
     Whole respondents go one way: a scored respondent has every PREDICT answer
     withheld, and splitting cells instead would leave a gated child visible
     while its parent was hidden, which gives the parent away.
     """
-    rng = np.random.default_rng([seed, STREAM_SPLIT])
-    edges = np.cumsum([schema["split"][key] for key in ROLE_FRACTIONS])
-    draw = rng.random(len(frame))
-    roles = np.asarray(ROLES, dtype=object)[np.searchsorted(edges[:-1], draw,
-                                                            side="right")]
+    counts = [schema["split"][key] for key in ROLE_COUNTS]
+    if sum(counts) != len(frame):
+        raise ValueError("split assigns %d roles but the frame has %d rows"
+                         % (sum(counts), len(frame)))
     out = frame.copy()
-    out[ROLE_COLUMN] = roles
+    out[ROLE_COLUMN] = np.repeat(np.asarray(ROLES, dtype=object), counts)
     return out
 
 
@@ -276,8 +280,7 @@ def write_sandbox(schema, config, out, seed=0):
     conventional across several.
     """
     os.makedirs(out, exist_ok=True)
-    frame = assign_roles(schema, make_sandbox(schema, config, seed=seed),
-                         seed=seed)
+    frame = assign_roles(schema, make_sandbox(schema, config, seed=seed))
 
     path = os.path.join(out, "respondents.parquet")
     try:
@@ -320,7 +323,7 @@ def main():
     print("  respondents.parquet")
     for role, held in (("TRAIN", "visible in both phases"),
                        ("DEV", "scored in phase 1, visible in phase 2"),
-                       ("FINAL", "scored in phase 2, not shipped before then")):
+                       ("TEST", "scored in phase 2, not shipped before then")):
         print("    %-6s %6d rows   %s" % (role, counts.get(role, 0), held))
     print("  schema.json    what predict() receives")
 
