@@ -81,7 +81,7 @@ print()
 
 MEANING = {"TRAIN": "@@role_train@@",
            "DEV": "@@role_dev@@",
-           "FINAL": "@@role_final@@"}
+           "TEST": "@@role_test@@"}
 counts = respondents[ROLE_COLUMN].value_counts()
 print(pd.DataFrame({"@@col_respondents@@": counts,
                     "@@col_meaning@@": [MEANING[r] for r in counts.index]}).to_string())
@@ -106,7 +106,7 @@ print(respondents[chain].value_counts().to_frame("@@col_respondents@@").head(12)
 '''),
     ("md", "@@handed@@"),
     ("code", '''
-frame, cells, truth = sample_rows(sample, respondents, config, PHASE, seed=SEED)
+frame, cells, truth = sample_rows(sample, respondents, PHASE)
 shown = [n for n, r in sample["items"].items() if r["class"] != "EXCLUDE"]
 
 print("@@lbl_frame@@", frame.shape, " @@lbl_cells@@", len(cells))

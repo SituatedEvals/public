@@ -212,7 +212,7 @@ en:
     leaderboard is a narrower confidence interval in the field, or the same
     interval from fewer interviews.
   role_dev: scored in phase 1, visible in phase 2
-  role_final: scored in phase 2
+  role_test: scored in phase 2
   role_train: visible in both phases
   schema_declares: |2
 
@@ -454,7 +454,7 @@ fr:
     c'est un intervalle de confiance plus étroit sur le terrain, ou le même
     intervalle avec moins d'entretiens.
   role_dev: noté en phase 1, visible en phase 2
-  role_final: noté en phase 2
+  role_test: noté en phase 2
   role_train: visible dans les deux phases
   schema_declares: |2
 
@@ -699,7 +699,7 @@ es:
     clasificación es un intervalo de confianza más estrecho sobre el terreno, o el
     mismo intervalo con menos entrevistas.
   role_dev: puntuado en la fase 1, visible en la fase 2
-  role_final: puntuado en la fase 2
+  role_test: puntuado en la fase 2
   role_train: visible en ambas fases
   schema_declares: |2
 
@@ -933,7 +933,7 @@ ru:
     очков: более высокий `skill` в таблице результатов — это более узкий
     доверительный интервал в поле или тот же интервал при меньшем числе бесед.
   role_dev: оценивается в фазе 1, видим в фазе 2
-  role_final: оценивается в фазе 2
+  role_test: оценивается в фазе 2
   role_train: видим в обеих фазах
   schema_declares: |2
 
@@ -1139,7 +1139,7 @@ zh:
     衡量预测质量的理由：排行榜上更高的 `skill`，就是实地更窄的置信区间，或者用
     更少的访谈得到同样的区间。
   role_dev: 第 1 阶段评分，第 2 阶段可见
-  role_final: 第 2 阶段评分
+  role_test: 第 2 阶段评分
   role_train: 两个阶段都可见
   schema_declares: |2
 
@@ -1357,7 +1357,7 @@ ar:
     جدول النتائج يعني فترة ثقة أضيق في الميدان، أو الفترة نفسها بعدد أقل من
     المقابلات.
   role_dev: يُسجَّل في المرحلة ١، ظاهر في المرحلة ٢
-  role_final: يُسجَّل في المرحلة ٢
+  role_test: يُسجَّل في المرحلة ٢
   role_train: ظاهر في المرحلتين
   schema_declares: |2
 
