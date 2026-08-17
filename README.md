@@ -60,7 +60,7 @@ and `tutorials/translations.yml` and rebuild rather than editing a notebook.
 
 Probabilistic completion of a **respondent × question** grid. Each instrument is
 one wide table: `respondent_id` plus one column per question. Every respondent's
-`GIVEN` block is visible. A fraction of respondents given in the `--schema` arrives complete. The rest are **held out**. You see their `GIVEN` block and nothing else; every
+`GIVEN` block is visible. A number of respondents given in the `--schema` arrives complete. The rest are **held out**. You see their `GIVEN` block and nothing else; every
 `PREDICT` cell is blank, and every blank is scored using the log scoring rule. 
 
 For each blank you return a **probability distribution over that question's
@@ -103,17 +103,22 @@ There are two phases: a development and a test phase. They are distinguished by 
 
 | | Phase 1 — Development | Phase 2 — Final |
 |---|---|---|
-| Visible | `TRAIN` | `TRAIN` and `DEV`, answers included |
-| Masked and scored | `DEV` | `FINAL` |
+| Visible, answers included | `TRAIN` | `TRAIN` and `DEV` |
+| `GIVEN` only, `PREDICT` masked and scored | `DEV` | `TEST` |
 | Wall-clock Compute Budget | 900 s (`phases.1.timeout_seconds`) | 3600 s |
 | Submissions | 1 per day | 1 |
 | Score returned | Laplace-noised, rounded to `phases.1.round_to` (0.01) | exact |
 
-Every respondent carries one of three roles, assigned once when the dataset is
-built and never redrawn. The phases therefore do not nest: `FINAL` respondents
-are not shipped at all in phase 1, so a phase-1 leaderboard probed all through
-development is not an answer key for phase 2, and `DEV` respondents return in
-phase 2 as visible rows, which is where they are worth most.
+Every respondent carries one of three roles — `TRAIN`, `DEV` or `TEST` — in the
+`role` column of the delivered file, assigned once when the dataset is built and
+never redrawn. How many respondents carry each is declared in the schema's
+`split` block, as counts. Nothing is subsampled in either phase: a phase takes
+every row of every role it is entitled to.
+
+The phases therefore do not nest: `TEST` respondents are not shipped at all in
+phase 1, so a phase-1 leaderboard probed all through development is not an
+answer key for phase 2, and `DEV` respondents return in phase 2 as visible rows,
+answers included, which is where they are worth most.
 
 Because the scored set is fixed within a phase, every submission is scored on
 the same cells and two leaderboard entries are directly comparable — the
@@ -190,7 +195,7 @@ The file in `data/`, plus `schema["gated_value"]` filled in from `config.yml`.
 |---|---|
 | `dataset` | `n_rows`, `version`, and a prose `description` of the instrument |
 | `items` | one record per item, in the grader's order |
-| `split` | `train_fraction`, `dev_fraction` and `final_fraction`, summing to 1 |
+| `split` | `n_train`, `n_dev` and `n_test`, counts of respondents summing to `dataset.n_rows` |
 | `gated_value` | the level meaning "this person was never asked" (`NA_GATED`) |
 
 Each `items` record holds four keys:
@@ -462,14 +467,16 @@ Writes two files, which together are what a delivered dataset looks like:
 | `respondents.parquet` | every respondent, plus a `role` column |
 | `schema.json` | what `predict()` receives |
 
-Roles are assigned here, once, at the schema's `split` fractions — not in
-`score.py`, which only looks them up:
+Roles are assigned here, once, in the counts the schema's `split` block declares
+— not in `score.py`, which only looks them up. Nothing is sampled: the first
+`n_train` rows are `TRAIN`, the next `n_dev` are `DEV` and the remaining
+`n_test` are `TEST`, so the file's composition is exactly what the schema says:
 
 | Role | Phase 1 | Phase 2 |
 |---|---|---|
-| `TRAIN` | visible | visible |
-| `DEV` | masked and scored | visible |
-| `FINAL` | not shipped at all | masked and scored |
+| `TRAIN` | visible, answers included | visible, answers included |
+| `DEV` | `GIVEN` only, `PREDICT` masked and scored | visible, answers included |
+| `TEST` | not shipped at all | `GIVEN` only, `PREDICT` masked and scored |
 
 Whole respondents go one way: splitting cells instead would leave a gated child
 visible while its parent was hidden, which gives the parent away. Row count
@@ -486,11 +493,11 @@ python score.py --submission baseline/marginal_counts --data _sandbox/unicef \
 `--data` is a directory holding `respondents.parquet`. In order:
 
 1. **Ingests** the file and type checks it against the schema — every declared
-   column present, `respondent_id` unique, every role one of the three, every
-   value one the schema lists. A bad dataset fails in a second rather than an
-   hour into an H100.
-2. **Selects** this phase's visible and hidden roles and blanks every `PREDICT`
-   cell of the hidden rows.
+   column present, `respondent_id` unique, every role one of the three and
+   present in the count `split` declares for it, every value one the schema
+   lists. A bad dataset fails in a second rather than an hour into an H100.
+2. **Selects** this phase's visible and hidden roles — all of them, nothing
+   subsampled — and blanks every `PREDICT` cell of the hidden rows.
 3. **Installs** `requirements.txt` into a fresh venv. The only moment anything
    reaches the network.
 4. **Runs** `predict()` with the network gone, under the phase's time limit.
