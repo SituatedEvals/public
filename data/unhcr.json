@@ -2,7 +2,7 @@
   "dataset": {
     "n_rows": 10349,
     "version": "1.2",
-    "description": "Household survey of Syrian refugees in four countries of asylum, covering displacement history, housing/land/property at origin, return intentions, employment, social cohesion, economic status and protection risks. One row per household per round, reported by a single adult respondent. Fieldwork May-June 2025 over 67 distinct interview dates, with both wave labels falling inside the same two-month window. Three mutually exclusive conditional branches hang off the twelve-month return-intention item (s3_11): a return branch (s7a), a do-not-return branch (s7b) and an undecided branch (s7c)."
+    "description": "Household survey of Syrian refugees in four countries of asylum, covering displacement history, housing/land/property at origin, return intentions, employment, social cohesion, economic status and protection risks. One row per household per round, reported by a single adult respondent. Fieldwork May-June 2025 over 67 distinct interview dates, with both wave labels falling inside the same two-month window. Three mutually exclusive conditional branches hang off the twelve-month return-intention item (s3_11): a return branch (s7a), a do-not-return branch (s7b) and an undecided branch (s7c). Where the questionnaire routes an item on two parents at once -- s2_9 is asked of anyone owning a house or land in Syria, s6_12 of any household with children aged 6-17 of either sex -- the gate names the first parent only."
   },
   "items": {
     "panel_hh_key": {
