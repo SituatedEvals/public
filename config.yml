@@ -28,12 +28,15 @@ privacy:
 phases:
   1:
     name: Development
+    ends: 2026-11-13
     timeout_seconds: 900
     noised: true
     round_to: 0.01
     logging: verbose
   2:
     name: Final
+    starts: 2026-11-14
+    ends: 2026-11-18
     timeout_seconds: 3600
     noised: false
     round_to: null

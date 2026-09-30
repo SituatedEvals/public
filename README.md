@@ -103,6 +103,7 @@ There are two phases: a development and a test phase. They are distinguished by 
 
 | | Phase 1 — Development | Phase 2 — Final |
 |---|---|---|
+| Dates | through 2026-11-13 (`phases.1.ends`) | 2026-11-14 to 2026-11-18 (`phases.2.starts`, `phases.2.ends`) |
 | Visible, answers included | `TRAIN` | `TRAIN` and `DEV` |
 | `GIVEN` only, `PREDICT` masked and scored | `DEV` | `TEST` |
 | Wall-clock Compute Budget | 900 s (`phases.1.timeout_seconds`) | 3600 s |
