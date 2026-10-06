@@ -93,8 +93,7 @@ en:
 
     `K` is the item's option count **with the gate sentinel included** — a gated
     item has one more slot than it has answers, because "never asked" is a real
-    answer for it. That extra slot is the last entry of your probability vector,
-    and `K` is what the uniform reference `U` is computed from.
+    answer for it. That extra slot is the last entry of your probability vector.
 
     `would_return` gates on `clinic_wait`, which gates on `visited_clinic`: a chain
     two deep. A respondent who never visited a clinic was never asked how long they
@@ -115,11 +114,11 @@ en:
   lbl_no_interval: '[no interval at all]'
   lbl_off_by: off by
   lbl_powered: prediction-powered
+  lbl_reference: marginal reference (nats)
   lbl_skill: skill
-  lbl_skill_note: skill is 0 for a uniform guess and 1 for perfection.
+  lbl_skill_note: skill is 0 for this crowd baseline and 1 for perfection.
   lbl_true_share: 'true share (which a real survey never gets to see):'
   lbl_truth: truth
-  lbl_uniform: uniform reference (nats)
   lbl_vs_truth: vs truth
   lbl_width: width
   now_draw: |2
@@ -238,8 +237,10 @@ en:
     ### Scoring
 
     The crowd baseline: every held-out respondent gets each item's smoothed shares,
-    ignoring everything about the individual. `skill` is 0 for a uniform guess and
-    1 for perfection, and it is what the leaderboard ranks.
+    ignoring everything about the individual. It is also the yardstick: `skill` is
+    0 for exactly this baseline and 1 for perfection, and it is what the
+    leaderboard ranks. So the number printed below is 0, and yours has to be above
+    it.
   title: |2
 
     # SimulacraBench tutorial
@@ -333,8 +334,7 @@ fr:
     `K` est le nombre de modalités de l'item, **sentinelle de filtre comprise** : un
     item filtré a une case de plus qu'il n'a de réponses, parce que « jamais posé »
     est pour lui une réponse à part entière. Cette case supplémentaire est la
-    dernière de votre vecteur de probabilités, et c'est de `K` qu'est calculée la
-    référence uniforme `U`.
+    dernière de votre vecteur de probabilités.
 
     `would_return` est filtré par `clinic_wait`, lui-même filtré par
     `visited_clinic` : une chaîne de profondeur deux. Un répondant qui n'a jamais
@@ -355,11 +355,11 @@ fr:
   lbl_no_interval: '[aucun intervalle]'
   lbl_off_by: écart de
   lbl_powered: assistée par la prédiction
+  lbl_reference: référence marginale (nats)
   lbl_skill: skill
-  lbl_skill_note: skill vaut 0 pour une réponse uniforme et 1 pour la perfection.
+  lbl_skill_note: skill vaut 0 pour cette référence de foule et 1 pour la perfection.
   lbl_true_share: 'part réelle (qu''une vraie enquête ne voit jamais) :'
   lbl_truth: vérité
-  lbl_uniform: référence uniforme (nats)
   lbl_vs_truth: contre une vérité de
   lbl_width: largeur
   now_draw: |2
@@ -482,9 +482,10 @@ fr:
     ### Notation
 
     La référence de foule : chaque répondant masqué reçoit les parts lissées de
-    chaque item, sans rien tenir compte de l'individu. `skill` vaut 0 pour une
-    réponse uniforme et 1 pour la perfection, et c'est ce que classe le tableau des
-    scores.
+    chaque item, sans rien tenir compte de l'individu. C'est aussi l'étalon :
+    `skill` vaut 0 pour cette référence exactement et 1 pour la perfection, et
+    c'est ce que classe le tableau des scores. Le nombre affiché ci-dessous est
+    donc 0, et le vôtre doit le dépasser.
   title: |2
 
     # Tutoriel SimulacraBench
@@ -577,7 +578,7 @@ es:
     `K` es el número de opciones del ítem **incluido el centinela de filtro**: un
     ítem filtrado tiene una casilla más que respuestas, porque «nunca preguntado»
     es para él una respuesta de pleno derecho. Esa casilla adicional es la última
-    de su vector de probabilidades, y de `K` se calcula la referencia uniforme `U`.
+    de su vector de probabilidades.
 
     `would_return` depende de `clinic_wait`, que a su vez depende de
     `visited_clinic`: una cadena de profundidad dos. A quien nunca acudió a un
@@ -598,11 +599,11 @@ es:
   lbl_no_interval: '[sin intervalo alguno]'
   lbl_off_by: desvío de
   lbl_powered: asistida por predicción
+  lbl_reference: referencia marginal (nats)
   lbl_skill: skill
-  lbl_skill_note: skill vale 0 para una respuesta uniforme y 1 para la perfección.
+  lbl_skill_note: skill vale 0 para esta línea base de la multitud y 1 para la perfección.
   lbl_true_share: 'proporción verdadera (que una encuesta real nunca llega a ver):'
   lbl_truth: verdad
-  lbl_uniform: referencia uniforme (nats)
   lbl_vs_truth: frente a una verdad de
   lbl_width: anchura
   now_draw: |2
@@ -727,8 +728,9 @@ es:
 
     La línea base de la multitud: cada encuestado reservado recibe las
     proporciones suavizadas de cada ítem, ignorando todo lo relativo al individuo.
-    `skill` vale 0 para una respuesta uniforme y 1 para la perfección, y es lo que
-    ordena la tabla de clasificación.
+    Es también la vara de medir: `skill` vale 0 exactamente para esta línea base
+    y 1 para la perfección, y es lo que ordena la tabla de clasificación. El número
+    que se imprime a continuación es, por tanto, 0, y el suyo debe superarlo.
   title: |2
 
     # Tutorial de SimulacraBench
@@ -816,7 +818,7 @@ ru:
     `K` — число вариантов пункта **вместе со служебным значением перехода**: у
     пункта с переходом на одну ячейку больше, чем ответов, потому что «не
     задавался» для него полноценный ответ. Эта дополнительная ячейка — последняя в
-    вашем векторе вероятностей, и именно из `K` вычисляется равномерный эталон `U`.
+    вашем векторе вероятностей.
 
     `would_return` зависит от `clinic_wait`, а тот — от `visited_clinic`: цепочка
     глубиной два. Тому, кто не обращался в поликлинику, не задавали ни вопрос о
@@ -837,11 +839,11 @@ ru:
   lbl_no_interval: '[интервала нет вовсе]'
   lbl_off_by: отклонение
   lbl_powered: с опорой на прогноз
+  lbl_reference: маргинальный эталон (наты)
   lbl_skill: skill
-  lbl_skill_note: skill равен 0 для равномерного ответа и 1 для совершенного.
+  lbl_skill_note: skill равен 0 для этого базового решения «толпы» и 1 для совершенного ответа.
   lbl_true_share: 'истинная доля (которую настоящее обследование не видит):'
   lbl_truth: истина
-  lbl_uniform: равномерный эталон (наты)
   lbl_vs_truth: против истины
   lbl_width: ширина
   now_draw: |2
@@ -958,8 +960,10 @@ ru:
     ### Подсчёт очков
 
     Базовое решение «толпы»: каждый скрытый респондент получает сглаженные доли по
-    каждому пункту, без всякого учёта личности. `skill` равен 0 для равномерного
-    ответа и 1 для совершенного, и именно по нему строится таблица результатов.
+    каждому пункту, без всякого учёта личности. Оно же служит точкой отсчёта:
+    `skill` равен 0 именно для этого решения и 1 для совершенного ответа, и именно
+    по нему строится таблица результатов. Поэтому число, напечатанное ниже, равно
+    0, а ваше должно быть выше.
   title: |2
 
     # Руководство по SimulacraBench
@@ -1035,8 +1039,7 @@ zh:
   k_and_gates: |2
 
     `K` 是题目的选项个数，**并计入跳转哨兵值**：有跳转的题目比它的答案多出一格，
-    因为“从未被问到”对它而言是一个真正的答案。这一格是你概率向量的最后一项，
-    均匀参考值 `U` 也正是由 `K` 计算得出的。
+    因为“从未被问到”对它而言是一个真正的答案。这一格是你概率向量的最后一项。
 
     `would_return` 依赖于 `clinic_wait`，后者又依赖于 `visited_clinic`：一条深度
     为二的链。从未去过诊所的受访者，既没有被问过等了多久，也没有被问过是否会再去。
@@ -1056,11 +1059,11 @@ zh:
   lbl_no_interval: '[根本没有区间]'
   lbl_off_by: 偏差
   lbl_powered: 预测驱动
+  lbl_reference: 边际参考值（奈特）
   lbl_skill: skill
-  lbl_skill_note: skill 在均匀猜测时为 0，完美时为 1。
+  lbl_skill_note: skill 对这一群体基线为 0，完美时为 1。
   lbl_true_share: '真实比例（真实调查永远看不到）:'
   lbl_truth: 真值
-  lbl_uniform: 均匀参考值（奈特）
   lbl_vs_truth: 对比真值
   lbl_width: 宽度
   now_draw: |2
@@ -1162,7 +1165,8 @@ zh:
     ### 评分
 
     群体基线：每位被隐藏的受访者都得到该题目经过平滑的整体比例，完全不考虑个体
-    差异。`skill` 在均匀猜测时为 0，完美时为 1，排行榜正是按它排序的。
+    差异。它同时也是基准：`skill` 对这一基线恰好为 0，完美时为 1，排行榜正是按它
+    排序的。因此下面打印出的数值是 0，而你的结果必须高于它。
   title: |2
 
     # SimulacraBench 教程
@@ -1246,8 +1250,7 @@ ar:
 
     القيمة `K` هي عدد خيارات البند **متضمنًا قيمة البوابة الحارسة**: فالبند
     المبوَّب له خانة أكثر مما له من إجابات، لأن «لم يُسأل قط» إجابة حقيقية بالنسبة
-    إليه. وهذه الخانة الإضافية هي آخر مدخل في متجه الاحتمالات لديك، ومن `K` يُحسب
-    المرجع المنتظم `U`.
+    إليه. وهذه الخانة الإضافية هي آخر مدخل في متجه الاحتمالات لديك.
 
     البند `would_return` مبوَّب على `clinic_wait`، وهذا الأخير مبوَّب على
     `visited_clinic`: سلسلة بعمق اثنين. فمن لم يزر عيادة قط لم يُسأل كم انتظر، ولا
@@ -1267,11 +1270,11 @@ ar:
   lbl_no_interval: '[لا فترة ثقة البتة]'
   lbl_off_by: بانحراف
   lbl_powered: المدعوم بالتنبؤ
+  lbl_reference: المرجع الهامشي (نات)
   lbl_skill: skill
-  lbl_skill_note: المقياس skill يساوي صفرًا للتخمين المنتظم وواحدًا للكمال.
+  lbl_skill_note: المقياس skill يساوي صفرًا لخط الأساس الجماعي هذا وواحدًا للكمال.
   lbl_true_share: 'النسبة الحقيقية (التي لا يراها مسح حقيقي قط):'
   lbl_truth: الحقيقة
-  lbl_uniform: المرجع المنتظم (نات)
   lbl_vs_truth: مقابل حقيقة قدرها
   lbl_width: العرض
   now_draw: |2
@@ -1383,8 +1386,9 @@ ar:
     ### التسجيل
 
     خط الأساس الجماعي: كل مستجيب محجوب يأخذ النسب الممهَّدة لكل بند، متجاهلًا كل ما
-    يخص الفرد. والمقياس `skill` يساوي صفرًا للتخمين المنتظم وواحدًا للكمال، وهو ما
-    يرتّب عليه جدول النتائج.
+    يخص الفرد. وهو أيضًا نقطة القياس: المقياس `skill` يساوي صفرًا لخط الأساس هذا
+    تحديدًا وواحدًا للكمال، وهو ما يرتّب عليه جدول النتائج. ولذلك فالرقم المطبوع
+    أدناه يساوي صفرًا، وعلى نتيجتك أن تتجاوزه.
   title: |2
 
     # دليل SimulacraBench

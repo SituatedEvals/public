@@ -1,7 +1,8 @@
 leaderboard:
   # Mean log probability the submission gave the answer that was actually
-  # there, divided by the schema's uniform reference and shifted so that a
-  # uniform guess scores 0 and a perfect one scores 1. Higher is better.
+  # there, divided by the phase's marginal reference and shifted so that the
+  # crowd marginal of the visible rows -- what baseline/marginal_counts
+  # returns -- scores 0 and a perfect submission scores 1. Higher is better.
   metric: skill
   direction: maximize
   # Across instruments: the plain mean of their skills. The normalisation is
