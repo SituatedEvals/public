@@ -44,6 +44,10 @@ Submissions are evaluated primarily using probabilistic scoring, rewarding accur
 
 During the development phase, teams can submit regularly and receive leaderboard feedback on a fixed subset of respondents. In the final phase, each team submits its final solution for evaluation on previously unseen respondents, and these scores determine the final rankings.
 
-## 12. Is the goal to replace human survey respondents?
+## 12. Were DEV and TEST respondents drawn at random?
+
+Yes. In every instrument the rows were randomly permuted under a fixed seed before roles were assigned, once, at build time, so the held-out respondents come from the same population as `TRAIN`. The UNICEF permutation is stratified by country, the UNHCR split is balanced on survey round and country of asylum, and the World Bank split is a plain seeded permutation. Every country, or for UNHCR every country of asylum, that appears in `DEV` or `TEST` also appears in `TRAIN`, so no country is held out. Standard random cross-validation on `TRAIN` is therefore an appropriate validation scheme.
+
+## 13. Is the goal to replace human survey respondents?
 
 No. SimulacraBench is designed to test when and how accurately algorithmic predictions can augment human-labelled survey data, and where those predictions fail. Strong performance on the benchmark should not be interpreted as evidence that human respondents or traditional survey methods can be replaced.

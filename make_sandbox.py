@@ -253,6 +253,14 @@ def assign_roles(schema, frame):
     what the schema says it is rather than what a draw happened to produce, and
     the counts printed here are the counts a participant reads in the schema.
 
+    The randomisation sits one step earlier, in the row order. For the
+    delivered files the organizers' build shuffles the rows, under a fixed
+    seed, before it assigns respondent_id, so the positional rule is applied to
+    a shuffled order and a contiguous block is a random sample of respondents.
+    A frame handed to assign_roles in collection order would come back with its
+    most recent respondents as TEST, which is why the delivered files were
+    shuffled first.
+
     Decided once and written to disk, not something the grader recomputes on
     every run. Fixing it is what keeps the leaderboard paired: every submission
     is scored on the same cells, so the variability they share cancels in the

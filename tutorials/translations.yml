@@ -52,7 +52,9 @@ en:
   canonical: |2
 
     The top rows are visible respondents: complete, and yours to learn from. The
-    bottom rows are held out — you see their `GIVEN` block and nothing else.
+    bottom rows are held out — you see their `GIVEN` block and nothing else. The
+    rows were shuffled before roles were assigned, so top versus bottom says
+    nothing about who the respondents are or when they were interviewed.
 
     Your return value is one probability vector per blank, in **canonical order**:
     rows top to bottom, and within a row, items in `schema["items"]` key order —
@@ -287,7 +289,9 @@ fr:
 
     Les premières lignes sont les répondants visibles : complets, et à vous d'en
     apprendre. Les dernières lignes sont masquées — vous voyez leur bloc `GIVEN` et
-    rien d'autre.
+    rien d'autre. Les lignes ont été mélangées avant l'attribution des rôles : le
+    haut ou le bas du tableau ne dit donc rien de qui sont les répondants ni de la
+    date de leur entretien.
 
     Votre valeur de retour est un vecteur de probabilités par case vide, dans
     l'**ordre canonique** : les lignes de haut en bas et, au sein d'une ligne, les
@@ -532,7 +536,9 @@ es:
 
     Las filas de arriba son encuestados visibles: completos, y suyos para aprender
     de ellos. Las de abajo están reservadas — usted ve su bloque `GIVEN` y nada
-    más.
+    más. Las filas se barajaron antes de asignar los roles, de modo que estar
+    arriba o abajo no dice nada sobre quiénes son los encuestados ni cuándo fueron
+    entrevistados.
 
     Su valor de retorno es un vector de probabilidades por celda vacía, en **orden
     canónico**: las filas de arriba abajo y, dentro de una fila, los ítems en el
@@ -773,7 +779,9 @@ ru:
   canonical: |2
 
     Верхние строки — видимые респонденты: заполненные, и на них можно учиться.
-    Нижние строки скрыты — вы видите их блок `GIVEN` и больше ничего.
+    Нижние строки скрыты — вы видите их блок `GIVEN` и больше ничего. Строки были
+    перемешаны до назначения ролей, поэтому положение вверху или внизу ничего не
+    говорит о том, кто эти респонденты и когда их опрашивали.
 
     Возвращаемое значение — по одному вектору вероятностей на пустую ячейку, в
     **каноническом порядке**: строки сверху вниз, а внутри строки — пункты в
@@ -999,7 +1007,8 @@ zh:
   canonical: |2
 
     上面几行是可见受访者：内容完整，供你学习。下面几行被隐藏——你只能看到他们的
-    `GIVEN` 部分，别无其他。
+    `GIVEN` 部分，别无其他。在分配角色之前，行的顺序已被随机打乱，因此位于上面还是下面，
+    并不说明受访者是谁，也不说明他们何时接受访谈。
 
     你的返回值是每个空格一个概率向量，按**规范顺序**排列：行从上到下，行内则按
     `schema["items"]` 的键顺序排列题目——而不是 `frame.columns` 的顺序，两者可能
@@ -1206,7 +1215,9 @@ ar:
   canonical: |2
 
     الصفوف العليا مستجيبون ظاهرون: مكتملون، ولك أن تتعلم منهم. والصفوف السفلى
-    محجوبة — ترى منها كتلة `GIVEN` ولا شيء غيرها.
+    محجوبة — ترى منها كتلة `GIVEN` ولا شيء غيرها. وقد خُلطت الصفوف عشوائيًا قبل
+    إسناد الأدوار، فموقع الصف في الأعلى أو الأسفل لا يدل على هوية المستجيبين ولا
+    على وقت مقابلتهم.
 
     قيمتك المعادة هي متجه احتمالات واحد لكل خانة فارغة، وفق **الترتيب المعياري**:
     الصفوف من الأعلى إلى الأسفل، وداخل الصف الواحد البنود بترتيب مفاتيح

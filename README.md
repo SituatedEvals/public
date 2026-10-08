@@ -116,6 +116,19 @@ never redrawn. How many respondents carry each is declared in the schema's
 `split` block, as counts. Nothing is subsampled in either phase: a phase takes
 every row of every role it is entitled to.
 
+The rows of each delivered file were randomly permuted, under a fixed seed,
+before roles were assigned. `DEV` and `TEST` are therefore random samples from
+the same respondent population as `TRAIN`. Row position carries no information.
+`TEST` is not the most recently interviewed respondents, and `DEV` is not
+earlier-collected data in any sense: the only difference is that `DEV` is scored
+in phase 1 and becomes visible in phase 2. In UNICEF the permutation is
+stratified by `Country`, so country shares match across `TRAIN`, `DEV` and
+`TEST` to within rounding. In UNHCR the split is balanced on survey round and
+country of asylum, and shares differ across roles by at most about two
+percentage points. World Bank is a plain seeded permutation. Every country, and
+for UNHCR every country of asylum, that appears in `DEV` or `TEST` also appears
+in `TRAIN`. No country is absent from `TRAIN`.
+
 The phases therefore do not nest: `TEST` respondents are not shipped at all in
 phase 1, so a phase-1 leaderboard probed all through development is not an
 answer key for phase 2, and `DEV` respondents return in phase 2 as visible rows,
@@ -478,6 +491,13 @@ Roles are assigned here, once, in the counts the schema's `split` block declares
 | `TRAIN` | visible, answers included | visible, answers included |
 | `DEV` | `GIVEN` only, `PREDICT` masked and scored | visible, answers included |
 | `TEST` | not shipped at all | `GIVEN` only, `PREDICT` masked and scored |
+
+The randomisation sits one step earlier, in the row order. For the delivered
+files the organizers' build shuffles the rows, under a fixed seed, before it
+assigns `respondent_id`, so the positional rule is applied to a shuffled order
+and a contiguous block is a random sample of respondents. A frame handed to
+`assign_roles` in collection order would come back with its most recent
+respondents as `TEST`, which is why the delivered files were shuffled first.
 
 Whole respondents go one way: splitting cells instead would leave a gated child
 visible while its parent was hidden, which gives the parent away. Row count
