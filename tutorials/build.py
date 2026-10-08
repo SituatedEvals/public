@@ -61,7 +61,7 @@ import pandas as pd
 # @@c_modules@@
 from make_sandbox import (ROLE_COLUMN, generated_items, load_config,
                           load_schema, options_for, write_sandbox)
-from score import floored, load_frames, sample_rows
+from score import floored, load_frames, marginal_reference, sample_rows
 from score import score as grade
 
 SEED = 0
@@ -142,7 +142,9 @@ def crowd_for(sch, frame):
 
 
 vectors = floored(crowd_for(sample, frame), sample, cells, config["scoring"]["floor"])
-result = grade(sample, config, vectors, truth, cells)
+reference = marginal_reference(sample, frame, cells, truth,
+                               config["scoring"]["floor"])
+result = grade(sample, config, vectors, truth, cells, reference)
 
 def table(rows):
     """Print label/value pairs, aligned however long the labels happen to be."""
@@ -151,7 +153,7 @@ def table(rows):
         print("%-*s  %s" % (pad, label, value))
 
 
-table([("@@lbl_uniform@@", "%.4f" % result["uniform_reference"]),
+table([("@@lbl_reference@@", "%.4f" % result["marginal_reference"]),
        ("@@lbl_logscore@@", "%.4f" % result["log_score"]),
        ("@@lbl_skill@@", "%.4f" % result["skill"])])
 print()

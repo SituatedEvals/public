@@ -72,17 +72,24 @@ believe.
 The three datasets are documented in the schemas contained in `/data`. The leaderboard gives per-Dataset and the mean of *skills*:
 
 ```math
-\mathrm{skill} = 1 + \frac{\mathcal{L}}{U}
+\mathrm{skill} = 1 + \frac{\mathcal{L}}{R}
 \qquad\qquad
 \mathrm{Skill} = \tfrac{1}{3}\left(\mathrm{skill}_{\text{UNICEF}} + \mathrm{skill}_{\text{World Bank}} + \mathrm{skill}_{\text{UNHCR}}\right)
 ```
 
-where the log score and the uniform reference are
+where the log score and the marginal reference are
 
 ```math
 \mathcal{L} = \frac{1}{|C|} \sum_{(i,j)\in C} \log p_{ij} \left[ y_{ij} \right]
 \qquad\qquad
-U = \frac{1}{|S|} \sum_{j \in S} \log K_j
+R = -\frac{1}{|C|} \sum_{(i,j)\in C} \log \tilde{m}_{j} \left[ y_{ij} \right]
+```
+
+$R$ is the log score, sign flipped, of the crowd marginal: each item's option
+shares among the rows you can see, with half a count added to every option,
+
+```math
+m_{j}[k] = \frac{n_{jk} + \tfrac{1}{2}}{\sum_{k'} \left( n_{jk'} + \tfrac{1}{2} \right)}
 ```
 
 and the vector that is actually scored is yours, renormalized and mixed with a
@@ -93,7 +100,7 @@ p_{ij} = \varepsilon + \left(1 - K_j\,\varepsilon\right)\frac{q_{ij}}{\sum_{k} q
 \qquad \varepsilon = 10^{-3}
 ```
 
-$S$ is the instrument's scored items, $K_j$ the option count of item $j$, $C$ the blank cells, $q_{ij}$ the vector you returned and $y_{ij}$ the answer that was actually there. So **0 is a uniform guess and 1 is perfection**; the full account is under [Scoring](#scoring).
+$K_j$ is the option count of item $j$, $C$ the blank cells, $q_{ij}$ the vector you returned, $y_{ij}$ the answer that was actually there, $n_{jk}$ the number of visible respondents who gave option $k$ on item $j$, and $\tilde{m}_j$ is $m_j$ put through the same mixing as your vector. So **0 is the crowd marginal — exactly what `baseline/marginal_counts` returns — and 1 is perfection**; the full account is under [Scoring](#scoring).
 
 A `predict()` does not need to perform well on all datasets, but must produce legal outputs (a probability distribution per output) for all of them.
 
@@ -412,13 +419,18 @@ better.**
 **Skill** puts that on a scale the instruments share:
 
 ```
-skill = 1 + log_score / U          U = mean over scored items of log K
+skill = 1 + log_score / R          R = -(log score of the crowd marginal)
 ```
 
-`K` is an item's option count, sentinel included. `U` is the surprisal of a
-uniform guess, in nats, and it comes from the schema alone — no data, fixed
-before anybody submits. So `skill` is **0** for a uniform guess, **1** for
-perfection, and negative for worse than guessing. It is the leaderboard metric;
+`R` is the surprisal of the crowd marginal, in nats. The crowd marginal is each
+item's option shares among the rows you can see — `TRAIN` in phase 1, `TRAIN`
+and `DEV` in phase 2 — with half a count added to every option, given to every
+held-out respondent alike and scored on the held-out cells exactly as your
+vectors are. It is what `baseline/marginal_counts` returns, so that baseline
+scores exactly 0. `R` depends on the data and differs between the phases, and
+it is the same number for every submission in a phase. So `skill` is **0** for
+the crowd marginal, **1** for perfection, and negative for worse than the
+crowd; a uniform guess is well below 0. It is the leaderboard metric;
 see `leaderboard` in `config.yml`.
 
 Every vector is renormalized and mixed with a flat vector before scoring, so no
@@ -541,7 +553,7 @@ python tools/check_submission_zip.py my_submission.zip
 **This validates the `.zip`, not your model.** It answers one question — *would
 the platform accept this archive and get legal output out of it?* — and says
 nothing whatever about your score. `score.py` is the tool for that, and the two
-are not substitutes: a submission can pass this and score below a uniform guess,
+are not substitutes: a submission can pass this and score below the crowd marginal,
 or score well and still be rejected for a layout mistake that costs you a day's
 quota.
 
