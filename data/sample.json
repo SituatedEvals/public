@@ -79,8 +79,8 @@
     }
   },
   "split": {
-    "train_fraction": 0.75,
-    "dev_fraction": 0.075,
-    "final_fraction": 0.175
+    "n_train": 8000,
+    "n_dev": 1900,
+    "n_test": 2100
   }
 }

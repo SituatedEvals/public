@@ -123,11 +123,14 @@ LOAD_CALL_SUFFIXES = (
     ".read_bytes",
     ".with_name",
 )
-# A one-instrument frame in the shape predict() receives: two visible
-# respondents to fit on, one held out with its scored cell blank. The gated
-# item exercises the sentinel slot, which is a real answer and goes last.
+# A one-instrument frame in the shape predict() receives in phase 1: two
+# visible TRAIN respondents to fit on, one held-out DEV respondent with its
+# scored cells blank. The one TEST respondent the split declares is not shipped
+# in phase 1, which is why the dataset has four rows and the frame has three.
+# The gated item exercises the sentinel slot, which is a real answer and goes
+# last.
 SMOKE_SCHEMA = {
-    "dataset": {"n_rows": 3, "version": "1.0", "description": "local smoke check"},
+    "dataset": {"n_rows": 4, "version": "1.0", "description": "local smoke check"},
     "items": {
         "region": {"question": "Which region?", "class": "GIVEN",
                    "values": ["North", "South"], "gate": None},
@@ -137,7 +140,7 @@ SMOKE_SCHEMA = {
                         "values": ["Under 30 minutes", "Over 30 minutes"],
                         "gate": {"parent": "visited_clinic", "observed_if": ["Yes"]}},
     },
-    "split": {"train_fraction": 0.67, "dev_fraction": 0.16, "final_fraction": 0.17},
+    "split": {"n_train": 2, "n_dev": 1, "n_test": 1},
     "gated_value": "NA_GATED",
 }
 

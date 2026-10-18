@@ -21,7 +21,7 @@ import time
 import numpy as np
 import pandas as pd
 
-from make_sandbox import (ROLE_COLUMN, ROLES, STREAM_SPLIT, generated_items,
+from make_sandbox import (ROLE_COLUMN, ROLE_COUNTS, ROLES, generated_items,
                           load_config, load_schema, options_for, scored_items)
 
 # Runs inside the prepared environment. Reads what score.py staged, calls
@@ -144,9 +144,19 @@ def load_frames(path, schema):
         raise ValueError("%s holds role(s) outside %s: %s"
                          % (path, ", ".join(ROLES),
                             ", ".join(sorted(map(str, stray_roles)))))
-    for role in ROLES:
-        if not (frame[ROLE_COLUMN] == role).any():
-            raise ValueError("%s holds no %s respondents" % (path, role))
+
+    # The schema declares each role as a count, so the count is checkable and
+    # is checked: a file that ships a different number of DEV respondents than
+    # the schema says was built from a different schema, and every number a
+    # participant read off the split block is wrong. A role that is absent
+    # altogether is not an error -- a phase-1 delivery ships no TEST rows at
+    # all -- and which roles a phase actually needs is sample_rows's business.
+    present = frame[ROLE_COLUMN].value_counts()
+    for role, key in zip(ROLES, ROLE_COUNTS):
+        found, declared = int(present.get(role, 0)), schema["split"][key]
+        if found not in (0, declared):
+            raise ValueError("%s holds %d %s respondents; the schema declares "
+                             "%s = %d" % (path, found, role, key, declared))
 
     for item in items:
         allowed = set(options_for(schema, item))
@@ -167,23 +177,23 @@ def load_frames(path, schema):
 # ------------------------------------------------------------------ sample --
 
 PHASE_ROLES = {1: {"visible": ("TRAIN",), "hidden": "DEV"},
-               2: {"visible": ("TRAIN", "DEV"), "hidden": "FINAL"}}
+               2: {"visible": ("TRAIN", "DEV"), "hidden": "TEST"}}
 
 
-def sample_rows(schema, respondents, config, phase, seed=0):
+def sample_rows(schema, respondents, phase):
     """Take this phase's rows and blank what the submission has to predict.
 
     Roles decide it, and they were decided when the dataset was built. Phase 1
-    scores DEV; phase 2 scores FINAL and hands DEV over as visible rows,
-    answers included, which is where they are worth most. So a phase-1
-    leaderboard probed all through development is not an answer key for phase
-    2, and FINAL answers never enter a container while they are still the thing
-    being predicted.
+    shows TRAIN complete and scores DEV; phase 2 shows TRAIN and DEV complete,
+    answers included, which is where DEV is worth most, and scores TEST. So a
+    phase-1 leaderboard probed all through development is not an answer key for
+    phase 2, and TEST answers never enter a container while they are still the
+    thing being predicted.
 
-    `data_fraction` thins the *visible* rows only, to keep a development run
-    inside its smaller budget. It never touches the hidden rows: every
-    submission in a phase is scored on exactly the same cells, which is what
-    makes two leaderboard entries comparable to each other.
+    Nothing is sampled here and nothing is thinned. A phase takes every row of
+    every role it is entitled to, so every submission in a phase sees the same
+    rows and is scored on exactly the same cells, which is what makes two
+    leaderboard entries comparable to each other.
 
     Returns (frame, cells, truth). `frame` is what predict() receives: visible
     respondents complete, hidden respondents with every PREDICT cell NaN.
@@ -194,19 +204,17 @@ def sample_rows(schema, respondents, config, phase, seed=0):
     scored = scored_items(schema)
     roles = PHASE_ROLES[phase]
 
+    absent = [role for role in roles["visible"] + (roles["hidden"],)
+              if not (respondents[ROLE_COLUMN] == role).any()]
+    if absent:
+        raise ValueError("phase %d needs %s respondents and the dataset holds "
+                         "none" % (phase, " and ".join(absent)))
+
     visible = respondents[respondents[ROLE_COLUMN].isin(roles["visible"])]
     hidden = respondents[respondents[ROLE_COLUMN] == roles["hidden"]]
 
-    fraction = config["phases"][phase]["data_fraction"]
-    if fraction < 1.0:
-        rng = np.random.default_rng([seed, STREAM_SPLIT])
-        visible = visible[rng.random(len(visible)) < fraction]
-
     visible = visible[["respondent_id"] + items].reset_index(drop=True)
     hidden = hidden[["respondent_id"] + items].reset_index(drop=True)
-
-    if not len(hidden):
-        raise ValueError("this phase holds out no respondents")
 
     blanked = hidden.copy()
     blanked[scored] = np.nan
@@ -233,7 +241,7 @@ def privatize(value, config, n_respondents, phase, uniform_reference,
     Whether it is noised is a property of the phase. Phase 1 scores the DEV
     respondents, the same ones on every submission across a whole development
     period, so the leaderboard is a query channel and the answer has to be
-    noised. Phase 2 scores FINAL, once per team, against respondents phase 1
+    noised. Phase 2 scores TEST, once per team, against respondents phase 1
     never touched -- there is no sequence to difference, so the score is exact.
 
     That the scored set is fixed within a phase is what makes noising the right
@@ -496,7 +504,7 @@ def uniform_reference(schema):
                           for item in scored]))
 
 
-def score(schema, config, vectors, truth, cells):
+def score(schema, config, vectors, truth, cells, seed=0):
     """Mean log score and the skill it normalises to.
 
     The metric is the log probability the submission gave the answer that was
@@ -535,7 +543,7 @@ def score(schema, config, vectors, truth, cells):
         "skill": 1.0 + float(logp.mean()) / uniform,
         "std_error": cluster_std_error(
             logp, [cell[1] for cell in cells],
-            draws=config["scoring"]["bootstrap_draws"]),
+            draws=config["scoring"]["bootstrap_draws"], seed=seed),
         "item_normalized": float(by_item["mean"].mean()),
         "brier": float(np.mean(briers)),
         "n_cells": int(logp.size),
@@ -593,9 +601,13 @@ def main():
     parser.add_argument("--config", default="config.yml",
                         help="organizer-side configuration")
     parser.add_argument("--phase", type=int, choices=[1, 2], default=1,
-                        help="competition phase; sets the data subset, the "
-                             "timeout, the rounding and the logging level")
-    parser.add_argument("--seed", type=int, default=0)
+                        help="competition phase; sets which roles are visible "
+                             "and which are scored, the timeout, the "
+                             "rounding and the logging level")
+    parser.add_argument("--seed", type=int, default=0,
+                        help="seeds the clustered bootstrap behind std_error. "
+                             "Who is held out does not depend on it: roles are "
+                             "in the delivered file, not drawn here")
     parser.add_argument("--timeout", type=int, default=None,
                         help="override the phase's timeout, in seconds")
     parser.add_argument("--python", default=sys.executable,
@@ -619,27 +631,26 @@ def main():
     verbose = settings["logging"] == "verbose"
 
     schema = load_schema(args.schema, config)
+    # No row-count warning here: load_frames has already checked every role
+    # against the count the schema declares for it, which says the same thing
+    # and says which role is wrong.
     respondents = load_frames(args.data, schema)
-    if len(respondents) != schema["dataset"]["n_rows"]:
-        print("[warn] %s has %d rows; the schema declares %d"
-              % (args.data, len(respondents), schema["dataset"]["n_rows"]))
-    masked, cells, truth = sample_rows(schema, respondents, config, args.phase,
-                                       seed=args.seed)
-    n_test = len({cell[1] for cell in cells})
-    print("[phase] %d (%s): %s visible, %s scored, %.0f%% of the visible "
-          "rows, %ds for predict()"
+    masked, cells, truth = sample_rows(schema, respondents, args.phase)
+    # Held-out respondents, whatever role they carry: DEV in phase 1, TEST
+    # in phase 2. Not to be read as "the TEST rows".
+    n_held_out = len({cell[1] for cell in cells})
+    print("[phase] %d (%s): %s visible, %s scored, %ds for predict()"
           % (args.phase, settings["name"],
              "+".join(PHASE_ROLES[args.phase]["visible"]),
-             PHASE_ROLES[args.phase]["hidden"],
-             100 * settings["data_fraction"], timeout))
+             PHASE_ROLES[args.phase]["hidden"], timeout))
     print("[data] %s against %s: %d respondents, %d held out, %d cells"
-          % (args.data, args.schema, len(masked), n_test, len(cells)))
+          % (args.data, args.schema, len(masked), n_held_out, len(cells)))
 
     # Everything the grader learns. Written to the run log, never returned:
     # only `score` below goes back to the participant.
     logs = {"data": args.data, "schema": args.schema, "phase": args.phase,
             "seed": args.seed,
-            "n_respondents": len(masked), "n_held_out": n_test,
+            "n_respondents": len(masked), "n_held_out": n_held_out,
             "n_cells": len(cells)}
 
     workdir = tempfile.mkdtemp(prefix="sbench-")
@@ -657,7 +668,7 @@ def main():
         check(schema, vectors, cells)
         vectors = floored(vectors, schema, cells,
                           config["scoring"]["floor"])
-        result = score(schema, config, vectors, truth, cells)
+        result = score(schema, config, vectors, truth, cells, seed=args.seed)
     except SubmissionError as exc:
         logs["status"] = "FAIL"
         logs["error"] = getattr(exc, "detail", str(exc))
@@ -672,7 +683,7 @@ def main():
 
     uniform, crowd = baselines(schema, truth, cells,
                                config["scoring"]["floor"])
-    reported, mechanism = privatize(result["skill"], config, n_test,
+    reported, mechanism = privatize(result["skill"], config, n_held_out,
                                     args.phase, result["uniform_reference"])
     elapsed = time.time() - started
 
