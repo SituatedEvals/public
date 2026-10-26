@@ -504,16 +504,77 @@ def uniform_reference(schema):
                           for item in scored]))
 
 
-def score(schema, config, vectors, truth, cells, seed=0):
+def normalize_released(value, uniform, marginal):
+    """Convert an already noised/rounded score; never noise or round it again."""
+    if not all(np.isfinite(x) for x in (value, uniform, marginal)):
+        raise ValueError("Scores and references must be finite")
+    if uniform <= 0 or marginal <= 0:
+        raise ValueError("References must be positive")
+    return float(1.0 + (value - 1.0) * (uniform / marginal))
+
+
+def marginal_reference(schema, frame, cells, truth, floor):
+    """Mean surprisal of the crowd marginal, in nats. The zero of `skill`.
+
+    The reference predictor is the one in baseline/marginal_counts: for each
+    item, the answers visible in `frame` are counted, half a count is added to
+    every option, and every held-out respondent gets the same vector. It is
+    then scored exactly as a submission is, floor included, and the sign is
+    flipped so the reference is positive.
+
+    "Visible" is whatever the phase shows -- TRAIN in phase 1, TRAIN and DEV in
+    phase 2 -- so this is a baseline a participant can compute, not one that
+    has seen the answers it is scored on. It follows that the reference
+    depends on the data and differs between the phases, where a uniform guess
+    would depend on the schema alone. What it buys is a zero that means
+    something: knowing nothing about the individual, and a scale that is not
+    spent on the distance between a uniform guess and the crowd.
+    """
+    scored = scored_items(schema)
+    if not scored:
+        raise ValueError("schema has no PREDICT items")
+    if not cells:
+        raise ValueError("nothing was held out, so there is nothing to score")
+
+    marginals = {}
+    for item in scored:
+        options = options_for(schema, item)
+        counts = frame[item].value_counts()
+        weights = np.array([counts.get(option, 0) + 0.5 for option in options],
+                           dtype=float)
+        # The same two steps `floored` applies to a submission's vector, so
+        # the baseline that returns these marginals scores exactly 0.
+        p = weights / weights.sum()
+        p = p / p.sum()
+        marginals[item] = (options, floor + (1.0 - p.size * floor) * p)
+
+    logp = []
+    for actual, (_, _, item) in zip(truth, cells):
+        options, p = marginals[item]
+        if actual not in options:
+            raise ValueError("%s holds %r, which is not one of its options"
+                             % (item, actual))
+        logp.append(np.log(p[options.index(actual)]))
+
+    reference = -float(np.asarray(logp).mean())
+    if not np.isfinite(reference) or reference <= 0:
+        raise ValueError("the marginal reference is %r; it has to be positive "
+                         "and finite for skill to be defined" % reference)
+    return reference
+
+
+def score(schema, config, vectors, truth, cells, reference, seed=0):
     """Mean log score and the skill it normalises to.
 
     The metric is the log probability the submission gave the answer that was
     actually there, averaged over blank cells. It is at most 0 and at least
     log(floor); higher is better.
 
-    `skill` puts that on a scale the three instruments share: 0 is a uniform
-    guess, 1 is perfect, negative is worse than guessing. Both terms come from
-    the log score and the schema, so nothing about it can be tuned.
+    `skill` puts that on a scale the three instruments share: 0 is the crowd
+    marginal of the visible rows, 1 is perfect, negative is worse than the
+    crowd. `reference` is what marginal_reference returns for the same frame
+    and cells, so both terms come from the data and the schema and nothing
+    about it can be tuned.
     """
     logp, briers, items = [], [], []
 
@@ -533,14 +594,13 @@ def score(schema, config, vectors, truth, cells, seed=0):
         raise ValueError("nothing was held out, so there is nothing to score")
 
     logp = np.asarray(logp)
-    uniform = uniform_reference(schema)
     by_item = (pd.DataFrame({"item": items, "log_score": logp})
                .groupby("item")["log_score"].agg(["mean", "size"]))
 
     return {
         "log_score": float(logp.mean()),
-        "uniform_reference": uniform,
-        "skill": 1.0 + float(logp.mean()) / uniform,
+        "marginal_reference": reference,
+        "skill": 1.0 + float(logp.mean()) / reference,
         "std_error": cluster_std_error(
             logp, [cell[1] for cell in cells],
             draws=config["scoring"]["bootstrap_draws"], seed=seed),
@@ -570,9 +630,13 @@ def cluster_std_error(values, respondents, draws=2000, seed=0):
 
 
 def baselines(schema, truth, cells, floor):
-    """What a model has to beat, as log scores: uniform, and the crowd marginal.
+    """Two diagnostics, as log scores: uniform, and the in-sample crowd.
 
     Both are higher-is-better, on the same scale as what a submission gets.
+    The crowd here is fitted on the held-out answers themselves, so it is the
+    ceiling for any predictor that ignores the individual. It is not the
+    reference skill is measured against -- that one is fitted on the visible
+    rows, and is marginal_reference.
     """
     uniform, counts = [], {}
     for actual, (_, _, item) in zip(truth, cells):
@@ -636,6 +700,8 @@ def main():
     # and says which role is wrong.
     respondents = load_frames(args.data, schema)
     masked, cells, truth = sample_rows(schema, respondents, args.phase)
+    reference = marginal_reference(schema, masked, cells, truth,
+                                   config["scoring"]["floor"])
     # Held-out respondents, whatever role they carry: DEV in phase 1, TEST
     # in phase 2. Not to be read as "the TEST rows".
     n_held_out = len({cell[1] for cell in cells})
@@ -668,7 +734,8 @@ def main():
         check(schema, vectors, cells)
         vectors = floored(vectors, schema, cells,
                           config["scoring"]["floor"])
-        result = score(schema, config, vectors, truth, cells, seed=args.seed)
+        result = score(schema, config, vectors, truth, cells, reference,
+                       seed=args.seed)
     except SubmissionError as exc:
         logs["status"] = "FAIL"
         logs["error"] = getattr(exc, "detail", str(exc))
@@ -683,8 +750,13 @@ def main():
 
     uniform, crowd = baselines(schema, truth, cells,
                                config["scoring"]["floor"])
-    reported, mechanism = privatize(result["skill"], config, n_held_out,
-                                    args.phase, result["uniform_reference"])
+    # Preserve the original release mechanism, then apply the same affine
+    # conversion as historical leaderboard scores. Do not round a second time.
+    uniform_ref = uniform_reference(schema)
+    uniform_skill = 1.0 + result["log_score"] / uniform_ref
+    uniform_reported, mechanism = privatize(uniform_skill, config, n_held_out,
+                                            args.phase, uniform_ref)
+    reported = normalize_released(uniform_reported, uniform_ref, reference)
     elapsed = time.time() - started
 
     logs.update({
@@ -692,8 +764,13 @@ def main():
         "skill": result["skill"],
         "reported_skill": reported,
         "log_score": result["log_score"],
-        "uniform_reference": result["uniform_reference"],
+        "marginal_reference": result["marginal_reference"],
         "privacy": mechanism,
+        "score_normalization": "marginal-v1",
+        "uniform_reference": uniform_ref,
+        "uniform_skill": uniform_skill,
+        "uniform_reported_skill": uniform_reported,
+        "postprocessing_scale": uniform_ref / reference,
         "std_error": result["std_error"],
         "item_normalized": result["item_normalized"],
         "brier": result["brier"],
