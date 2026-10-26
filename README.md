@@ -472,6 +472,17 @@ The overall score is the mean of the transformed instrument scores; its ranking
 and a team's best overall submission can change. A noisy DEV baseline submission
 need not display exactly zero. In **phase 2**, scores are exact.
 
+On Codabench, **Results** displays each team's best overall submission. The
+**Best scores by instrument** page selects the best submission independently for
+Overall, UNICEF, World Bank, and UNHCR, and lists the source submission IDs.
+It is a dated report; check its update time before comparing recent submissions.
+The overall score is never computed by averaging maxima from different submissions.
+
+Historical scoring ZIPs from before the October 26, 2026 update retain their
+original uniform-baseline values for reproducibility. Current submission scores
+and rankings use the marginal baseline. Scoring ZIPs for new submissions use the
+new baseline as well.
+
 The marginal references are fixed for each instrument and phase. Their dependence
 on held-out data is not covered by the original uniform-score noise calibration;
 this normalization does not establish a new differential-privacy guarantee.
