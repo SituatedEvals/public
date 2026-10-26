@@ -28,6 +28,7 @@ privacy:
 phases:
   1:
     name: Development
+    starts: 2026-08-17
     ends: 2026-11-13
     timeout_seconds: 900
     noised: true
@@ -35,8 +36,8 @@ phases:
     logging: verbose
   2:
     name: Final
-    starts: 2026-11-14
-    ends: 2026-11-18
+    starts: 2026-11-15
+    ends: 2026-11-19
     timeout_seconds: 3600
     noised: false
     round_to: null
