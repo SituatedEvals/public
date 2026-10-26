@@ -1,7 +1,7 @@
 leaderboard:
   # Mean log probability the submission gave the answer that was actually
-  # there, divided by the schema's uniform reference and shifted so that a
-  # uniform guess scores 0 and a perfect one scores 1. Higher is better.
+  # there, divided by the phase's marginal reference and shifted so that the
+  # crowd marginal scores 0 and a perfect prediction scores 1. Higher is better.
   metric: skill
   direction: maximize
   # Across instruments: the plain mean of their skills. The normalisation is
@@ -25,11 +25,18 @@ privacy:
 # entitled to, so every submission in a phase is scored on the same cells, and
 # that is what makes two leaderboard entries comparable to each other. How many
 # respondents carry each role is in the schema's `split` block, as counts.
+# Dates are inclusive calendar dates in Anywhere on Earth (UTC-12).
+# Codabench uses the exclusive UTC boundaries given below.
 phases:
   1:
     name: Development
     starts: 2026-08-17
     ends: 2026-11-13
+    timezone: AoE
+    closes_exclusive_utc: '2026-11-14T12:00:00Z'
+    max_submissions_per_day: 3
+    max_submissions: null
+    failed_submissions_count: false
     timeout_seconds: 900
     noised: true
     round_to: 0.01
@@ -38,6 +45,12 @@ phases:
     name: Final
     starts: 2026-11-15
     ends: 2026-11-19
+    timezone: AoE
+    opens_utc: '2026-11-15T12:00:00Z'
+    closes_exclusive_utc: '2026-11-20T12:00:00Z'
+    max_submissions_per_day: null
+    max_submissions: 1
+    failed_submissions_count: false
     timeout_seconds: 3600
     noised: false
     round_to: null
