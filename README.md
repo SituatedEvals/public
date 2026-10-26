@@ -474,7 +474,7 @@ need not display exactly zero. In **phase 2**, scores are exact.
 
 On Codabench, **Results** displays each team's best overall submission. The
 **Best scores by instrument** page selects the best submission independently for
-Overall, UNICEF, World Bank, and UNHCR, and lists the source submission IDs.
+UNICEF, World Bank, and UNHCR, and lists the source submission IDs.
 It is a dated report; check its update time before comparing recent submissions.
 The overall score is never computed by averaging maxima from different submissions.
 
