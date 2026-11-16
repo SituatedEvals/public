@@ -16,7 +16,7 @@ python score.py --data _sandbox/sample --schema data/sample.json --phase 1
 
 `score.py` scores a submission against a frame produced from data contained in the directory given in `--data`. The shape of the frame consists of some full respondents, and some masked respondents. Each missing answer is graded separately using the [proper](https://www.wikiwand.com/en/Scoring_rule) log score. It also contains a `--schema` file, which defines how a submission (described below) will be interpreted in as an answer.
 
-You do not have the real data, so `make_sandbox.py` writes a stand-in of the same shape based on the `--schema` to `--out`. This includes skip logig, types, and missingness.
+You do not have the real data, so `make_sandbox.py` writes a stand-in of the same shape based on the `--schema` to `--out`. This includes skip logic, types, and missingness. The sandbox applies every gate strictly, which the real data does not always do (see the schema's `description`).
 
 To inspect the mechanics on a small dataset, the above quickstart for `data/sample.json` produces a small, 400-respondent sample.
 
@@ -249,8 +249,13 @@ slot for `schema["gated_value"]` for the probability this question being gated.*
 Read it from the schema, never from the data — an option nobody chose still has a
 slot. Skip-logic gating is not missingness: being never asked is a real answer,
 scored like any other, so predicting who gets skipped is worth as much as
-predicting what they say. `gate` tells you which earlier answer decides it, and
-a gated item's answer is determined whenever its parent is visible.
+predicting what they say. `gate` tells you which earlier answer decides it. In
+the sandbox a gated item's answer is fully determined whenever its parent is
+visible; in the real data a gate can be inferred and hold only approximately.
+Each schema's `description` says how strictly its gates hold. UNHCR's warns
+that some gates are not a constraint the delivered rows satisfy (gate agreement
+has a median of 0.83 and ranges from 0.29 to 0.98), so treat a gate there as
+strong evidence, not as a rule.
 
 ### Question order
 
@@ -289,7 +294,9 @@ removes the network before your code is imported, and will raise an exception, f
 The task is open-ended. Fit statistical or psychometric models (IRT, low-rank completion, tabular generative models) on the schema and your own practice data; build features from the `GIVEN` block and the item descriptions.
 
 The two obvious levers over the crowd-marginal baseline are the skip logic,
-which determines a gated item's answer whenever its parent is visible, and
+which largely decides a gated item's answer whenever its parent is visible
+(exactly in the sandbox, only approximately for some real gates; see
+[Option order](#option-order) and the schema's `description`), and
 whatever the `GIVEN` block tells you about a respondent you have never seen.
 
 The organizers provide `torch_measure` in the runtime image for latent-trait /
